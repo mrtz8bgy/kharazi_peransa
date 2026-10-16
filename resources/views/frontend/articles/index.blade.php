@@ -1,11 +1,11 @@
 @extends('frontend.layouts.app')
 
-@section('meta_title', $currentCategory ? ($currentCategory->name . ' — ' . __('مقالات')) : __('مقالات طلا، جواهر و سنگ‌های قیمتی'))
-@section('meta_description', __('مقالات آموزشی درباره طلا، جواهرات، سنگ‌های قیمتی، شناسنامه، اصالت‌سنجی و نگهداری اشیاء قیمتی.'))
+@section('meta_title', $currentCategory ? ($currentCategory->name . ' — ' . __('مقالات')) : __('مقالات خیاطی، گلدوزی و هنرهای دستی'))
+@section('meta_description', __('مقالات آموزشی درباره خیاطی، گلدوزی، بافتنی، انتخاب پارچه و نخ و نکات کاربردی هنرهای دستی.'))
 
 {{-- استایل ماژول به فایل مستقل منتقل شده است (مرحله ۳ بازسازی) --}}
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/drikana/articles.css') }}">
+<link rel="stylesheet" href="{{ asset('css/kharazi/articles.css') }}">
 @endpush
 
 @section('content')
@@ -36,7 +36,7 @@
                 @if($currentCategory && $currentCategory->description)
                     {{ $currentCategory->description }}
                 @else
-                    {{ __('آموزش، راهنما و دانستنی‌های طلا، جواهر و سنگ‌های قیمتی') }}
+                    {{ __('آموزش، راهنما و دانستنی‌های خیاطی، گلدوزی و هنرهای دستی') }}
                 @endif
             </p>
         </div>

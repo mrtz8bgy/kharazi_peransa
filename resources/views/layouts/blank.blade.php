@@ -12,8 +12,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     {{-- فونت سیستمی جایگزین Nunito - بدون نیاز به اینترنت --}}
-    {{-- استایل به فایل مستقل منتقل شد: css/drikana/blank.css --}}
-    <link rel="stylesheet" href="{{ asset('css/drikana/blank.css') }}">
+    {{-- استایل به فایل مستقل منتقل شد: css/kharazi/blank.css --}}
+    <link rel="stylesheet" href="{{ asset('css/kharazi/blank.css') }}">
 
     {{-- لینک‌های فونت گوگل کاملاً حذف شدند
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -102,7 +102,7 @@
     <script src="{{ asset('js/custom.js')}}"></script>
 
     {{-- کلاس‌های استخراج‌شده از استایل درون‌خطی ویوها (بازبینی L-04) --}}
-    <link rel="stylesheet" href="{{ asset('css/drikana/utilities.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/kharazi/utilities.css') }}">
 </head>
 <body>
     @foreach (session('flash_notification', collect())->toArray() as $message)

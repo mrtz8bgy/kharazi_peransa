@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('meta_title', 'تماس با ما | دریکانا')
+@section('meta_title', 'تماس با ما | خرازی پرنسا')
 
 @section('content')
     <section class="gry-bg py-4">
@@ -9,8 +9,8 @@
                 <div class="col-lg-10">
                     <div class="p-4 p-md-5 bg-white">
                         <div class="text-center mb-4">
-                            <h1 class="h3 mb-2">تماس با دریکانا</h1>
-                            <p class="text-muted mb-0">برای راهنمایی درباره خرید، فروش و خدمات دریکانا با ما در ارتباط باشید.</p>
+                            <h1 class="h3 mb-2">تماس با خرازی پرنسا</h1>
+                            <p class="text-muted mb-0">برای راهنمایی درباره خرید نخ، پارچه، لوازم خیاطی و گلدوزی با ما در ارتباط باشید.</p>
                         </div>
 
                         <div class="row">

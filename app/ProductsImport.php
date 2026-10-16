@@ -4,6 +4,11 @@ namespace App;
 
 use App\Product;
 use App\User;
+use App\Category;
+use App\SubCategory;
+use App\SubSubCategory;
+use App\Brand;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
@@ -57,16 +62,123 @@ class ProductsImport implements ToModel, WithHeadingRow, WithValidation
         return $slug . '-' . str_random(5);
     }
 
+    /**
+     * تبدیل نام‌های دسته/زیردسته/زیرزیردسته/برند به شناسه.
+     * (رفع باگ B-2)
+     *
+     * ── چرا این متد لازم شد؟ ─────────────────────────────────────────
+     * الگوی CSV تولیدی پنل (`ProductBulkUploadController@csvTemplateColumns`)
+     * ستون‌های نام‌محور داشت: `category`, `subcategory`, `subsubcategory`,
+     * `brand` — در حالی که واردکننده تنها ستون‌های `*_id` را می‌خواند.
+     * بنابراین الگوی خودِ برنامه قابل بارگذاری نبود و خطای
+     * «Column 'category_id' cannot be null» می‌داد.
+     *
+     * الگوی CSV اکنون به فرم شناسه‌محور اصلاح شد، اما این متد برای
+     * این موارد نگه داشته می‌شود:
+     *   ۱. فایل‌های قدیمی که کاربران پیش‌تر با ستون نام ساخته‌اند.
+     *   ۲. فایلی که کاربر دستی آماده کرده و نام‌ها را نوشته است
+     *      (خواناتر و کم‌خطاتر از واردکردن شناسهٔ عددی).
+     *
+     * در حالت نام‌محور، جست‌وجو زنجیره‌ای است تا نام‌های تکراری در
+     * شاخه‌های مختلف اشتباه نگاشت نشوند: زیردسته محدود به دستهٔ
+     * به‌دست‌آمده و زیرزیردسته محدود به همان زیردسته جست‌وجو می‌شود.
+     *
+     * @param  array $row
+     * @return array [category_id, subcategory_id, subsubcategory_id, brand_id, errors[]]
+     */
+    private function resolveRelations(array $row)
+    {
+        $errors = [];
+
+        $num = function ($value) {
+            return (is_numeric($value) && (int) $value > 0) ? (int) $value : null;
+        };
+
+        $clean = function ($value) {
+            return trim((string) $value);
+        };
+
+        // ── دسته ─────────────────────────────────────────────────────
+        $categoryId = $num($row['category_id'] ?? null);
+        if ($categoryId === null && $clean($row['category'] ?? '') !== '') {
+            $name = $clean($row['category']);
+            $found = Category::where('name', $name)->first();
+            if ($found) {
+                $categoryId = $found->id;
+            } else {
+                $errors[] = "دستهٔ «{$name}» در فروشگاه یافت نشد.";
+            }
+        }
+
+        // ── زیردسته (محدود به دستهٔ بالا) ────────────────────────────
+        $subcategoryId = $num($row['subcategory_id'] ?? null);
+        if ($subcategoryId === null && $clean($row['subcategory'] ?? '') !== '') {
+            $name = $clean($row['subcategory']);
+            $query = SubCategory::where('name', $name);
+            if ($categoryId !== null) {
+                $query->where('category_id', $categoryId);
+            }
+            $found = $query->first();
+            if ($found) {
+                $subcategoryId = $found->id;
+            } else {
+                $errors[] = "زیردستهٔ «{$name}» در دستهٔ انتخاب‌شده یافت نشد.";
+            }
+        }
+
+        // ── زیرزیردسته (محدود به زیردستهٔ بالا) ──────────────────────
+        $subsubcategoryId = $num($row['subsubcategory_id'] ?? null);
+        if ($subsubcategoryId === null && $clean($row['subsubcategory'] ?? '') !== '') {
+            $name = $clean($row['subsubcategory']);
+            $query = SubSubCategory::where('name', $name);
+            if ($subcategoryId !== null) {
+                $query->where('sub_category_id', $subcategoryId);
+            }
+            $found = $query->first();
+            if ($found) {
+                $subsubcategoryId = $found->id;
+            } else {
+                $errors[] = "زیرزیردستهٔ «{$name}» در زیردستهٔ انتخاب‌شده یافت نشد.";
+            }
+        }
+
+        // ── برند ─────────────────────────────────────────────────────
+        $brandId = $num($row['brand_id'] ?? null);
+        if ($brandId === null && $clean($row['brand'] ?? '') !== '') {
+            $name = $clean($row['brand']);
+            $found = Brand::where('name', $name)->first();
+            if ($found) {
+                $brandId = $found->id;
+            } else {
+                $errors[] = "برند «{$name}» در فروشگاه یافت نشد.";
+            }
+        }
+
+        return [$categoryId, $subcategoryId, $subsubcategoryId, $brandId, $errors];
+    }
+
     public function model(array $row)
     {
+        // رفع باگ B-2: نام‌ها در صورت نبودِ ستون شناسه، به شناسه تبدیل می‌شوند
+        list($categoryId, $subcategoryId, $subsubcategoryId, $brandId, $errors)
+            = $this->resolveRelations($row);
+
+        if (!empty($errors)) {
+            // پیش از این، نبودِ شناسه به خطای پایگاه داده
+            // («Column 'category_id' cannot be null») و کد ۵۰۰ تبدیل
+            // می‌شد و کاربر هیچ توضیحی نمی‌دید. اکنون پیام شفاف فارسی
+            // به کاربر نشان داده می‌شود.
+            throw ValidationException::withMessages(['bulk_file' => $errors]);
+        }
+
         return new Product([
            'name'     => $row['name'] ?? null,
            'added_by'    => Auth::user()->user_type == 'seller' ? 'seller' : 'admin',
            'user_id'    => Auth::user()->user_type == 'seller' ? Auth::user()->id : User::where('user_type', 'admin')->first()->id,
-           'category_id'    => $row['category_id'] ?? null,
-           'subcategory_id'    => $row['subcategory_id'] ?? null,
-           'subsubcategory_id'    => $row['subsubcategory_id'] ?? null,
-           'brand_id'    => $row['brand_id'] ?? null,
+           'category_id'    => $categoryId,
+           'subcategory_id'    => $subcategoryId,
+           'subsubcategory_id'    => $subsubcategoryId,
+           'brand_id'    => $brandId,
            // این دو ستون در الگوی رسمی اختیاری‌اند و ممکن است خالی باشند
            'video_provider'    => $row['video_provider'] ?? null,
            'video_link'    => $row['video_link'] ?? null,

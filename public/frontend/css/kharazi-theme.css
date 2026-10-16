@@ -3,14 +3,14 @@
    ──────────────────────────────────────────────────────────────────────────
    فایل:  public/frontend/css/kharazi-theme.css
    بارگذاری: در `resources/views/frontend/layouts/app.blade.php`، **پس از**
-             `drikana-luxury.css` و `megamenu-lux.css`.
+             `kharazi-store.css` و `megamenu-lux.css`.
 
    ── چرا یک لایه جداگانه و نه بازنویسی فایل‌های اصلی؟ ──────────────────
    دستور کار صراحتاً گفته است: «قالب فعلی پروژه را تا زمانی که ضرورت
    تغییر آن اثبات نشده است، حفظ کن» و «فایل‌های اصلی قالب و utilities.css
    را بدون ضرورت بازنویسی نکن». بنابراین:
 
-     • `drikana-luxury.css` (۵۵KB) دست‌نخورده باقی مانده است.
+     • `kharazi-store.css` (۵۵KB) دست‌نخورده باقی مانده است.
      • `utilities.css` (۲۷KB) که شامل هزاران کلاس کمکی تولیدشده است
        و ویوها به آن‌ها وابسته‌اند، دست‌نخورده باقی مانده است.
      • `active-shop.css`، `main.css`، `bootstrap.min.css` و بقیه هم

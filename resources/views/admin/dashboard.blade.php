@@ -5,7 +5,7 @@
 {{-- استایل این صفحه به فایل مستقل زیر منتقل شده است (مرحله ۳ بازسازی)
      تا از CSS درون‌خطی پرهیز شود. --}}
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/drikana/admin.css') }}">
+<link rel="stylesheet" href="{{ asset('css/kharazi/admin.css') }}">
 @endpush
 
 @if(config('mail.username') == null && config('mail.password') == null)

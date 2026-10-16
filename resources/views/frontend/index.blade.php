@@ -67,7 +67,7 @@
 {{-- استایل این صفحه به فایل مستقل زیر منتقل شده است (مرحله ۳ بازسازی)
      تا از CSS درون‌خطی پرهیز شود. --}}
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/drikana/store.css') }}">
+<link rel="stylesheet" href="{{ asset('css/kharazi/store.css') }}">
 @endpush
 
 <!-- ============================================ -->
@@ -167,7 +167,7 @@
      از ویو حذف شده بود؛ در نتیجه اسلایدهای بارگذاری‌شده در صفحه اصلی
      دیده نمی‌شدند.
 
-     CSS این بخش از قبل در `public/css/drikana/store.css` بود
+     CSS این بخش از قبل در `public/css/kharazi/store.css` بود
      (`.fullwidth-slider-section` و کلاس‌های `.slide-content*`)، پس
      مارک‌آپ زیر همان طراحی آماده را زنده می‌کند — بدون CSS تازه.
 
@@ -1010,8 +1010,8 @@
     <div class="container">
         <div class="section-heading">
             <span class="kicker">MAGAZINE &amp; GUIDE</span>
-            <h2>مجله <span class="gold">دریکانا</span> — راهنمای طلا و جواهر</h2>
-            <p>شناخت سنگ‌های قیمتی، نکات نگهداری اشیاء گران‌بها و هر آنچه پیش از خرید باید بدانید.</p>
+            <h2>مجله <span class="gold">پرنسا</span> — راهنمای خیاطی و هنرهای دستی</h2>
+            <p>راهنمای انتخاب نخ و پارچه، تکنیک‌های گلدوزی و بافتنی و هر آنچه پیش از خرید باید بدانید.</p>
             <span class="divider-gold"></span>
         </div>
 
@@ -1111,7 +1111,7 @@
     ساختار HTML و کلاس‌های قالب (`d-trust`, `d-trust-inner`,
     `d-trust-content`, `d-trust-features`, `d-trust-feature`,
     `d-trust-visual`) عیناً حفظ شده‌اند تا CSS موجود
-    (`frontend/css/drikana-luxury.css`) بدون هیچ تغییری کار کند.
+    (`frontend/css/kharazi-store.css`) بدون هیچ تغییری کار کند.
     فقط در ستون تصویری، ماکتِ «گواهی اصالت» با یک کارتِ
     «سبد خرید نمونه» جانشین شده که محتوایش برگرفته از دسته‌بندی‌های
     واقعی خرازی است. کلاس `d-cert-mockup` حفظ شده تا چیدمان نشکند.

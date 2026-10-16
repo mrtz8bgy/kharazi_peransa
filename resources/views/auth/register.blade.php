@@ -8,10 +8,10 @@
     <link name="favicon" type="image/x-icon" href="{{asset('img/favicon.png')}}" rel="shortcut icon" />
     <title>{{ config('app.name', 'Laravel') }} | ثبت‌نام در پنل مدیریت</title>
     
-    {{-- استایل به فایل مستقل منتقل شد: css/drikana/auth-register.css --}}
-    <link rel="stylesheet" href="{{ asset('css/drikana/auth-register.css') }}">
+    {{-- استایل به فایل مستقل منتقل شد: css/kharazi/auth-register.css --}}
+    <link rel="stylesheet" href="{{ asset('css/kharazi/auth-register.css') }}">
     {{-- کلاس‌های استخراج‌شده از استایل درون‌خطی ویوها (بازبینی L-04) --}}
-    <link rel="stylesheet" href="{{ asset('css/drikana/utilities.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/kharazi/utilities.css') }}">
 </head>
 <body>
     @php

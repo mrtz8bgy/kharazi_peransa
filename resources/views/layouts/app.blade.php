@@ -181,7 +181,7 @@
     @stack('styles')
 
     {{-- کلاس‌های استخراج‌شده از استایل درون‌خطی ویوها (بازبینی L-04) --}}
-    <link rel="stylesheet" href="{{ asset('css/drikana/utilities.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/kharazi/utilities.css') }}">
 </head>
 <body>
 

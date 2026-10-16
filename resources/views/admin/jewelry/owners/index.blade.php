@@ -66,7 +66,7 @@
 {{-- استایل این صفحه به فایل مستقل زیر منتقل شده است (مرحله ۳ بازسازی)
      تا از CSS درون‌خطی پرهیز شود. --}}
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/drikana/jewelry-owners.css') }}">
+<link rel="stylesheet" href="{{ asset('css/kharazi/jewelry-owners.css') }}">
 @endpush
 @endpush
 @endsection

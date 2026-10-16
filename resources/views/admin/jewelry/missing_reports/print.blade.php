@@ -7,9 +7,9 @@
     <title>چاپ گزارش سرقت/مفقودی</title>
 {{-- استایل چاپ به فایل مستقل زیر منتقل شده است (مرحله ۳ بازسازی).
      این فایل مشترک میان همه صفحات چاپی است. --}}
-<link rel="stylesheet" href="{{ asset('css/drikana/print.css') }}">
+<link rel="stylesheet" href="{{ asset('css/kharazi/print.css') }}">
     {{-- کلاس‌های استخراج‌شده از استایل درون‌خطی ویوها (بازبینی L-04) --}}
-    <link rel="stylesheet" href="{{ asset('css/drikana/utilities.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/kharazi/utilities.css') }}">
 </head>
 <body>
     <div class="no-print u-text-align-left-margin-bottom-20px">

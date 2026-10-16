@@ -5,7 +5,7 @@
 {{-- استایل این صفحه به فایل مستقل زیر منتقل شده است (مرحله ۳ بازسازی)
      تا از CSS درون‌خطی پرهیز شود. --}}
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/drikana/store-category.css') }}">
+<link rel="stylesheet" href="{{ asset('css/kharazi/store-category.css') }}">
 @endpush
 
 <!-- هدر صفحه -->
@@ -72,6 +72,23 @@
                                                         'صنایع' => 'fa-hand-rock-o',
                                                         'دستی' => 'fa-hand-peace-o',
                                                         'هنری' => 'fa-paint-brush',
+                                                        // ── کلیدواژه‌های فروشگاه خرازی (مرحله ۴) ──
+                                                        // نگاشت پیشین تنها کلیدواژه‌های طلا و جواهر را
+                                                        // داشت؛ برای دسته‌های خرازی آیکون پیش‌فرض
+                                                        // مناسبی وجود نداشت. این کلیدواژه‌ها فقط زمانی
+                                                        // به‌کار می‌آیند که فایل آیکون دسته موجود نباشد.
+                                                        'نخ' => 'fa-circle-o-notch',
+                                                        'سوزن' => 'fa-map-pin',
+                                                        'کاموا' => 'fa-circle-o-notch',
+                                                        'روبان' => 'fa-ribbon',
+                                                        'پارچه' => 'fa-scissors',
+                                                        'قیچی' => 'fa-scissors',
+                                                        'دکمه' => 'fa-circle',
+                                                        'زیپ' => 'fa-ellipsis-v',
+                                                        'منجوق' => 'fa-star',
+                                                        'گلدوزی' => 'fa-magic',
+                                                        'بافتنی' => 'fa-circle-o-notch',
+                                                        'خیاطی' => 'fa-scissors',
                                                     ];
                                                     $defaultIcon = 'fa-tag';
                                                     foreach ($icons as $keyword => $icon) {
@@ -122,6 +139,19 @@
                                                         'ورزش' => 'fa-futbol-o',
                                                         'کتاب' => 'fa-book',
                                                         'اسباب' => 'fa-gamepad',
+                                                        // ── کلیدواژه‌های فروشگاه خرازی (مرحله ۴) ──
+                                                        'نخ' => 'fa-circle-o-notch',
+                                                        'سوزن' => 'fa-map-pin',
+                                                        'کاموا' => 'fa-circle-o-notch',
+                                                        'روبان' => 'fa-ribbon',
+                                                        'پارچه' => 'fa-scissors',
+                                                        'قیچی' => 'fa-scissors',
+                                                        'دکمه' => 'fa-circle',
+                                                        'زیپ' => 'fa-ellipsis-v',
+                                                        'منجوق' => 'fa-star',
+                                                        'گلدوزی' => 'fa-magic',
+                                                        'بافتنی' => 'fa-circle-o-notch',
+                                                        'خیاطی' => 'fa-scissors',
                                                     ];
                                                     $cardIcon = 'fa-tag';
                                                     foreach ($cardIcons as $keyword => $icon) {

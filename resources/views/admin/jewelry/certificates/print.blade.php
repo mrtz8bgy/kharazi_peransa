@@ -6,11 +6,11 @@
     <title>چاپ شناسنامه: {{ $certificate->serial_number }}</title>
 {{-- استایل چاپ به فایل مستقل زیر منتقل شده است (مرحله ۳ بازسازی).
      این فایل مشترک میان همه صفحات چاپی است. --}}
-<link rel="stylesheet" href="{{ preg_replace('/^https?:/', request()->getScheme() . ':', asset('css/drikana/print.css')) }}?v={{ filemtime(public_path('css/drikana/print.css')) }}">
+<link rel="stylesheet" href="{{ preg_replace('/^https?:/', request()->getScheme() . ':', asset('css/kharazi/print.css')) }}?v={{ filemtime(public_path('css/kharazi/print.css')) }}">
     
     {{-- حذف لینک خارجی Font Awesome - استفاده از آیکون‌های متنی ساده --}}
     {{-- کلاس‌های استخراج‌شده از استایل درون‌خطی ویوها (بازبینی L-04) --}}
-    <link rel="stylesheet" href="{{ preg_replace('/^https?:/', request()->getScheme() . ':', asset('css/drikana/utilities.css')) }}?v={{ filemtime(public_path('css/drikana/utilities.css')) }}">
+    <link rel="stylesheet" href="{{ preg_replace('/^https?:/', request()->getScheme() . ':', asset('css/kharazi/utilities.css')) }}?v={{ filemtime(public_path('css/kharazi/utilities.css')) }}">
 </head>
 <body>
     <!-- کنترل‌های چاپ -->

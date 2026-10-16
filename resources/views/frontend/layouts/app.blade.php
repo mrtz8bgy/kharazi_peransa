@@ -30,7 +30,7 @@
     <!-- Schema.org markup for Google+ -->
     <meta itemprop="name" content="{{ config('app.name', 'Laravel') }}">
     <meta itemprop="description" content="{{ $seoDescription }}">
-    <meta itemprop="image" content="{{ asset(($generalSetting && $generalSetting->logo) ? $generalSetting->logo : 'frontend/images/logo/drikana-logo.svg') }}">
+    <meta itemprop="image" content="{{ asset(($generalSetting && $generalSetting->logo) ? $generalSetting->logo : 'uploads/logo/kharazi-peransa-logo.png') }}">
 
     <!-- Twitter Card data -->
     <meta name="twitter:card" content="product">
@@ -38,13 +38,13 @@
     <meta name="twitter:title" content="{{ config('app.name', 'Laravel') }}">
     <meta name="twitter:description" content="{{ $seoDescription }}">
     <meta name="twitter:creator" content="@author_handle">
-    <meta name="twitter:image" content="{{ asset(($generalSetting && $generalSetting->logo) ? $generalSetting->logo : 'frontend/images/logo/drikana-logo.svg') }}">
+    <meta name="twitter:image" content="{{ asset(($generalSetting && $generalSetting->logo) ? $generalSetting->logo : 'uploads/logo/kharazi-peransa-logo.png') }}">
 
     <!-- Open Graph data -->
     <meta property="og:title" content="{{ config('app.name', 'Laravel') }}" />
     <meta property="og:type" content="Ecommerce Site" />
     <meta property="og:url" content="{{ route('home') }}" />
-    <meta property="og:image" content="{{ asset(($generalSetting && $generalSetting->logo) ? $generalSetting->logo : 'frontend/images/logo/drikana-logo.svg') }}" />
+    <meta property="og:image" content="{{ asset(($generalSetting && $generalSetting->logo) ? $generalSetting->logo : 'uploads/logo/kharazi-peransa-logo.png') }}" />
     <meta property="og:description" content="{{ $seoDescription }}" />
     <meta property="og:site_name" content="{{ config('app.name') }}" />
 @endif
@@ -57,7 +57,7 @@
 <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
 
 <!-- قالب پایه فروشگاه — خرازی پرنسا -->
-<link type="text/css" href="{{ asset('frontend/css/drikana-luxury.css') }}?v={{ filemtime(public_path('frontend/css/drikana-luxury.css')) }}" rel="stylesheet" media="all">
+<link type="text/css" href="{{ asset('frontend/css/kharazi-store.css') }}?v={{ filemtime(public_path('frontend/css/kharazi-store.css')) }}" rel="stylesheet" media="all">
 <link type="text/css" href="{{ asset('frontend/css/megamenu-lux.css') }}?v={{ filemtime(public_path('frontend/css/megamenu-lux.css')) }}" rel="stylesheet" media="all">
 
 <!-- Bootstrap -->
@@ -97,7 +97,7 @@
 
 <!-- Custom style -->
 <link type="text/css" href="{{ asset('frontend/css/custom-style.css') }}" rel="stylesheet" media="all">
-<link type="text/css" href="{{ asset('css/drikana/store-menu.css') }}?v={{ filemtime(public_path('css/drikana/store-menu.css')) }}" rel="stylesheet" media="all">
+<link type="text/css" href="{{ asset('css/kharazi/store-menu.css') }}?v={{ filemtime(public_path('css/kharazi/store-menu.css')) }}" rel="stylesheet" media="all">
 
 <!-- jQuery -->
 <script src="{{ asset('frontend/js/vendor/jquery.min.js') }}"></script>
@@ -151,7 +151,7 @@
 @stack('styles')
 
     {{-- کلاس‌های استخراج‌شده از استایل درون‌خطی ویوها (بازبینی L-04) --}}
-    <link rel="stylesheet" href="{{ asset('css/drikana/utilities.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/kharazi/utilities.css') }}">
 
     {{-- ═══════════════════════════════════════════════════════════════════
          تم روشن فروشگاه خرازی پرنسا

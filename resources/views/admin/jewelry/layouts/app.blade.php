@@ -11,8 +11,8 @@
     {{-- بدون هیچ وابستگی به CDN خارجی --}}
     {{-- =============================================== --}}
 
-    {{-- استایل به فایل مستقل منتقل شد: css/drikana/jewelry-admin.css --}}
-    <link rel="stylesheet" href="{{ preg_replace('/^https?:/', request()->getScheme() . ':', asset('css/drikana/jewelry-admin.css')) }}?v={{ filemtime(public_path('css/drikana/jewelry-admin.css')) }}">
+    {{-- استایل به فایل مستقل منتقل شد: css/kharazi/jewelry-admin.css --}}
+    <link rel="stylesheet" href="{{ preg_replace('/^https?:/', request()->getScheme() . ':', asset('css/kharazi/jewelry-admin.css')) }}?v={{ filemtime(public_path('css/kharazi/jewelry-admin.css')) }}">
 
     {{-- استایل تم طلایی-سرمه‌ای نیز به همان فایل منتقل شده است.
          نکته: خط `@import` فونت وزیرمتن در ابتدای فایل CSS قرار گرفته
@@ -22,7 +22,7 @@
 
     @stack('styles')
     {{-- کلاس‌های استخراج‌شده از استایل درون‌خطی ویوها (بازبینی L-04) --}}
-    <link rel="stylesheet" href="{{ preg_replace('/^https?:/', request()->getScheme() . ':', asset('css/drikana/utilities.css')) }}?v={{ filemtime(public_path('css/drikana/utilities.css')) }}">
+    <link rel="stylesheet" href="{{ preg_replace('/^https?:/', request()->getScheme() . ':', asset('css/kharazi/utilities.css')) }}?v={{ filemtime(public_path('css/kharazi/utilities.css')) }}">
 </head>
 <body>
     <div class="container-fluid">

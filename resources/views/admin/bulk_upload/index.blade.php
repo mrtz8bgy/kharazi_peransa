@@ -39,6 +39,21 @@
             <h1 class="panel-title"><strong>{{__('آپلود فایل محصولات')}}</strong></h1>
         </div>
         <div class="panel-body">
+            {{-- نمایش خطاهای بارگذاری — پیش از این هیچ جایی برای نشان‌دادن
+                 خطا وجود نداشت و کاربر فقط خطای ۵۰۰ می‌دید. --}}
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <strong>بارگذاری انجام نشد:</strong>
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if (session('flash_message'))
+                <div class="alert alert-info">{{ session('flash_message') }}</div>
+            @endif
             <form class="form-horizontal" action="{{ route('bulk_product_upload') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">

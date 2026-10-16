@@ -72,9 +72,23 @@ class ProductBulkUploadController extends Controller
     public function bulk_upload(Request $request)
     {
         if($request->hasFile('bulk_file')){
-            Excel::import(new ProductsImport, request()->file('bulk_file'));
+            try {
+                Excel::import(new ProductsImport, request()->file('bulk_file'));
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                // خطای اعتبارسنجی عمداً به لاراول واگذار می‌شود تا با
+                // پیام‌های فارسیِ خودِ واردکننده به کاربر نمایش داده شود.
+                throw $e;
+            } catch (\Throwable $e) {
+                // پیش از این هیچ مدیریت خطایی وجود نداشت و هر شکستی به
+                // کد ۵۰۰ خام تبدیل می‌شد و کاربر هیچ توضیحی نمی‌دید.
+                \Log::error('bulk_product_upload: ' . $e->getMessage());
+                flash(__('بارگذاری فایل ناموفق بود: ') . $e->getMessage())->error();
+                return back();
+            }
         }
-        flash('Products exported successfully')->success();
+        // پیام پیشین «Products exported successfully» بود که نادرست است:
+        // این نقطهٔ کد «ورود» محصول است، نه «خروج».
+        flash(__('محصولات با موفقیت وارد شدند.'))->success();
         return back();
     }
 
@@ -143,10 +157,36 @@ class ProductBulkUploadController extends Controller
      */
     protected function csvTemplateColumns()
     {
+        // ── رفع باگ B-2: هم‌خوانی الگو با واردکننده ──────────────────
+        // پیش از این، این متد ستون‌های «نام‌محور» تولید می‌کرد:
+        //
+        //     name, category, subcategory, subsubcategory, brand,
+        //     unit, unit_price, purchase_price, current_stock, description
+        //
+        // اما واردکننده (`App\ProductsImport`) فقط ستون‌های شناسه‌محور
+        // `category_id`، `subcategory_id`، `subsubcategory_id` و
+        // `brand_id` را می‌خواند. نتیجه: هر کاربری که الگوی CSV تولیدی
+        // خودِ پنل را دانلود و بارگذاری می‌کرد، با خطای
+        // «Column 'category_id' cannot be null» و کد ۵۰۰ روبه‌رو می‌شد —
+        // یعنی ابزار بارگذاری گروهی، فایل خودش را نمی‌توانست بخواند.
+        // این باگ در آزمون واقعی مرحله ۴ تأیید شد.
+        //
+        // اکنون ستون‌ها دقیقاً همان چیزی هستند که واردکننده می‌خواند.
+        // این با الگوی فایل نمونهٔ `public/download/product_bulk_demo.xlsx`
+        // و با دستورالعمل صفحهٔ بارگذاری («شناسه‌ها باید عددی باشند»)
+        // هم‌خوان است.
         return [
-            'name', 'category', 'subcategory', 'subsubcategory', 'brand',
-            'unit', 'unit_price', 'purchase_price', 'current_stock',
-            'description',
+            'name',
+            'category_id',
+            'subcategory_id',
+            'subsubcategory_id',
+            'brand_id',
+            'unit_price',
+            'purchase_price',
+            'unit',
+            'current_stock',
+            'meta_title',
+            'meta_description',
         ];
     }
 
@@ -158,10 +198,31 @@ class ProductBulkUploadController extends Controller
      */
     protected function csvTemplateRows($type)
     {
+        // ── رفع باگ B-2 (ادامه) ──────────────────────────────────────
+        // سطر نمونه باید با ساختار ستون‌ها هم‌خوان باشد. همچنین شناسه‌ها
+        // به‌صورت **پویا از پایگاه دادهٔ همین نصب** خوانده می‌شوند تا
+        // نمونه‌ای که کاربر می‌بیند واقعاً در فروشگاه او وجود داشته باشد
+        // و همان فایل بدون تغییر قابل بارگذاری باشد.
+        //
+        // اگر فروشگاه هنوز دسته‌بندی نداشته باشد، مقدار صفر گذاشته
+        // می‌شود و `ProductsImport` خطای اعتبارسنجی شفاف برمی‌گرداند.
+        $category      = \App\Category::orderBy('id')->first();
+        $subcategory   = $category ? \App\SubCategory::where('category_id', $category->id)->orderBy('id')->first() : null;
+        $subsubcategory = $subcategory ? \App\SubSubCategory::where('sub_category_id', $subcategory->id)->orderBy('id')->first() : null;
+        $brand         = \App\Brand::orderBy('id')->first();
+
         $sample = [
-            'دستبند طلا ۱۸ عیار', 'طلا و جواهرات', 'دستبند', 'دستبند طلا',
-            'دریکانا', 'عدد', '25000000', '20000000', '10',
-            'دستبند طلا ۱۸ عیار با قفل ایمنی',
+            'نام کالای نمونه',                                  // name
+            $category ? $category->id : 0,                       // category_id
+            $subcategory ? $subcategory->id : 0,                 // subcategory_id
+            $subsubcategory ? $subsubcategory->id : 0,           // subsubcategory_id
+            $brand ? $brand->id : 0,                             // brand_id
+            '52000',                                             // unit_price
+            '38000',                                             // purchase_price
+            'عدد',                                               // unit
+            '120',                                               // current_stock
+            '',                                                  // meta_title
+            '',                                                  // meta_description
         ];
 
         return [$sample];
