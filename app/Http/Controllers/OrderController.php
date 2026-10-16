@@ -276,11 +276,37 @@ class OrderController extends Controller
                 $order_detail->variation = $product_variation;
                 $order_detail->price = $cartItem['price'] * $cartItem['quantity'];
                 $order_detail->tax = $cartItem['tax'] * $cartItem['quantity'];
-                $order_detail->shipping_type = $cartItem['shipping_type'];
-                $order_detail->product_referral_code = $cartItem['product_referral_code'];
+                // ── رفع اشکال: کلیدهای اختیاری سبد ──────────────────────
+                // در جریان فعال تسویهٔ فروشگاه، کاربر مسیر زیر را طی می‌کند:
+                //
+                //     /checkout              → فرم آدرس  (shipping_info)
+                //     /checkout/payment_select → فرم پرداخت (payment_select)
+                //
+                // هیچ‌کدام از این دو فرم فیلد «shipping_type» را ارسال
+                // نمی‌کنند؛ آن کلید تنها در مسیر قدیمی
+                // `CheckoutController@store_delivery_info` (ویو
+                // delivery_info) روی سبد تنظیم می‌شود که در جریان فعال
+                // استفاده نمی‌شود.
+                //
+                // پیش از این رفع، خط ۲۷۹ مستقیماً `$cartItem['shipping_type']`
+                // را می‌خواند و ثبت سفارش همیشه با خطای
+                // «Undefined index: shipping_type» و کد ۵۰۰ شکست می‌خورد.
+                // بدتر آنکه سطر سفارش پیش از خطا ساخته و موجودی کالا کم
+                // شده بود، اما اقلام سفارش ذخیره نمی‌شدند.
+                //
+                // مقدار پیش‌فرض «home_delivery» انتخاب شد چون:
+                //   ۱. با مقدار پیش‌فرض ستون `orders.shipping_type` یکی است
+                //   ۲. صفحهٔ تسویهٔ فعلی گزینهٔ «تحویل حضوری» ندارد، پس
+                //      رفتار درست همان ارسال به آدرس مشتری است
+                //   ۳. اگر کلید در سبد موجود باشد (مسیر قدیمی)، همان مقدار
+                //      قبلی استفاده می‌شود و رفتار تغییر نمی‌کند.
+                $shipping_type = $cartItem['shipping_type'] ?? 'home_delivery';
+
+                $order_detail->shipping_type = $shipping_type;
+                $order_detail->product_referral_code = $cartItem['product_referral_code'] ?? null;
 
                 //Dividing Shipping Costs
-                if ($cartItem['shipping_type'] == 'home_delivery') {
+                if ($shipping_type == 'home_delivery') {
                     if (\App\BusinessSetting::where('type', 'shipping_type')->first()->value == 'flat_rate') {
                         $order_detail->shipping_cost = $shipping/count((Session::get('cart') ?? []));
                     }
@@ -299,7 +325,7 @@ class OrderController extends Controller
                 }
                 else{
                     $order_detail->shipping_cost = 0;
-                    $order_detail->pickup_point_id = $cartItem['pickup_point'];
+                    $order_detail->pickup_point_id = $cartItem['pickup_point'] ?? null;
                 }
                 //End of storing shipping cost
 

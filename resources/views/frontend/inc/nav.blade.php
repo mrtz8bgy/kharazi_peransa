@@ -95,7 +95,7 @@
                 <!-- Search -->
                 <div class="d-search">
                     <form action="{{ route('search') }}" method="GET" class="d-search-form">
-                        <input type="text" id="search" name="q" placeholder="جستجوی طلا، جواهر، ساعت، سنگ قیمتی..." autocomplete="off" required>
+                        <input type="text" id="search" name="q" placeholder="جستجوی نخ، سوزن، روبان، کاموا، پارچه..." autocomplete="off" required>
                         <button type="submit" aria-label="جستجو"><i class="la la-search la-flip-horizontal"></i></button>
                         <div class="typed-search-box d-none">
                             <div class="search-preloader"><div class="loader"><div></div><div></div><div></div></div></div>

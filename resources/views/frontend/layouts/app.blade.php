@@ -56,7 +56,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
 
-<!-- تم لوکس Drikana Gold & Jewelry -->
+<!-- قالب پایه فروشگاه — خرازی پرنسا -->
 <link type="text/css" href="{{ asset('frontend/css/drikana-luxury.css') }}?v={{ filemtime(public_path('frontend/css/drikana-luxury.css')) }}" rel="stylesheet" media="all">
 <link type="text/css" href="{{ asset('frontend/css/megamenu-lux.css') }}?v={{ filemtime(public_path('frontend/css/megamenu-lux.css')) }}" rel="stylesheet" media="all">
 
