@@ -5,8 +5,13 @@
 {{-- استایل این صفحه به فایل مستقل زیر منتقل شده است (مرحله ۳ بازسازی)
      تا از CSS درون‌خطی پرهیز شود. --}}
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/kharazi/admin.css') }}">
+<link rel="stylesheet" href="{{ asset('css/kharazi/admin.css') }}?v={{ filemtime(public_path('css/kharazi/admin.css')) }}">
 @endpush
+
+<div class="admin-dashboard-header">
+    <h1>پیشخوان</h1>
+    <p>نمای کلی فروشگاه و وضعیت عملکرد</p>
+</div>
 
 @if(config('mail.username') == null && config('mail.password') == null)
     <div class="row">

@@ -1,0 +1,219 @@
+/* Shared form styling for the administration area. */
+:root {
+    --admin-form-green: #4f8068;
+    --admin-form-green-dark: #315d4d;
+    --admin-form-forest: #204d40;
+    --admin-form-page: #f5f8f4;
+    --admin-form-line: #e2ebe1;
+    --admin-form-muted: #6b7c70;
+}
+
+#page-content {
+    background: #f5f8f4;
+}
+
+#page-content .page-header {
+    margin: 18px 0 24px;
+    color: var(--admin-form-forest);
+    font-size: 23px;
+    font-weight: 700;
+}
+
+#page-content form.form-horizontal .panel {
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 1px solid var(--admin-form-line);
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(32, 77, 64, .055);
+}
+
+#page-content form.form-horizontal .panel-heading {
+    min-height: 48px;
+    padding: 14px 20px;
+    border-bottom: 1px solid #eaf0e9 !important;
+    background: linear-gradient(90deg, #f1f6ef, #fbfcfa);
+}
+
+#page-content form.form-horizontal .panel-title {
+    color: var(--admin-form-forest);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+#page-content form.form-horizontal .panel-body {
+    padding: 22px 20px 12px;
+}
+
+#page-content form.form-horizontal .form-group {
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 18px;
+}
+
+#page-content form.form-horizontal .control-label,
+#page-content form.form-horizontal label {
+    color: #40564a;
+    font-weight: 600;
+}
+
+#page-content form.form-horizontal .control-label small,
+#page-content form.form-horizontal .help-block {
+    color: var(--admin-form-muted);
+    font-weight: 400;
+}
+
+#page-content form.form-horizontal input.form-control,
+#page-content form.form-horizontal select.form-control,
+#page-content form.form-horizontal textarea.form-control {
+    min-height: 40px;
+    padding: 9px 12px;
+    border: 1px solid #dfe8de;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #314a3b;
+    box-shadow: none;
+    transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+
+#page-content form.form-horizontal textarea.form-control {
+    min-height: 96px;
+    resize: vertical;
+}
+
+#page-content form.form-horizontal input.form-control::placeholder,
+#page-content form.form-horizontal textarea.form-control::placeholder {
+    color: #9aa79c;
+}
+
+#page-content form.form-horizontal input.form-control:focus,
+#page-content form.form-horizontal select.form-control:focus,
+#page-content form.form-horizontal textarea.form-control:focus {
+    border-color: #8eaf98;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(79, 128, 104, .1);
+    outline: 0;
+}
+
+#page-content form.form-horizontal .select2-container--default .select2-selection--single,
+#page-content form.form-horizontal .bootstrap-select > .dropdown-toggle {
+    min-height: 40px;
+    border: 1px solid #dfe8de;
+    border-radius: 8px;
+    background: #fff;
+    color: #314a3b;
+    box-shadow: none;
+}
+
+#page-content form.form-horizontal .select2-container--default .select2-selection--single .select2-selection__rendered {
+    padding-right: 12px;
+    padding-left: 12px;
+    color: #314a3b;
+    line-height: 38px;
+}
+
+#page-content form.form-horizontal .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 38px;
+}
+
+#page-content form.form-horizontal .select2-container--default.select2-container--open .select2-selection--single,
+#page-content form.form-horizontal .select2-container--default.select2-container--focus .select2-selection--multiple,
+#page-content form.form-horizontal .bootstrap-select > .dropdown-toggle:focus {
+    border-color: #8eaf98;
+    box-shadow: 0 0 0 3px rgba(79, 128, 104, .1);
+    outline: 0;
+}
+
+#page-content form.form-horizontal .select2-container--default .select2-selection--multiple {
+    min-height: 40px;
+    border: 1px solid #dfe8de;
+    border-radius: 8px;
+    background: #fff;
+}
+
+#page-content form.form-horizontal .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    border: 1px solid #dce9dc;
+    border-radius: 6px;
+    background: #edf5ec;
+    color: var(--admin-form-green-dark);
+}
+
+#page-content form.form-horizontal .bootstrap-tagsinput {
+    width: 100%;
+    min-height: 40px;
+    padding: 5px 8px;
+    border: 1px solid #dfe8de;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: none;
+}
+
+#page-content form.form-horizontal .bootstrap-tagsinput input {
+    min-height: 26px;
+    color: #314a3b;
+}
+
+#page-content form.form-horizontal .bootstrap-tagsinput .tag {
+    border-radius: 5px;
+    background: #edf5ec;
+    color: var(--admin-form-green-dark);
+}
+
+#page-content form.form-horizontal .btn-primary,
+#page-content form.form-horizontal .btn-success,
+#page-content form.form-horizontal button[type="submit"] {
+    min-height: 40px;
+    padding: 9px 18px;
+    border: 1px solid var(--admin-form-green);
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--admin-form-green-dark), var(--admin-form-green));
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 3px 9px rgba(79, 128, 104, .15);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+#page-content form.form-horizontal .btn-primary:hover,
+#page-content form.form-horizontal .btn-success:hover,
+#page-content form.form-horizontal button[type="submit"]:hover {
+    border-color: var(--admin-form-green-dark);
+    background: linear-gradient(135deg, #284f40, #47775f);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(79, 128, 104, .2);
+    transform: translateY(-1px);
+}
+
+#page-content form.form-horizontal .checkbox,
+#page-content form.form-horizontal .radio {
+    color: #52675a;
+}
+
+#page-content form.form-horizontal .has-error .form-control,
+#page-content form.form-horizontal .form-control.is-invalid {
+    border-color: #dc7772;
+    box-shadow: 0 0 0 3px rgba(220, 119, 114, .09);
+}
+
+#page-content form.form-horizontal .text-danger,
+#page-content form.form-horizontal .has-error .help-block {
+    color: #bd514c;
+}
+
+@media (max-width: 767px) {
+    #page-content .page-header {
+        margin: 14px 0 18px;
+        font-size: 19px;
+    }
+
+    #page-content form.form-horizontal .panel-heading {
+        padding: 12px 15px;
+    }
+
+    #page-content form.form-horizontal .panel-body {
+        padding: 16px 14px 8px;
+    }
+
+    #page-content form.form-horizontal .form-group {
+        margin-bottom: 15px;
+    }
+}

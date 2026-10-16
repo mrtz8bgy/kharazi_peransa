@@ -182,6 +182,7 @@
 
     {{-- کلاس‌های استخراج‌شده از استایل درون‌خطی ویوها (بازبینی L-04) --}}
     <link rel="stylesheet" href="{{ asset('css/kharazi/utilities.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/kharazi/admin-forms.css') }}?v={{ filemtime(public_path('css/kharazi/admin-forms.css')) }}">
 </head>
 <body>
 

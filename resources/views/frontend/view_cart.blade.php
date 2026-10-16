@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <section class="slice-xs sct-color-2 border-bottom">
+    <section class="slice-xs sct-color-2 border-bottom kp-cart-steps">
         <div class="container container-sm">
             <div class="row cols-delimited justify-content-center">
                 <div class="col">
@@ -64,7 +64,7 @@
     </section>
 
 
-    <section class="py-4 gry-bg" id="cart-summary">
+    <section class="py-4 gry-bg kp-cart-page" id="cart-summary">
         <div class="container">
             @if(Session::has('cart'))
                 <div class="row cols-xs-space cols-sm-space cols-md-space">
