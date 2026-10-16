@@ -13,6 +13,7 @@
 
 @section('content')
 
+<main class="kp-homepage">
 @php
     // ═══ حفاظت در برابر جدول‌های نصب‌نشده ═══
     //
@@ -289,6 +290,7 @@
          اصالت» و «رهگیری هوشمند / از دسترسی دزدها دور بمانید» —
          هر سه حذف و با مزیت‌های خرید خرازی جانشین شدند.
 --}}
+@if(!isset($sliders) || $sliders->count() === 0)
 <section class="d-hero">
     <div class="container">
         <div class="d-hero-inner">
@@ -374,6 +376,7 @@
         </div>
     </div>
 </section>
+@endif
 
 {{-- ============================================ --}}
 {{-- مزیت‌های خرید از فروشگاه خرازی پرنسا --}}
@@ -401,7 +404,7 @@
     دسته‌بندی سلسله‌مراتبی، جست‌وجو و فیلتر، سبد خرید، کنترل انبار،
     پیگیری سفارش و مقالات راهنما.
 --}}
-<section class="d-services">
+<section class="d-services kp-home-services">
     <div class="container">
         <div class="d-services-grid">
             <div class="d-service-card">
@@ -439,48 +442,12 @@
 </section>
 
 <!-- ============================================ -->
-<!-- فلش دیل
-
-<!-- ============================================ -->
-<!-- فلش دیل (تخفیف امروز) - زیر بنر -->
-<!-- ============================================ -->
-@php
-    $num_todays_deal = count(filter_products(\App\Product::where('published', 1)->where('todays_deal', 1))->get());
-@endphp
-
-@if($num_todays_deal > 0)
-<section class="flash-deal-section">
-    <div class="flash-deal-wrapper">
-        <div class="flash-deal-header">
-            <h4><i class="la la-bolt"></i> {{ __('تخفیف امروز') }} <span class="badge badge-danger">{{__('داغ')}}</span></h4>
-            <a href="{{ route('products.todays_deal') }}" class="flash-deal-view-all">{{__('مشاهده همه')}} <i class="la la-angle-left"></i></a>
-        </div>
-        <div class="flash-deal-scroll">
-            @foreach (filter_products(\App\Product::where('published', 1)->where('todays_deal', '1'))->get() as $key => $product)
-                @if ($product != null)
-                    <a href="{{ route('product', $product->slug) }}" class="flash-deal-item-horizontal">
-                        <img class="lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->flash_deal_img) }}" alt="{{ __($product->name) }}">
-                        <div class="flash-deal-info">
-                            <span class="flash-deal-price">{{ home_discounted_base_price($product->id) }}</span>
-                            @if(home_base_price($product->id) != home_discounted_base_price($product->id))
-                                <del class="flash-deal-old-price">{{ home_base_price($product->id) }}</del>
-                            @endif
-                        </div>
-                    </a>
-                @endif
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
-
-<!-- ============================================ -->
 <!-- دسته بندی های معروف - اسکرول افقی -->
 <!-- ============================================ -->
-<section class="mb-5 categories-section">
+<section class="mb-5 categories-section kp-home-categories">
     <div class="container">
         <div class="section-title-1">
-            <h3><i class="la la-tags"></i> {{__('دسته بندی های معروف')}}</h3>
+            <h3><i class="la la-tags"></i> {{__('دسته‌بندی‌های محبوب')}}</h3>
             <ul class="inline-links">
                 <li>
                     <a href="{{ route('categories.all') }}">{{__('نمایش همه')}} <i class="la la-angle-left"></i></a>
@@ -526,10 +493,41 @@
     </div>
 </section>
 
+<!-- پیشنهادهای تخفیف روز -->
+@php
+    $num_todays_deal = count(filter_products(\App\Product::where('published', 1)->where('todays_deal', 1))->get());
+@endphp
+
+@if($num_todays_deal > 0)
+<section class="flash-deal-section">
+    <div class="flash-deal-wrapper">
+        <div class="flash-deal-header">
+            <h4><i class="la la-bolt"></i> {{ __('تخفیف امروز') }} <span class="badge badge-danger">{{__('داغ')}}</span></h4>
+            <a href="{{ route('products.todays_deal') }}" class="flash-deal-view-all">{{__('مشاهده همه')}} <i class="la la-angle-left"></i></a>
+        </div>
+        <div class="flash-deal-scroll">
+            @foreach (filter_products(\App\Product::where('published', 1)->where('todays_deal', '1'))->get() as $key => $product)
+                @if ($product != null)
+                    <a href="{{ route('product', $product->slug) }}" class="flash-deal-item-horizontal">
+                        <img class="lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->flash_deal_img) }}" alt="{{ __($product->name) }}">
+                        <div class="flash-deal-info">
+                            <span class="flash-deal-price">{{ home_discounted_base_price($product->id) }}</span>
+                            @if(home_base_price($product->id) != home_discounted_base_price($product->id))
+                                <del class="flash-deal-old-price">{{ home_base_price($product->id) }}</del>
+                            @endif
+                        </div>
+                    </a>
+                @endif
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
 <!-- ============================================ -->
 <!-- آیکون‌های تبلیغاتی -->
 <!-- ============================================ -->
-<div class="mobile-icons-section">
+<div class="mobile-icons-section kp-home-icon-banners">
     <div class="mobile-icons-container">
         @php
             $banners = App\Banner::where('position', 1)->where('published', 1)->get();
@@ -550,61 +548,9 @@
 </div>
 
 <!-- ============================================ -->
-<!-- برند های معروف - اسکرول افقی -->
-<!-- ============================================ -->
-<section class="mb-5 brands-section">
-    <div class="container">
-        <div class="section-title-1">
-            <h3><i class="la la-building"></i> {{__('برند های معروف')}}</h3>
-            <ul class="inline-links">
-                <li>
-                    <a href="{{ route('brands.all') }}">{{__('نمایش همه')}} <i class="la la-angle-left"></i></a>
-                </li>
-            </ul>
-        </div>
-        
-        <div class="scroll-btn scroll-left" id="brandsScrollLeft">
-            <i class="la la-angle-right"></i>
-        </div>
-        <div class="scroll-btn scroll-right" id="brandsScrollRight">
-            <i class="la la-angle-left"></i>
-        </div>
-        
-        <div class="brands-scroll-wrapper" id="brandsScrollWrapper">
-            <div class="brands-scroll-container">
-                @php
-                    $topBrands = Brand::where('top', 1)->take(15)->get();
-                    if(count($topBrands) < 9){
-                        $topBrands = Brand::take(12)->get();
-                    }
-                @endphp
-                @foreach ($topBrands as $brand)
-                    <div class="brand-scroll-item">
-                        <a href="{{ route('products.brand', $brand->slug) }}" class="brand-card-horizontal">
-                            <div class="brand-icon-box">
-                                @if($brand->logo && file_exists(public_path($brand->logo)))
-                                    <img src="{{ asset($brand->logo) }}" alt="{{ __($brand->name) }}" class="brand-icon-img">
-                                @else
-                                    <div class="brand-icon-default">
-                                        <i class="fa fa-building-o"></i>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="brand-name-horizontal">
-                                {{ __($brand->name) }}
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ============================================ -->
 <!-- بخش محصولات ویژه -->
 <!-- ============================================ -->
-<section class="mb-5">
+<section class="mb-5 kp-home-featured">
     <div class="container">
         <div class="px-3 py-4 p-md-4 bg-white shadow-sm rounded-3">
             <div class="section-title-1">
@@ -653,63 +599,9 @@
 </section>
 
 <!-- ============================================ -->
-<!-- بخش پرفروش‌ترین محصولات -->
-<!-- ============================================ -->
-<section class="mb-5">
-    <div class="container">
-        <div class="px-3 py-4 p-md-4 bg-white shadow-sm rounded-3">
-            <div class="section-title-1">
-                <h3><i class="la la-fire"></i> {{__('پرفروش‌ترین محصولات')}}</h3>
-                <ul class="inline-links">
-                    <li><a href="{{ route('products.best_selling') }}">{{__('مشاهده همه')}} <i class="la la-angle-left"></i></a></li>
-                </ul>
-            </div>
-            <div class="caorusel-box arrow-round gutters-5">
-                <div class="slick-carousel" data-slick-items="6" data-slick-xl-items="5" data-slick-lg-items="4" data-slick-md-items="3" data-slick-sm-items="2" data-slick-xs-items="2">
-                    @php
-                        $best_selling_products = filter_products(Product::where('published', 1)->orderBy('num_of_sale', 'desc'))->take(12)->get();
-                    @endphp
-                    @foreach ($best_selling_products as $product)
-                        <div class="caorusel-card">
-                            <div class="product-card-2 card card-product shop-cards">
-                                <div class="card-body p-0">
-                                    <div class="card-image">
-                                        <a href="{{ route('product', $product->slug) }}" class="d-block">
-                                            <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img) }}" alt="{{ __($product->name) }}">
-                                        </a>
-                                    </div>
-                                    <div class="p-md-3 p-2">
-                                        <div class="price-box">
-                                            @if(home_base_price($product->id) != home_discounted_base_price($product->id))
-                                                <del class="old-product-price strong-400">{{ home_base_price($product->id) }}</del>
-                                            @endif
-                                            <br>
-                                            <span class="product-price strong-600">{{ home_discounted_base_price($product->id) }}</span>
-                                        </div>
-                                        <div class="star-rating star-rating-sm mt-1">
-                                            {{ renderStarRating($product->rating) }}
-                                        </div>
-                                        <h2 class="product-title p-0">
-                                            <a href="{{ route('product', $product->slug) }}">{{ __($product->name) }}</a>
-                                        </h2>
-                                        <div class="text-success small mt-1">
-                                            <i class="la la-shopping-cart"></i> {{ $product->num_of_sale }} فروش
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ============================================ -->
 <!-- بخش جدیدترین محصولات -->
 <!-- ============================================ -->
-<section class="mb-5">
+<section class="mb-5 kp-home-new-products">
     <div class="container">
         <div class="px-3 py-4 p-md-4 bg-white shadow-sm rounded-3">
             <div class="section-title-1">
@@ -719,7 +611,7 @@
                 </ul>
             </div>
             <div class="caorusel-box arrow-round gutters-5">
-                <div class="slick-carousel" data-slick-items="6" data-slick-xl-items="5" data-slick-lg-items="4" data-slick-md-items="3" data-slick-sm-items="2" data-slick-xs-items="2">
+                <div class="slick-carousel" data-slick-items="6" data-slick-xl-items="6" data-slick-lg-items="6" data-slick-md-items="4" data-slick-sm-items="3" data-slick-xs-items="2">
                     @php
                         $new_products = filter_products(Product::where('published', 1)->orderBy('created_at', 'desc'))->take(12)->get();
                     @endphp
@@ -749,6 +641,9 @@
                                         <div class="text-muted small mt-1">
                                             <i class="la la-calendar"></i> {{ date('Y/m/d', strtotime($product->created_at)) }}
                                         </div>
+                                        <a href="{{ route('product', $product->slug) }}" class="kp-product-cta">
+                                            مشاهده و خرید <i class="la la-angle-left" aria-hidden="true"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -761,9 +656,137 @@
 </section>
 
 <!-- ============================================ -->
+<!-- بخش پرفروش‌ترین محصولات -->
+<!-- ============================================ -->
+<section class="mb-5 kp-home-best-selling">
+    <div class="container">
+        <div class="px-3 py-4 p-md-4 bg-white shadow-sm rounded-3">
+            <div class="section-title-1">
+                <h3><i class="la la-fire"></i> {{__('پرفروش‌ترین محصولات')}}</h3>
+                <ul class="inline-links">
+                    <li><a href="{{ route('products.best_selling') }}">{{__('مشاهده همه')}} <i class="la la-angle-left"></i></a></li>
+                </ul>
+            </div>
+            <div class="caorusel-box arrow-round gutters-5">
+                <div class="slick-carousel" data-slick-items="6" data-slick-xl-items="6" data-slick-lg-items="6" data-slick-md-items="4" data-slick-sm-items="3" data-slick-xs-items="2">
+                    @php
+                        $best_selling_products = filter_products(Product::where('published', 1)->orderBy('num_of_sale', 'desc'))->take(12)->get();
+                    @endphp
+                    @foreach ($best_selling_products as $product)
+                        <div class="caorusel-card">
+                            <div class="product-card-2 card card-product shop-cards">
+                                <div class="card-body p-0">
+                                    <div class="card-image">
+                                        <a href="{{ route('product', $product->slug) }}" class="d-block">
+                                            <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img) }}" alt="{{ __($product->name) }}">
+                                        </a>
+                                    </div>
+                                    <div class="p-md-3 p-2">
+                                        <div class="price-box">
+                                            @if(home_base_price($product->id) != home_discounted_base_price($product->id))
+                                                <del class="old-product-price strong-400">{{ home_base_price($product->id) }}</del>
+                                            @endif
+                                            <br>
+                                            <span class="product-price strong-600">{{ home_discounted_base_price($product->id) }}</span>
+                                        </div>
+                                        <div class="star-rating star-rating-sm mt-1">
+                                            {{ renderStarRating($product->rating) }}
+                                        </div>
+                                        <h2 class="product-title p-0">
+                                            <a href="{{ route('product', $product->slug) }}">{{ __($product->name) }}</a>
+                                        </h2>
+                                        <div class="text-success small mt-1">
+                                            <i class="la la-shopping-cart"></i> {{ $product->num_of_sale }} فروش
+                                        </div>
+                                        <a href="{{ route('product', $product->slug) }}" class="kp-product-cta">
+                                            مشاهده و خرید <i class="la la-angle-left" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="mb-5 kp-home-promos">
+    <div class="container">
+        <div class="row gutters-10 kp-promo-grid">
+            @foreach (App\Banner::where('position', 2)->where('published', 1)->get() as $key => $banner)
+                <div class="col-lg-{{ 12/count(App\Banner::where('position', 2)->where('published', 1)->get()) }}">
+                    <div class="media-banner mb-3 mb-lg-0">
+                        <a href="{{ $banner->url }}" target="_blank" class="banner-container">
+                            <img src="{{ asset('frontend/images/placeholder-rect.jpg') }}" data-src="{{ asset($banner->photo) }}" alt="{{ config('app.name') }} promo" class="img-fluid lazyload">
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================ -->
+<!-- برند های معروف - اسکرول افقی -->
+<!-- ============================================ -->
+<section class="mb-5 brands-section kp-home-brands">
+    <div class="container">
+        <div class="section-title-1">
+            <h3><i class="la la-building"></i> {{__('برندهای معتبر')}}</h3>
+            <ul class="inline-links">
+                <li>
+                    <a href="{{ route('brands.all') }}">{{__('نمایش همه')}} <i class="la la-angle-left"></i></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="scroll-btn scroll-left" id="brandsScrollLeft">
+            <i class="la la-angle-right"></i>
+        </div>
+        <div class="scroll-btn scroll-right" id="brandsScrollRight">
+            <i class="la la-angle-left"></i>
+        </div>
+
+        <div class="brands-scroll-wrapper" id="brandsScrollWrapper">
+            <div class="brands-scroll-container">
+                @php
+                    $topBrands = Brand::where('top', 1)->take(15)->get();
+                    if(count($topBrands) < 9){
+                        $topBrands = Brand::take(12)->get();
+                    }
+                @endphp
+                @foreach ($topBrands as $brand)
+                    <div class="brand-scroll-item">
+                        <a href="{{ route('products.brand', $brand->slug) }}" class="brand-card-horizontal">
+                            <div class="brand-icon-box">
+                                @if($brand->logo && file_exists(public_path($brand->logo)))
+                                    <img src="{{ asset($brand->logo) }}" alt="{{ __($brand->name) }}" class="brand-icon-img">
+                                @else
+                                    <div class="brand-icon-default">
+                                        <i class="fa fa-building-o"></i>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="brand-name-horizontal">
+                                {{ __($brand->name) }}
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================ -->
 <!-- بخش محصولات با تخفیف ویژه -->
 <!-- ============================================ -->
-<section class="mb-5">
+<section class="mb-5 kp-home-discounted">
     <div class="container">
         <div class="px-3 py-4 p-md-4 bg-white shadow-sm rounded-3">
             <div class="section-title-1">
@@ -832,7 +855,7 @@
         $customer_products = CustomerProduct::where('status', '1')->where('published', '1')->take(16)->get();
     @endphp
    @if (count($customer_products) > 0)
-       <section class="mb-5">
+       <section class="mb-5 kp-home-classified">
            <div class="container">
                <div class="px-3 py-4 p-md-4 bg-white shadow-sm rounded-3">
                    <div class="section-title-1">
@@ -876,22 +899,6 @@
        </section>
    @endif
 @endif
-
-<div class="mb-5">
-    <div class="container">
-        <div class="row gutters-10">
-            @foreach (App\Banner::where('position', 2)->where('published', 1)->get() as $key => $banner)
-                <div class="col-lg-{{ 12/count(App\Banner::where('position', 2)->where('published', 1)->get()) }}">
-                    <div class="media-banner mb-3 mb-lg-0">
-                        <a href="{{ $banner->url }}" target="_blank" class="banner-container">
-                            <img src="{{ asset('frontend/images/placeholder-rect.jpg') }}" data-src="{{ asset($banner->photo) }}" alt="{{ config('app.name') }} promo" class="img-fluid lazyload">
-                        </a>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</div>
 
 <div id="section_best_sellers"></div>
 
@@ -953,7 +960,7 @@
 @endphp
 
 @if($showcaseCategories->isNotEmpty())
-<section class="d-categories">
+<section class="d-categories kp-home-showcase-categories">
     <div class="container">
         <div class="section-heading">
             <span class="kicker">CATEGORIES</span>
@@ -1006,7 +1013,7 @@
     اصلی با یک بخش خالی زشت نشود.
 --}}
 @if(isset($latestArticles) && count($latestArticles) > 0)
-<section class="d-articles">
+<section class="d-articles kp-home-articles">
     <div class="container">
         <div class="section-heading">
             <span class="kicker">MAGAZINE &amp; GUIDE</span>
@@ -1229,44 +1236,58 @@
             <p>پاسخ کوتاه به پرتکرارترین پرسش‌ها درباره خرید، ارسال و مرجوعی محصولات خرازی.</p>
             <span class="divider-gold"></span>
         </div>
-        <div class="d-faq-list">
-            <div class="d-faq-item open">
-                <div class="d-faq-q">
-                    <span>برای خرید باید ثبت‌نام کنم؟</span>
-                    <i class="la la-angle-down"></i>
+        <div class="kp-faq-layout">
+            <aside class="kp-faq-visual" aria-label="راهنمای خرازی پرنسا">
+                <div class="kp-faq-illustration" aria-hidden="true">
+                    <span class="kp-faq-thread thread-one"></span>
+                    <span class="kp-faq-thread thread-two"></span>
+                    <span class="kp-faq-thread thread-three"></span>
+                    <span class="kp-faq-hoop"></span>
+                    <i class="la la-scissors"></i>
+                    <i class="la la-leaf"></i>
                 </div>
-                <div class="d-faq-a"><p>برای دیدن محصولات و جست‌وجو نیازی به ثبت‌نام نیست. اما برای ثبت سفارش و پیگیری آن در پنل کاربری، باید وارد حساب کاربری شوید یا در همان مرحله ثبت‌نام کنید.</p></div>
-            </div>
-            <div class="d-faq-item">
-                <div class="d-faq-q">
-                    <span>محصولات در چه واحدهایی فروخته می‌شوند؟</span>
-                    <i class="la la-angle-down"></i>
+                <h3>همراه هنر دست شما</h3>
+                <p>از انتخاب لوازم تا پیگیری سفارش، راهنمایی‌های لازم همیشه در دسترس شماست.</p>
+                <a href="{{ route('guide') }}">راهنمای خرید و ارسال <i class="la la-angle-left"></i></a>
+            </aside>
+            <div class="d-faq-list">
+                <div class="d-faq-item open">
+                    <div class="d-faq-q">
+                        <span>برای خرید باید ثبت‌نام کنم؟</span>
+                        <i class="la la-angle-down"></i>
+                    </div>
+                    <div class="d-faq-a"><p>برای دیدن محصولات و جست‌وجو نیازی به ثبت‌نام نیست. اما برای ثبت سفارش و پیگیری آن در پنل کاربری، باید وارد حساب کاربری شوید یا در همان مرحله ثبت‌نام کنید.</p></div>
                 </div>
-                <div class="d-faq-a"><p>واحد فروش هر کالا در صفحه همان محصول نوشته شده است؛ نخ اغلب قرقره‌ای، روبان و دانتل متری، و سوزن، دکمه و زیپ بسته‌ای عرضه می‌شوند. تعداد موجود در هر بسته هم همان‌جا ذکر شده است.</p></div>
-            </div>
-            <div class="d-faq-item">
-                <div class="d-faq-q">
-                    <span>هزینه و زمان ارسال چقدر است؟</span>
-                    <i class="la la-angle-down"></i>
+                <div class="d-faq-item">
+                    <div class="d-faq-q">
+                        <span>محصولات در چه واحدهایی فروخته می‌شوند؟</span>
+                        <i class="la la-angle-down"></i>
+                    </div>
+                    <div class="d-faq-a"><p>واحد فروش هر کالا در صفحه همان محصول نوشته شده است؛ نخ اغلب قرقره‌ای، روبان و دانتل متری، و سوزن، دکمه و زیپ بسته‌ای عرضه می‌شوند. تعداد موجود در هر بسته هم همان‌جا ذکر شده است.</p></div>
                 </div>
-                <div class="d-faq-a"><p>هزینه ارسال بر اساس شیوه انتخابی و تنظیمات فروشگاه محاسبه می‌شود و پیش از پرداخت به شما نمایش داده می‌شود. شرح مراحل خرید در <a href="{{ route('guide') }}">راهنمای خرید و ارسال</a> آمده است.</p></div>
-            </div>
-            <div class="d-faq-item">
-                <div class="d-faq-q">
-                    <span>سفارشم را چطور پیگیری کنم؟</span>
-                    <i class="la la-angle-down"></i>
+                <div class="d-faq-item">
+                    <div class="d-faq-q">
+                        <span>هزینه و زمان ارسال چقدر است؟</span>
+                        <i class="la la-angle-down"></i>
+                    </div>
+                    <div class="d-faq-a"><p>هزینه ارسال بر اساس شیوه انتخابی و تنظیمات فروشگاه محاسبه می‌شود و پیش از پرداخت به شما نمایش داده می‌شود. شرح مراحل خرید در <a href="{{ route('guide') }}">راهنمای خرید و ارسال</a> آمده است.</p></div>
                 </div>
-                <div class="d-faq-a"><p>از صفحه <a href="{{ route('orders.track') }}">پیگیری سفارش</a>، یا پس از ورود به حساب کاربری از بخش تاریخچه خرید در پنل کاربری.</p></div>
-            </div>
-            <div class="d-faq-item">
-                <div class="d-faq-q">
-                    <span>اگر کالا را نپسندم، می‌توانم مرجوع کنم؟</span>
-                    <i class="la la-angle-down"></i>
+                <div class="d-faq-item">
+                    <div class="d-faq-q">
+                        <span>سفارشم را چطور پیگیری کنم؟</span>
+                        <i class="la la-angle-down"></i>
+                    </div>
+                    <div class="d-faq-a"><p>از صفحه <a href="{{ route('orders.track') }}">پیگیری سفارش</a>، یا پس از ورود به حساب کاربری از بخش تاریخچه خرید در پنل کاربری.</p></div>
                 </div>
-                <div class="d-faq-a"><p>شرایط و مهلت بازگشت کالا در صفحه <a href="{{ route('returnpolicy') }}">شرایط مرجوعی و بازگشت کالا</a> توضیح داده شده است. پیش از ارسال کالای مرجوعی، مطالعه آن صفحه را توصیه می‌کنیم.</p></div>
+                <div class="d-faq-item">
+                    <div class="d-faq-q">
+                        <span>اگر کالا را نپسندم، می‌توانم مرجوع کنم؟</span>
+                        <i class="la la-angle-down"></i>
+                    </div>
+                    <div class="d-faq-a"><p>شرایط و مهلت بازگشت کالا در صفحه <a href="{{ route('returnpolicy') }}">شرایط مرجوعی و بازگشت کالا</a> توضیح داده شده است. پیش از ارسال کالای مرجوعی، مطالعه آن صفحه را توصیه می‌کنیم.</p></div>
+                </div>
             </div>
         </div>
-
         <div class="kp-faq-more">
             <a href="{{ route('faq') }}" class="btn-lux btn-lux-outline">
                 <i class="la la-question"></i> مشاهده همه سؤالات متداول
@@ -1275,7 +1296,29 @@
     </div>
 </section>
 
+<section class="kp-newsletter" aria-labelledby="kp-newsletter-title">
+    <div class="container">
+        <div class="kp-newsletter-card">
+            <div class="kp-newsletter-copy">
+                <span class="kp-newsletter-icon" aria-hidden="true"><i class="la la-envelope-o"></i></span>
+                <div>
+                    <span class="kp-newsletter-kicker">خبرنامه پرنسا</span>
+                    <h2 id="kp-newsletter-title">تازه‌های خرازی را از دست ندهید</h2>
+                    <p>برای دریافت خبر محصولات تازه و پیشنهادهای فروشگاه، عضو خبرنامه شوید.</p>
+                </div>
+            </div>
+            <form method="POST" action="{{ route('subscribers.store') }}" class="kp-newsletter-form">
+                @csrf
+                <label class="sr-only" for="kp-newsletter-email">ایمیل شما</label>
+                <input id="kp-newsletter-email" type="email" name="email" placeholder="ایمیل خود را وارد کنید" required>
+                <button type="submit">عضویت <i class="la la-angle-left"></i></button>
+            </form>
+        </div>
+    </div>
+</section>
+
 <div id="section_best_sellers"></div>
+</main>
 
 <!-- ============================================ -->
 <!-- اسکریپت‌های جاوااسکریپت -->

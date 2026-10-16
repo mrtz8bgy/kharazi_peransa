@@ -1,4 +1,10 @@
 <header class="d-header">
+    <div class="kp-announcement-bar">
+        <div class="container">
+            <span><i class="la la-scissors" aria-hidden="true"></i> خرازی پرنسا؛ همراه دوخت‌ودوز و هنرهای دستی شما</span>
+            <a href="{{ route('guide') }}">راهنمای خرید <i class="la la-angle-left" aria-hidden="true"></i></a>
+        </div>
+    </div>
     <!-- Top Bar -->
     <div class="d-topbar">
         <div class="container">

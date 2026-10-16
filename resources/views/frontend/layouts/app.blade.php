@@ -169,6 +169,7 @@
          هر ویرایش، کش مرورگر کاربران به‌طور خودکار باطل شود.
          ═══════════════════════════════════════════════════════════════════ --}}
     <link rel="stylesheet" href="{{ asset('frontend/css/kharazi-theme.css') }}?v={{ @filemtime(public_path('frontend/css/kharazi-theme.css')) ?: time() }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/kharazi-reference.css') }}?v={{ @filemtime(public_path('frontend/css/kharazi-reference.css')) ?: time() }}">
 </head>
 <body>
 

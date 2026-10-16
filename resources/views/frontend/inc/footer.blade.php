@@ -161,7 +161,7 @@
                     <li><i class="la la-clock-o"></i> <span>شنبه تا پنجشنبه، ۹ تا ۱۸</span></li>
                 </ul>
 
-                <div class="u-margin-top-18px">
+                <div class="u-margin-top-18px kp-footer-newsletter">
                     <div class="u-color-var-d-gold-font-size-13px-font-weight-600-margin--dc2d32">
                         <i class="la la-bullhorn"></i> عضویت در خبرنامه
                     </div>

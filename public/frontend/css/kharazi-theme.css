@@ -22,17 +22,17 @@
    بدون هیچ خطای ظاهری. این یعنی تغییر کاملاً بازگشت‌پذیر است.
 
    ── پالت رنگی ─────────────────────────────────────────────────────────
-     فیروزه‌ای (اصلی)  #0f7b7b   → دکمه‌ها، لینک‌ها، نشان‌های تأکید
+     سبز جنگلی (اصلی)  #4f8068   → دکمه‌ها، لینک‌ها، نشان‌های تأکید
      مرجانی  (ثانویه)  #ff6b52   → تخفیف‌ها، نشان‌های ویژه، جلب توجه
      سبز روشن (موفق)   #2f9e6f
-     پس‌زمینه          #f7fafb   → فضای سفید و تمیز
+     پس‌زمینه          #f7faf5   → فضای سفید و تمیز
      کارت‌ها           #ffffff   → با سایه نرم و حاشیه بسیار کم‌رنگ
 
    ── نکته درباره دسترس‌پذیری (Accessibility) ───────────────────────────
    نسبت کنتراست متن روی پس‌زمینه‌ها بررسی شده است:
-     • متن اصلی #1b2b33 روی #f7fafb  → نسبت ≈ ۱۳:۱  (AAA)
-     • متن ثانویه #5b6b73 روی #ffffff → نسبت ≈ ۵.۲:۱ (AA برای متن بدنه)
-     • متن سفید روی فیروزه‌ای #0f7b7b  → نسبت ≈ ۵.۴:۱ (AA)
+     • متن اصلی #283d33 روی #f7faf5  → نسبت ≈ ۱۱.۱:۱ (AAA)
+     • متن ثانویه #65776b روی #ffffff → نسبت ≈ ۴.۸:۱ (AA برای متن بدنه)
+     • متن سفید روی سبز جنگلی #4f8068  → نسبت ≈ ۴.۶:۱ (AA)
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -43,25 +43,25 @@
    نام متغیرها عمداً «d-» نگه داشته شده تا با نسخه اصلی سازگار بماند.
    ═══════════════════════════════════════════════════════════════════════ */
 :root {
-    /* ── تأکید اصلی: فیروزه‌ای خانوادگی ── */
-    --d-gold:            #0f7b7b;
-    --d-gold-light:      #3aa8a3;
-    --d-gold-dark:       #0a5c5c;
-    --d-gold-soft:       #d9efee;
+    /* ── تأکید اصلی: سبز جنگلی خانوادگی ── */
+    --d-gold:            #4f8068;
+    --d-gold-light:      #7fa38a;
+    --d-gold-dark:       #315d4d;
+    --d-gold-soft:       #e2eee3;
 
     /* ── پس‌زمینه‌های روشن (جای پالت سرمه‌ای تیره قبلی) ── */
-    --d-navy-900:        #f7fafb;   /* پس‌زمینه اصلی صفحه */
+    --d-navy-900:        #f7faf5;   /* پس‌زمینه اصلی صفحه */
     --d-navy-800:        #ffffff;   /* کارت و بخش‌های روشن‌تر */
-    --d-navy-700:        #eef4f6;   /* بخش‌های خاکستری‌آبی ملایم */
-    --d-navy-600:        #e3ecef;
-    --d-navy-500:        #d4e2e6;
+    --d-navy-700:        #ecf2ea;   /* بخش‌های خاکستری‌آبی ملایم */
+    --d-navy-600:        #e0eae0;
+    --d-navy-500:        #d7e4d7;
 
     /* ── متن ── */
-    --d-white:           #1b2b33;   /* متن اصلی (روی زمینه روشن) */
-    --d-gray-100:        #f2f6f7;
-    --d-gray-300:        #5b6b73;   /* متن ثانویه */
-    --d-gray-500:        #7c8b92;
-    --d-gray-700:        #35454d;
+    --d-white:           #283d33;   /* متن اصلی (روی زمینه روشن) */
+    --d-gray-100:        #f1f5ef;
+    --d-gray-300:        #65776b;   /* متن ثانویه */
+    --d-gray-500:        #849188;
+    --d-gray-700:        #42554a;
 
     /* ── رنگ‌های وضعیت ── */
     --d-danger:          #d64545;
@@ -74,26 +74,26 @@
     --k-coral-dark:      #e05339;
     --k-coral-soft:      #fff0ed;
 
-    /* ── گرادیان‌ها: جای طلایی، فیروزه‌ای ── */
-    --grad-gold:         linear-gradient(135deg, #0a5c5c 0%, #0f7b7b 45%, #3aa8a3 100%);
-    --grad-gold-soft:    linear-gradient(135deg, #3aa8a3 0%, #0f7b7b 100%);
-    --grad-navy:         linear-gradient(180deg, #ffffff 0%, #f2f8f9 100%);
-    --grad-dark:         linear-gradient(180deg, #ffffff 0%, #f7fafb 100%);
+    /* ── گرادیان‌ها: جای طلایی، سبز جنگلی ── */
+    --grad-gold:         linear-gradient(135deg, #315d4d 0%, #4f8068 45%, #7fa38a 100%);
+    --grad-gold-soft:    linear-gradient(135deg, #7fa38a 0%, #4f8068 100%);
+    --grad-navy:         linear-gradient(180deg, #ffffff 0%, #eef5ed 100%);
+    --grad-dark:         linear-gradient(180deg, #ffffff 0%, #f7faf5 100%);
 
     /* ── سایه‌ها: نرم و روشن (جای سایه‌های سیاه سنگین) ── */
-    --shadow-sm:         0 1px 3px rgba(27,43,51,.06);
-    --shadow-md:         0 4px 16px rgba(27,43,51,.08);
-    --shadow-lg:         0 12px 32px rgba(27,43,51,.10);
-    --shadow-gold:       0 6px 18px rgba(15,123,123,.18);
-    --shadow-gold-lg:    0 12px 30px rgba(15,123,123,.26);
+    --shadow-sm:         0 1px 3px rgba(40,61,51,.06);
+    --shadow-md:         0 4px 16px rgba(40,61,51,.08);
+    --shadow-lg:         0 12px 32px rgba(40,61,51,.10);
+    --shadow-gold:       0 6px 18px rgba(79,128,104,.18);
+    --shadow-gold-lg:    0 12px 30px rgba(79,128,104,.26);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
    ۲) پایه صفحه — بدنه و پوشش اصلی
    ═══════════════════════════════════════════════════════════════════════ */
 body {
-    background: #f7fafb !important;
-    color: #1b2b33 !important;
+    background: #f7faf5 !important;
+    color: #283d33 !important;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -101,38 +101,38 @@ body {
     background: transparent;
 }
 
-/* لینک‌ها: فیروزه‌ای با تأکید ملایم */
-a { color: #0f7b7b; }
-a:hover, a:focus { color: #0a5c5c; }
+/* لینک‌ها: سبز جنگلی با تأکید ملایم */
+a { color: #4f8068; }
+a:hover, a:focus { color: #315d4d; }
 
 /* ═══════════════════════════════════════════════════════════════════════
    ۳) سربرگ — نوار بالا، نوار اصلی و منو
    ═══════════════════════════════════════════════════════════════════════ */
 .d-topbar {
-    background: #0f7b7b;
+    background: #4f8068;
     border-bottom: none;
     color: #ffffff;
 }
 .d-topbar a,
 .d-topbar .d-contact-info span,
-.d-topbar .d-top-links a { color: #e8f6f5; }
+.d-topbar .d-top-links a { color: #e7f1e7; }
 .d-topbar a:hover,
 .d-topbar .d-top-links a:hover { color: #ffffff; }
 
 .d-mainbar {
     background: #ffffff;
-    border-bottom: 1px solid #e3ecef;
-    box-shadow: 0 1px 4px rgba(27,43,51,.04);
+    border-bottom: 1px solid #e0eae0;
+    box-shadow: 0 1px 4px rgba(40,61,51,.04);
 }
 
 .d-nav {
     background: #ffffff;
-    border-top: 1px solid #eef4f6;
-    border-bottom: 1px solid #e3ecef;
+    border-top: 1px solid #ecf2ea;
+    border-bottom: 1px solid #e0eae0;
 }
-.d-nav-links a { color: #35454d; }
+.d-nav-links a { color: #42554a; }
 .d-nav-links a:hover,
-.d-nav-links li.active > a { color: #0f7b7b; }
+.d-nav-links li.active > a { color: #4f8068; }
 
 /* دکمه دسته‌بندی‌ها در منو */
 .d-cat-btn {
@@ -143,28 +143,28 @@ a:hover, a:focus { color: #0a5c5c; }
 
 /* کادر جست‌وجو */
 .d-search-form input {
-    background: #f2f6f7;
-    border: 1px solid #e3ecef;
-    color: #1b2b33;
+    background: #f1f5ef;
+    border: 1px solid #e0eae0;
+    color: #283d33;
 }
-.d-search-form input::placeholder { color: #8fa0a7; }
+.d-search-form input::placeholder { color: #8c9b90; }
 .d-search-form input:focus {
-    border-color: #0f7b7b;
+    border-color: #4f8068;
     background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(15,123,123,.10);
+    box-shadow: 0 0 0 3px rgba(79,128,104,.10);
     outline: none;
 }
-.d-search-form button { background: #0f7b7b; color: #ffffff; }
+.d-search-form button { background: #4f8068; color: #ffffff; }
 
 /* آیکون‌های سربرگ */
-.d-icon-btn { color: #35454d; }
-.d-icon-btn:hover { color: #0f7b7b; }
+.d-icon-btn { color: #42554a; }
+.d-icon-btn:hover { color: #4f8068; }
 
 /* جایگزین متنی لوگو (اگر هیچ تصویری موجود نبود) */
 .d-logo-fallback {
     font-weight: 800;
     font-size: 22px;
-    color: #0f7b7b;
+    color: #4f8068;
     letter-spacing: -.3px;
     white-space: nowrap;
 }
@@ -178,7 +178,7 @@ a:hover, a:focus { color: #0a5c5c; }
    `frontend/js/kharazi-slider.js`).
    ═══════════════════════════════════════════════════════════════════════ */
 .fullwidth-slider-section {
-    background: #f2f8f9;
+    background: #eef5ed;
     perspective: 1400px;
     perspective-origin: 50% 40%;
     position: relative;
@@ -213,7 +213,7 @@ a:hover, a:focus { color: #0a5c5c; }
 /* تصویر اسلاید */
 .fullwidth-slider-section img {
     border-radius: 0;
-    box-shadow: 0 10px 34px rgba(27,43,51,.12);
+    box-shadow: 0 10px 34px rgba(40,61,51,.12);
 }
 
 /* لایه متن روی اسلاید — روشن و خوانا روی تصویر */
@@ -225,64 +225,64 @@ a:hover, a:focus { color: #0a5c5c; }
         rgba(255,255,255,0) 100%);
 }
 .slide-content h2 {
-    color: #123c3c;
+    color: #204d40;
     font-weight: 800;
 }
-.slide-content p { color: #35454d; }
+.slide-content p { color: #42554a; }
 .slide-btn-custom {
     background: var(--grad-gold);
     color: #ffffff !important;
-    box-shadow: 0 6px 18px rgba(15,123,123,.28);
+    box-shadow: 0 6px 18px rgba(79,128,104,.28);
 }
 .slide-btn-custom:hover {
-    background: linear-gradient(135deg, #0a5c5c 0%, #0f7b7b 100%);
+    background: linear-gradient(135deg, #315d4d 0%, #4f8068 100%);
     color: #ffffff !important;
 }
 
 /* نشانگرهای اسلایدر (dots) در تم روشن */
-.fullwidth-slider-section .slick-dots li button { background: #b9ccd1; }
-.fullwidth-slider-section .slick-dots li.slick-active button { background: #0f7b7b; }
+.fullwidth-slider-section .slick-dots li button { background: #c1d3c4; }
+.fullwidth-slider-section .slick-dots li.slick-active button { background: #4f8068; }
 
 /* ═══════════════════════════════════════════════════════════════════════
    ۵) بخش HERO
    ═══════════════════════════════════════════════════════════════════════ */
 .d-hero {
-    background: linear-gradient(180deg, #ffffff 0%, #eef7f7 100%);
-    border-bottom: 1px solid #e3ecef;
+    background: linear-gradient(180deg, #ffffff 0%, #eef5ed 100%);
+    border-bottom: 1px solid #e0eae0;
 }
 .d-hero-badge {
-    background: #e6f4f3;
-    color: #0a5c5c;
-    border: 1px solid #c9e7e5;
+    background: #e7f1e7;
+    color: #315d4d;
+    border: 1px solid #d2e6d6;
 }
-.d-hero-badge .dot { background: #0f7b7b; }
-.d-hero h1 { color: #123c3c; }
+.d-hero-badge .dot { background: #4f8068; }
+.d-hero h1 { color: #204d40; }
 .d-hero > .container p,
-.d-hero .d-hero-content p { color: #5b6b73; }
+.d-hero .d-hero-content p { color: #65776b; }
 .gold-line {
     background: var(--grad-gold);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-.d-hero-stat strong { color: #0f7b7b; }
-.d-hero-stat span { color: #5b6b73; }
+.d-hero-stat strong { color: #4f8068; }
+.d-hero-stat span { color: #65776b; }
 
 /* کارت‌های شناور hero */
 .d-hero-float-card {
     background: #ffffff;
-    border: 1px solid #e3ecef;
-    box-shadow: 0 8px 26px rgba(27,43,51,.10);
+    border: 1px solid #e0eae0;
+    box-shadow: 0 8px 26px rgba(40,61,51,.10);
 }
 .d-hero-float-card .fc-icon {
     background: var(--grad-gold);
     color: #ffffff;
 }
-.d-hero-float-card .fc-text strong { color: #123c3c; }
-.d-hero-float-card .fc-text span { color: #5b6b73; }
+.d-hero-float-card .fc-text strong { color: #204d40; }
+.d-hero-float-card .fc-text span { color: #65776b; }
 
-/* حلقه‌های تزئینی hero — از طلایی به فیروزه‌ای */
-.d-hero-ring { border-color: rgba(15,123,123,.16); }
+/* حلقه‌های تزئینی hero — از طلایی به سبز جنگلی */
+.d-hero-ring { border-color: rgba(79,128,104,.16); }
 
 /* «قرقره نخ» — جایگزین «الماسِ» تم قبلی */
 .d-hero-spool {
@@ -294,12 +294,12 @@ a:hover, a:focus { color: #0a5c5c; }
     background:
         radial-gradient(circle at 50% 50%, #ffffff 0 26%, transparent 27%),
         repeating-conic-gradient(from 0deg,
-            #0f7b7b 0deg 12deg,
-            #3aa8a3 12deg 24deg,
+            #4f8068 0deg 12deg,
+            #7fa38a 12deg 24deg,
             #ff6b52 24deg 32deg,
             #f2b134 32deg 40deg,
-            #0f7b7b 40deg 52deg);
-    box-shadow: 0 14px 40px rgba(15,123,123,.22), inset 0 0 0 10px rgba(255,255,255,.55);
+            #4f8068 40deg 52deg);
+    box-shadow: 0 14px 40px rgba(79,128,104,.22), inset 0 0 0 10px rgba(255,255,255,.55);
     animation: kp-spin 26s linear infinite;
 }
 .d-hero-spool::after {
@@ -308,7 +308,7 @@ a:hover, a:focus { color: #0a5c5c; }
     inset: 34%;
     border-radius: 50%;
     background: #ffffff;
-    box-shadow: inset 0 0 0 6px #e3ecef;
+    box-shadow: inset 0 0 0 6px #e0eae0;
 }
 @keyframes kp-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) {
@@ -320,29 +320,29 @@ a:hover, a:focus { color: #0a5c5c; }
    ═══════════════════════════════════════════════════════════════════════ */
 .d-services {
     background: #ffffff;
-    border-top: 1px solid #eef4f6;
-    border-bottom: 1px solid #eef4f6;
+    border-top: 1px solid #ecf2ea;
+    border-bottom: 1px solid #ecf2ea;
 }
 .d-service-card {
-    background: #f7fafb;
-    border: 1px solid #e9f0f2;
-    box-shadow: 0 2px 10px rgba(27,43,51,.04);
+    background: #f7faf5;
+    border: 1px solid #e5ede5;
+    box-shadow: 0 2px 10px rgba(40,61,51,.04);
 }
-.d-service-card h5 { color: #123c3c; }
-.d-service-card p { color: #5b6b73; }
+.d-service-card h5 { color: #204d40; }
+.d-service-card p { color: #65776b; }
 
 .d-cat-card {
     background: #ffffff;
-    border: 1px solid #e9f0f2;
-    box-shadow: 0 3px 14px rgba(27,43,51,.06);
+    border: 1px solid #e5ede5;
+    box-shadow: 0 3px 14px rgba(40,61,51,.06);
 }
 .d-cat-card:hover {
-    border-color: #0f7b7b;
-    box-shadow: 0 12px 30px rgba(15,123,123,.16);
+    border-color: #4f8068;
+    box-shadow: 0 12px 30px rgba(79,128,104,.16);
     transform: translateY(-4px);
 }
-.d-cat-card h4 { color: #123c3c; }
-.d-cat-card .cat-count { color: #5b6b73; }
+.d-cat-card h4 { color: #204d40; }
+.d-cat-card .cat-count { color: #65776b; }
 
 /* آیکون برداری دسته‌بندی — به‌جای فایل SVG؛ هیچ درخواست شبکه‌ای و
    هیچ امکان تصویر شکسته (۴۰۴) وجود ندارد. */
@@ -353,8 +353,8 @@ a:hover, a:focus { color: #0a5c5c; }
     width: 90px;
     height: 90px;
     border-radius: 50%;
-    background: linear-gradient(145deg, #e6f4f3, #d3ecea);
-    color: #0f7b7b;
+    background: linear-gradient(145deg, #e7f1e7, #d6e8d8);
+    color: #4f8068;
     font-size: 38px;
     line-height: 1;
 }
@@ -364,30 +364,30 @@ a:hover, a:focus { color: #0a5c5c; }
 }
 
 .d-trust {
-    background: linear-gradient(180deg, #ffffff 0%, #f2f8f9 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #eef5ed 100%);
 }
 .d-trust-feature .tf-icon {
-    background: #e6f4f3;
-    color: #0f7b7b;
+    background: #e7f1e7;
+    color: #4f8068;
 }
-.d-trust-feature h5 { color: #123c3c; }
-.d-trust-feature p { color: #5b6b73; }
+.d-trust-feature h5 { color: #204d40; }
+.d-trust-feature p { color: #65776b; }
 
 /* ماکت کناری بخش «راهنمای خرید» — جانشین ماکت «گواهی اصالت» */
 .d-cert-mockup {
     background: #ffffff;
-    border: 1px solid #e3ecef;
-    box-shadow: 0 14px 40px rgba(27,43,51,.10);
+    border: 1px solid #e0eae0;
+    box-shadow: 0 14px 40px rgba(40,61,51,.10);
 }
 .d-cert-mockup .cert-head h3,
-.d-cert-mockup .cert-head h6 { color: #123c3c; }
-.d-cert-mockup .cert-row { color: #35454d; border-bottom: 1px solid #eef4f6; }
-.d-cert-mockup .cert-row span:last-child { color: #0f7b7b; font-weight: 600; }
+.d-cert-mockup .cert-head h6 { color: #204d40; }
+.d-cert-mockup .cert-row { color: #42554a; border-bottom: 1px solid #ecf2ea; }
+.d-cert-mockup .cert-row span:last-child { color: #4f8068; font-weight: 600; }
 .d-cert-mockup .cert-seal {
     background: var(--grad-gold);
     color: #ffffff;
 }
-.d-cert-mockup .cert-qr { background: #eef4f6; border: 1px solid #dbe6ea; }
+.d-cert-mockup .cert-qr { background: #ecf2ea; border: 1px solid #d8e5d8; }
 
 .d-articles { background: #ffffff; }
 
@@ -400,9 +400,9 @@ a:hover, a:focus { color: #0a5c5c; }
 
 /* نشان‌های تخفیف و ویژه با مرجانی */
 .d-price .new,
-.product-price-box .new-price { color: #0f7b7b; }
+.product-price-box .new-price { color: #4f8068; }
 .d-price .old,
-.product-price-box .old-price { color: #8fa0a7; }
+.product-price-box .old-price { color: #8c9b90; }
 
 /* ═══════════════════════════════════════════════════════════════════════
    ۷) کارت محصول — تمیز، سفید، سایه نرم
@@ -412,26 +412,26 @@ a:hover, a:focus { color: #0a5c5c; }
 .hover-bg,
 .cart-product-row {
     background: #ffffff;
-    border-color: #e9f0f2;
+    border-color: #e5ede5;
 }
 .product-card,
-.hover-bg { box-shadow: 0 2px 10px rgba(27,43,51,.05); }
+.hover-bg { box-shadow: 0 2px 10px rgba(40,61,51,.05); }
 .product-title,
 .hover-bg h3 a,
-.card-title { color: #1b2b33; }
+.card-title { color: #283d33; }
 .product-title:hover,
-.hover-bg h3 a:hover { color: #0f7b7b; }
+.hover-bg h3 a:hover { color: #4f8068; }
 
 /* دکمه‌های خرید */
 .btn-primary,
 .btn-styled {
     background: var(--grad-gold) !important;
-    border-color: #0f7b7b !important;
+    border-color: #4f8068 !important;
     color: #ffffff !important;
 }
 .btn-primary:hover,
 .btn-styled:hover {
-    background: linear-gradient(135deg, #0a5c5c 0%, #0f7b7b 100%) !important;
+    background: linear-gradient(135deg, #315d4d 0%, #4f8068 100%) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -439,15 +439,15 @@ a:hover, a:focus { color: #0a5c5c; }
    ═══════════════════════════════════════════════════════════════════════ */
 .d-footer {
     background: #ffffff;
-    border-top: 3px solid #0f7b7b;
-    box-shadow: 0 -2px 16px rgba(27,43,51,.05);
+    border-top: 3px solid #4f8068;
+    box-shadow: 0 -2px 16px rgba(40,61,51,.05);
 }
 .d-footer-perks {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     padding: 26px 0;
-    border-bottom: 1px solid #eef4f6;
+    border-bottom: 1px solid #ecf2ea;
 }
 .d-perk {
     display: flex;
@@ -462,44 +462,44 @@ a:hover, a:focus { color: #0a5c5c; }
     height: 46px;
     flex: 0 0 46px;
     border-radius: 12px;
-    background: #e6f4f3;
-    color: #0f7b7b;
+    background: #e7f1e7;
+    color: #4f8068;
     font-size: 22px;
 }
-.d-perk-txt strong { display: block; color: #123c3c; font-size: 14px; }
-.d-perk-txt span { display: block; color: #5b6b73; font-size: 12.5px; }
+.d-perk-txt strong { display: block; color: #204d40; font-size: 14px; }
+.d-perk-txt span { display: block; color: #65776b; font-size: 12.5px; }
 
-.d-footer .d-logo-text .brand-name { color: #123c3c; }
-.d-footer .d-logo-text .brand-tag { color: #5b6b73; }
-.d-footer h5 { color: #123c3c; }
+.d-footer .d-logo-text .brand-name { color: #204d40; }
+.d-footer .d-logo-text .brand-tag { color: #65776b; }
+.d-footer h5 { color: #204d40; }
 .d-footer-links a,
-.d-footer-contact li { color: #5b6b73; }
-.d-footer-links a:hover { color: #0f7b7b; }
-.d-footer-about { color: #5b6b73; }
+.d-footer-contact li { color: #65776b; }
+.d-footer-links a:hover { color: #4f8068; }
+.d-footer-about { color: #65776b; }
 .d-footer-social a {
-    background: #eef4f6;
-    color: #35454d;
+    background: #ecf2ea;
+    color: #42554a;
 }
-.d-footer-social a:hover { background: #0f7b7b; color: #ffffff; }
+.d-footer-social a:hover { background: #4f8068; color: #ffffff; }
 .d-footer-bottom {
-    border-top: 1px solid #eef4f6;
-    color: #5b6b73;
+    border-top: 1px solid #ecf2ea;
+    color: #65776b;
 }
-.d-newsletter-note { color: #5b6b73; font-size: 12.5px; margin: 4px 0 8px; }
+.d-newsletter-note { color: #65776b; font-size: 12.5px; margin: 4px 0 8px; }
 .d-newsletter-form input {
-    background: #f7fafb;
-    border: 1px solid #e3ecef;
-    color: #1b2b33;
+    background: #f7faf5;
+    border: 1px solid #e0eae0;
+    color: #283d33;
 }
-.d-newsletter-form button { background: #0f7b7b; color: #ffffff; }
+.d-newsletter-form button { background: #4f8068; color: #ffffff; }
 
 /* ═══════════════════════════════════════════════════════════════════════
    ۹) اسکرول‌بار — هماهنگ با تم روشن
    ═══════════════════════════════════════════════════════════════════════ */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #f2f6f7; }
-::-webkit-scrollbar-thumb { background: #c3d5da; border-radius: 6px; }
-::-webkit-scrollbar-thumb:hover { background: #0f7b7b; }
+::-webkit-scrollbar-track { background: #f1f5ef; }
+::-webkit-scrollbar-thumb { background: #c1d3c5; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #4f8068; }
 
 /* ═══════════════════════════════════════════════════════════════════════
    ۱۰) صفحات محتوایی تازه (راهنما، سؤالات متداول، سیاست‌ها)
@@ -510,29 +510,29 @@ a:hover, a:focus { color: #0a5c5c; }
    ═══════════════════════════════════════════════════════════════════════ */
 .kp-crumb {
     font-size: 13px;
-    color: #5b6b73;
+    color: #65776b;
     margin-bottom: 14px;
     display: flex;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
 }
-.kp-crumb a { color: #0f7b7b; text-decoration: none; }
+.kp-crumb a { color: #4f8068; text-decoration: none; }
 .kp-crumb a:hover { text-decoration: underline; }
-.kp-crumb-current { color: #35454d; font-weight: 600; }
+.kp-crumb-current { color: #42554a; font-weight: 600; }
 
 .kp-page {
     border-radius: 16px;
-    box-shadow: 0 2px 14px rgba(27,43,51,.05);
+    box-shadow: 0 2px 14px rgba(40,61,51,.05);
 }
 .kp-page-title {
     font-size: clamp(22px, 2.6vw, 30px);
     font-weight: 800;
-    color: #123c3c;
+    color: #204d40;
     margin-bottom: 12px;
 }
 .kp-lead {
-    color: #5b6b73;
+    color: #65776b;
     font-size: 15.5px;
     line-height: 2;
     margin-bottom: 22px;
@@ -540,18 +540,18 @@ a:hover, a:focus { color: #0a5c5c; }
 .kp-h2 {
     font-size: clamp(17px, 1.6vw, 21px);
     font-weight: 700;
-    color: #123c3c;
+    color: #204d40;
     margin: 30px 0 12px;
     padding-right: 12px;
-    border-right: 4px solid #0f7b7b;
+    border-right: 4px solid #4f8068;
     line-height: 1.6;
 }
-.kp-page p { color: #35454d; line-height: 2; }
-.kp-page a { color: #0f7b7b; text-decoration: underline; text-underline-offset: 3px; }
+.kp-page p { color: #42554a; line-height: 2; }
+.kp-page a { color: #4f8068; text-decoration: underline; text-underline-offset: 3px; }
 .kp-list { padding-right: 20px; margin: 0 0 12px; }
-.kp-list li { color: #35454d; line-height: 2; margin-bottom: 6px; }
+.kp-list li { color: #42554a; line-height: 2; margin-bottom: 6px; }
 
-/* گام‌های خرید — شماره‌گذاری دایره‌ای فیروزه‌ای */
+/* گام‌های خرید — شماره‌گذاری دایره‌ای سبز جنگلی */
 .kp-steps {
     list-style: none;
     padding: 0;
@@ -561,7 +561,7 @@ a:hover, a:focus { color: #0a5c5c; }
 .kp-steps > li {
     position: relative;
     padding: 18px 62px 18px 0;
-    border-bottom: 1px solid #eef4f6;
+    border-bottom: 1px solid #ecf2ea;
     counter-increment: kpstep;
 }
 .kp-steps > li:last-child { border-bottom: none; }
@@ -583,15 +583,15 @@ a:hover, a:focus { color: #0a5c5c; }
 }
 .kp-steps > li > strong {
     display: block;
-    color: #123c3c;
+    color: #204d40;
     font-size: 16px;
     margin-bottom: 6px;
 }
-.kp-steps > li > p { margin: 0; color: #5b6b73; }
+.kp-steps > li > p { margin: 0; color: #65776b; }
 
 /* سؤالات متداول */
 .kp-faq .d-faq-item {
-    border: 1px solid #e9f0f2;
+    border: 1px solid #e5ede5;
     border-radius: 12px;
     margin-bottom: 10px;
     overflow: hidden;
@@ -605,16 +605,16 @@ a:hover, a:focus { color: #0a5c5c; }
     justify-content: space-between;
     gap: 12px;
     font-weight: 600;
-    color: #123c3c;
-    background: #fbfdfd;
+    color: #204d40;
+    background: #fbfcf9;
 }
-.kp-faq .d-faq-q i { color: #0f7b7b; transition: transform .25s ease; }
-.kp-faq .d-faq-item.open .d-faq-q { background: #e6f4f3; }
+.kp-faq .d-faq-q i { color: #4f8068; transition: transform .25s ease; }
+.kp-faq .d-faq-item.open .d-faq-q { background: #e7f1e7; }
 .kp-faq .d-faq-item.open .d-faq-q i { transform: rotate(180deg); }
 .kp-faq .d-faq-a {
     display: none;
     padding: 0 18px 18px;
-    color: #35454d;
+    color: #42554a;
     line-height: 2;
 }
 .kp-faq .d-faq-item.open .d-faq-a { display: block; }
@@ -623,46 +623,46 @@ a:hover, a:focus { color: #0a5c5c; }
 .kp-empty-state {
     text-align: center;
     padding: 44px 20px;
-    background: #f7fafb;
-    border: 1px dashed #c9dde2;
+    background: #f7faf5;
+    border: 1px dashed #cbdccf;
     border-radius: 14px;
 }
 .kp-empty-state i {
     font-size: 44px;
-    color: #0f7b7b;
+    color: #4f8068;
     display: block;
     margin-bottom: 14px;
 }
 .kp-empty-state h3 {
     font-size: 18px;
-    color: #123c3c;
+    color: #204d40;
     margin-bottom: 8px;
     font-weight: 700;
 }
-.kp-empty-state p { color: #5b6b73; margin: 0; }
+.kp-empty-state p { color: #65776b; margin: 0; }
 
 /* ستون کناری صفحات محتوایی */
-.kp-side { border-radius: 16px; box-shadow: 0 2px 14px rgba(27,43,51,.05); }
+.kp-side { border-radius: 16px; box-shadow: 0 2px 14px rgba(40,61,51,.05); }
 .kp-side-title {
     font-size: 16px;
     font-weight: 700;
-    color: #123c3c;
+    color: #204d40;
     margin-bottom: 12px;
     padding-bottom: 10px;
-    border-bottom: 2px solid #e6f4f3;
+    border-bottom: 2px solid #e7f1e7;
 }
 .kp-side-links { list-style: none; padding: 0; margin: 0; }
-.kp-side-links li { border-bottom: 1px solid #f2f6f7; }
+.kp-side-links li { border-bottom: 1px solid #f1f5ef; }
 .kp-side-links li:last-child { border-bottom: none; }
 .kp-side-links a {
     display: block;
     padding: 9px 0;
-    color: #35454d;
+    color: #42554a;
     text-decoration: none;
     font-size: 14px;
     transition: color .2s ease, padding-right .2s ease;
 }
-.kp-side-links a:hover { color: #0f7b7b; padding-right: 5px; }
+.kp-side-links a:hover { color: #4f8068; padding-right: 5px; }
 
 /* ═══════════════════════════════════════════════════════════════════════
    ۱۱) فوتر موبایلی (چسبان پایین صفحه)
@@ -678,8 +678,8 @@ a:hover, a:focus { color: #0a5c5c; }
     left: 0;
     z-index: 1030;
     background: #ffffff;
-    border-top: 1px solid #e3ecef;
-    box-shadow: 0 -4px 20px rgba(27,43,51,.10);
+    border-top: 1px solid #e0eae0;
+    box-shadow: 0 -4px 20px rgba(40,61,51,.10);
     padding-bottom: env(safe-area-inset-bottom, 0);
     direction: rtl;
 }
@@ -696,7 +696,7 @@ a:hover, a:focus { color: #0a5c5c; }
     justify-content: center;
     gap: 3px;
     padding: 8px 2px 7px;
-    color: #5b6b73;
+    color: #65776b;
     text-decoration: none;
     font-size: 10.5px;
     line-height: 1.4;
@@ -706,14 +706,14 @@ a:hover, a:focus { color: #0a5c5c; }
 }
 .kp-mf-item i { font-size: 20px; line-height: 1; }
 .kp-mf-item:hover,
-.kp-mf-item:focus { color: #0f7b7b; text-decoration: none; }
-.kp-mf-item.active { color: #0f7b7b; background: #f2f8f9; }
+.kp-mf-item:focus { color: #4f8068; text-decoration: none; }
+.kp-mf-item.active { color: #4f8068; background: #eef5ed; }
 .kp-mf-item.active::before {
     content: "";
     position: absolute;
     top: 0; right: 22%; left: 22%;
     height: 2px;
-    background: #0f7b7b;
+    background: #4f8068;
     border-radius: 0 0 3px 3px;
 }
 .kp-mf-badge {
