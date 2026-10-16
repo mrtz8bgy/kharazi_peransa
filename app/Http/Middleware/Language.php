@@ -28,6 +28,13 @@ class Language
             $locale = 'en';
         }
 
+        if (!\App\Language::where('code', $locale)->exists()) {
+            $defaultLanguage = config('drikana.default_language');
+            $locale = $defaultLanguage && \App\Language::where('code', $defaultLanguage)->exists()
+                ? $defaultLanguage
+                : config('app.locale');
+        }
+
         App::setLocale($locale);
         $request->session()->put('locale', $locale);
 

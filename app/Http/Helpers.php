@@ -234,24 +234,30 @@ if (!function_exists('combinations')) {
 if (!function_exists('filter_products')) {
     function filter_products($products)
     {
+        $vendor_system_enabled = \Illuminate\Support\Facades\Schema::hasTable('business_settings')
+            && BusinessSetting::where('type', 'vendor_system_activation')->value('value') == 1;
+
+        if (!$vendor_system_enabled) {
+            return $products->where('published', '1')->where('added_by', 'admin');
+        }
 
         $verified_sellers = verified_sellers_id();
 
-        if (BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1) {
-            return $products->where('published', '1')->orderBy('created_at', 'desc')->where(function ($p) use ($verified_sellers) {
-                $p->where('added_by', 'admin')->orWhere(function ($q) use ($verified_sellers) {
-                    $q->whereIn('user_id', $verified_sellers);
-                });
+        return $products->where('published', '1')->orderBy('created_at', 'desc')->where(function ($p) use ($verified_sellers) {
+            $p->where('added_by', 'admin')->orWhere(function ($q) use ($verified_sellers) {
+                $q->whereIn('user_id', $verified_sellers);
             });
-        } else {
-            return $products->where('published', '1')->where('added_by', 'admin');
-        }
+        });
     }
 }
 
 if (!function_exists('verified_sellers_id')) {
     function verified_sellers_id()
     {
+        if (!\Illuminate\Support\Facades\Schema::hasTable('sellers')) {
+            return [];
+        }
+
         return App\Seller::where('verification_status', 1)->get()->pluck('user_id')->toArray();
     }
 }
