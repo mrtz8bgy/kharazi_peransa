@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+@if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
+<html dir="rtl" lang="en">
+@else
+<html lang="en">
+@endif
+<head>
+
+@php
+    $generalSetting = \Illuminate\Support\Facades\Schema::hasTable('general_settings') ? \App\GeneralSetting::first() : null;
+    $seoSetting = \Illuminate\Support\Facades\Schema::hasTable('seo_settings') ? \App\SeoSetting::first() : null;
+    $seoDescription = $seoSetting && $seoSetting->description ? $seoSetting->description : config('app.name', 'Laravel');
+    $seoKeyword = $seoSetting && $seoSetting->keyword ? $seoSetting->keyword : '';
+    $seoAuthor = $seoSetting && $seoSetting->author ? $seoSetting->author : config('app.name', 'Laravel');
+    $seoSitemap = $seoSetting && $seoSetting->sitemap_link ? $seoSetting->sitemap_link : '';
+@endphp
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<title>@yield('meta_title', config('app.name', 'Laravel'))</title>
+<meta name="description" content="@yield('meta_description', $seoDescription)" />
+<meta name="keywords" content="@yield('meta_keywords', $seoKeyword)">
+<meta name="author" content="{{ $seoAuthor }}">
+<meta name="sitemap_link" content="{{ $seoSitemap }}">
+
+@yield('meta')
+
+@if(!isset($detailedProduct))
+    <!-- Schema.org markup for Google+ -->
+    <meta itemprop="name" content="{{ config('app.name', 'Laravel') }}">
+    <meta itemprop="description" content="{{ $seoDescription }}">
+    <meta itemprop="image" content="{{ asset(($generalSetting && $generalSetting->logo) ? $generalSetting->logo : 'frontend/images/logo/drikana-logo.svg') }}">
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="product">
+    <meta name="twitter:site" content="@publisher_handle">
+    <meta name="twitter:title" content="{{ config('app.name', 'Laravel') }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:creator" content="@author_handle">
+    <meta name="twitter:image" content="{{ asset(($generalSetting && $generalSetting->logo) ? $generalSetting->logo : 'frontend/images/logo/drikana-logo.svg') }}">
+
+    <!-- Open Graph data -->
+    <meta property="og:title" content="{{ config('app.name', 'Laravel') }}" />
+    <meta property="og:type" content="Ecommerce Site" />
+    <meta property="og:url" content="{{ route('home') }}" />
+    <meta property="og:image" content="{{ asset(($generalSetting && $generalSetting->logo) ? $generalSetting->logo : 'frontend/images/logo/drikana-logo.svg') }}" />
+    <meta property="og:description" content="{{ $seoDescription }}" />
+    <meta property="og:site_name" content="{{ config('app.name') }}" />
+@endif
+
+<!-- Favicon -->
+<link type="image/x-icon" href="{{ asset(($generalSetting && $generalSetting->favicon) ? $generalSetting->favicon : 'frontend/images/logo/favicon.svg') }}" rel="shortcut icon" />
+
+<!-- فونت فارسی لوکس Vazirmatn -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+
+<!-- تم لوکس Drikana Gold & Jewelry -->
+<link type="text/css" href="{{ asset('frontend/css/drikana-luxury.css') }}?v={{ filemtime(public_path('frontend/css/drikana-luxury.css')) }}" rel="stylesheet" media="all">
+<link type="text/css" href="{{ asset('frontend/css/megamenu-lux.css') }}?v={{ filemtime(public_path('frontend/css/megamenu-lux.css')) }}" rel="stylesheet" media="all">
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}" type="text/css" media="all">
+
+<!-- Icons -->
+<link rel="stylesheet" href="{{ asset('frontend/css/font-awesome.min.css') }}" type="text/css" media="none" onload="if(media!='all')media='all'">
+<link rel="stylesheet" href="{{ asset('frontend/css/line-awesome.min.css') }}" type="text/css" media="none" onload="if(media!='all')media='all'">
+
+<link type="text/css" href="{{ asset('frontend/css/bootstrap-tagsinput.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+<link type="text/css" href="{{ asset('frontend/css/jodit.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+<link type="text/css" href="{{ asset('frontend/css/sweetalert2.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+<link type="text/css" href="{{ asset('frontend/css/slick.css') }}" rel="stylesheet" media="all">
+<link type="text/css" href="{{ asset('frontend/css/xzoom.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+<link type="text/css" href="{{ asset('frontend/css/jquery.share.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+<link type="text/css" href="{{ asset('frontend/css/intlTelInput.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+<link type="text/css" href="{{ asset('css/spectrum.css')}}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+
+<!-- Global style (main) -->
+<link type="text/css" href="{{ asset('frontend/css/active-shop.css') }}" rel="stylesheet" media="all">
+
+
+<link type="text/css" href="{{ asset('frontend/css/main.css') }}" rel="stylesheet" media="all">
+
+@if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
+     <!-- RTL -->
+    <link type="text/css" href="{{ asset('frontend/css/active.rtl.css') }}" rel="stylesheet" media="all">
+    <link type="text/css" href="{{ asset('frontend/css/custom-rtl.css') }}" rel="stylesheet" media="all">
+@endif
+<link href="{{ asset('css/jquery.md.bootstrap.datetimepicker.style.css') }}" rel="stylesheet"> 
+<!-- Facebook Chat style -->
+<link href="{{ asset('frontend/css/fb-style.css')}}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+
+<!-- color theme -->
+@php $frontendColor = ($generalSetting && $generalSetting->frontend_color) ? $generalSetting->frontend_color : 'default'; @endphp
+<link href="{{ asset('frontend/css/colors/'.$frontendColor.'.css')}}" rel="stylesheet" media="all">
+
+<!-- Custom style -->
+<link type="text/css" href="{{ asset('frontend/css/custom-style.css') }}" rel="stylesheet" media="all">
+<link type="text/css" href="{{ asset('css/drikana/store-menu.css') }}?v={{ filemtime(public_path('css/drikana/store-menu.css')) }}" rel="stylesheet" media="all">
+
+<!-- jQuery -->
+<script src="{{ asset('frontend/js/vendor/jquery.min.js') }}"></script>
+
+{{-- =============================================== --}}
+{{-- بخش سرویس‌های خارجی - همگی غیرفعال شدند --}}
+{{-- برای فعال کردن مجدد، کامنت‌ها را بردارید --}}
+{{-- =============================================== --}}
+
+{{-- Google Analytics - غیرفعال شد
+@if (\App\BusinessSetting::where('type', 'google_analytics')->first()->value == 1)
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('drikana.tracking_id') }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ config('drikana.tracking_id') }}');
+    </script>
+@endif
+--}}
+
+{{-- Facebook Pixel - غیرفعال شد
+@if (\App\BusinessSetting::where('type', 'facebook_pixel')->first()->value == 1)
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '{{ config('drikana.tracking.facebook_pixel_id') }}');
+  fbq('track', 'PageView');
+</script>
+<noscript>
+  <img class="u-display-none-3" height="1" width="1" 
+ src="https://www.facebook.com/tr?id={{ config('drikana.tracking.facebook_pixel_id') }}/&ev=PageView&noscript=1"/>
+</noscript>
+@endif
+--}}
+
+{{-- ─────────────────────────────────────────────────────────────────
+     استایل‌های صفحه‌محور.
+     صفحاتی که CSS اختصاصی دارند، آن را با @push('styles') به این
+     جایگاه می‌فرستند. این استایل‌ها عمداً «پس از» تمام فایل‌های پایه
+     بارگذاری می‌شوند تا مانند گذشته بر آن‌ها اولویت داشته باشند.
+     پیش از این، این CSS به‌صورت بلوک <style> در میانه صفحه قرار داشت
+     که هم صفحه را سنگین می‌کرد و هم کد را ناخوانا می‌ساخت.
+     ───────────────────────────────────────────────────────────── --}}
+@stack('styles')
+
+    {{-- کلاس‌های استخراج‌شده از استایل درون‌خطی ویوها (بازبینی L-04) --}}
+    <link rel="stylesheet" href="{{ asset('css/drikana/utilities.css') }}">
+</head>
+<body>
+
+
+<!-- MAIN WRAPPER -->
+<div class="body-wrap shop-default shop-cards shop-tech gry-bg">
+
+    <!-- Header -->
+    @include('frontend.inc.nav')
+
+    @yield('content')
+
+    @include('frontend.inc.footer')
+
+    @include('frontend.partials.modal')
+
+    {{-- Facebook Chat - غیرفعال شد
+    @if (\App\BusinessSetting::where('type', 'facebook_chat')->first()->value == 1)
+        <div id="fb-root"></div>
+        <div class="fb-customerchat"
+          attribution=setup_tool
+          page_id="{{ config('drikana.tracking.facebook_page_id') }}">
+        </div>
+    @endif
+    --}}
+
+    <div class="modal fade" id="addToCart">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom product-modal" id="modal-size" role="document">
+            <div class="modal-content position-relative">
+                <div class="c-preloader">
+                    <i class="fa fa-spin fa-spinner"></i>
+                </div>
+                <button type="button" class="close absolute-close-btn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div id="addToCart-modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- END: body-wrap -->
+
+<!-- SCRIPTS -->
+<a href="#" class="back-to-top btn-back-to-top"></a>
+
+<!-- Core -->
+<script src="{{ asset('frontend/js/vendor/popper.min.js') }}"></script>
+<script src="{{ asset('frontend/js/vendor/bootstrap.min.js') }}"></script>
+
+<!-- Plugins: Sorted A-Z -->
+<script src="{{ asset('frontend/js/jquery.countdown.min.js') }}"></script>
+<script src="{{ asset('frontend/js/select2.min.js') }}"></script>
+<script src="{{ asset('frontend/js/nouislider.min.js') }}"></script>
+
+
+<script src="{{ asset('frontend/js/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('frontend/js/slick.min.js') }}"></script>
+
+<script src="{{ asset('frontend/js/jquery.share.js') }}"></script>
+
+<script>
+    function showFrontendAlert(type, message){
+        if(type == 'danger'){
+            type = 'error';
+        }
+        swal({
+            position: 'top-end',
+            type: type,
+            title: message,
+            showConfirmButton: false,
+            timer: 3000
+        });
+    }
+</script>
+
+@foreach (session('flash_notification', collect())->toArray() as $message)
+    <script>
+        showFrontendAlert('{{ $message['level'] }}', '{{ $message['message'] }}');
+    </script>
+@endforeach
+
+<script src="{{ asset('frontend/js/bootstrap-tagsinput.min.js') }}"></script>
+<script src="{{ asset('frontend/js/jodit.min.js') }}"></script>
+<script src="{{ asset('frontend/js/xzoom.min.js') }}"></script>
+{{-- Facebook script - غیرفعال شد
+<script src="{{ asset('frontend/js/fb-script.js') }}"></script>
+--}}
+<script src="{{ asset('frontend/js/lazysizes.min.js') }}"></script>
+<script src="{{ asset('frontend/js/intlTelInput.min.js') }}"></script>
+<script src="{{ asset('js/jquery.md.bootstrap.datetimepicker.js') }}"></script>
+<!-- App JS -->
+<script src="{{ asset('frontend/js/active-shop.js') }}"></script>
+<script src="{{ asset('frontend/js/main.js') }}"></script>
+
+<script>
+
+    $(document).ready(function() {
+        $('.category-nav-element').each(function(i, el) {
+            $(el).on('mouseover', function(){
+                if(!$(el).find('.sub-cat-menu').hasClass('loaded')){
+                    $.post('{{ route('category.elements') }}', {_token: '{{ csrf_token()}}', id:$(el).data('id')}, function(data){
+                        $(el).find('.sub-cat-menu').addClass('loaded').html(data);
+                    });
+                }
+            });
+        });
+        if ($('#lang-change').length > 0) {
+            $('#lang-change .dropdown-item a').each(function() {
+                $(this).on('click', function(e){
+                    e.preventDefault();
+                    var $this = $(this);
+                    var locale = $this.data('flag');
+                    $.post('{{ route('language.change') }}',{_token:'{{ csrf_token() }}', locale:locale}, function(data){
+                        location.reload();
+                    });
+
+                });
+            });
+        }
+
+        if ($('#currency-change').length > 0) {
+            $('#currency-change .dropdown-item a').each(function() {
+                $(this).on('click', function(e){
+                    e.preventDefault();
+                    var $this = $(this);
+                    var currency_code = $this.data('currency');
+                    $.post('{{ route('currency.change') }}',{_token:'{{ csrf_token() }}', currency_code:currency_code}, function(data){
+                        location.reload();
+                    });
+
+                });
+            });
+        }
+    });
+
+    $('#search').on('keyup', function(){
+        search();
+    });
+
+    $('#search').on('focus', function(){
+        search();
+    });
+
+    function search(){
+        var search = $('#search').val();
+        if(search.length > 0){
+            $('body').addClass("typed-search-box-shown");
+
+            $('.typed-search-box').removeClass('d-none');
+            $('.search-preloader').removeClass('d-none');
+            $.post('{{ route('search.ajax') }}', { _token: '{{ @csrf_token() }}', search:search}, function(data){
+                if(data == '0'){
+                    // $('.typed-search-box').addClass('d-none');
+                    $('#search-content').html(null);
+                    $('.typed-search-box .search-nothing').removeClass('d-none').html('"نتیجه ای برای جستجوی  <strong>"'+search+'</strong> یافت نشد!');
+                    $('.search-preloader').addClass('d-none');
+
+                }
+                else{
+                    $('.typed-search-box .search-nothing').addClass('d-none').html(null);
+                    $('#search-content').html(data);
+                    $('.search-preloader').addClass('d-none');
+                }
+            });
+        }
+        else {
+            $('.typed-search-box').addClass('d-none');
+            $('body').removeClass("typed-search-box-shown");
+        }
+    }
+
+    function updateNavCart(){
+        $.post('{{ route('cart.nav_cart') }}', {_token:'{{ csrf_token() }}'}, function(data){
+            var count = $('<div>').html(data).find('.nav-box-number').first().text().trim();
+            $('#cart_items_sidenav').text(count || '0');
+            $('#cart_items').html(data);
+        });
+    }
+
+    function removeFromCart(key){
+        $.post('{{ route('cart.removeFromCart') }}', {_token:'{{ csrf_token() }}', key:key}, function(data){
+            updateNavCart();
+            $('#cart-summary').html(data);
+            showFrontendAlert('success', 'محصول از سبد خرید حذف شد');
+            $('#cart_items_sidenav').html(parseInt($('#cart_items_sidenav').html())-1);
+        });
+    }
+
+    function addToCompare(id){
+        $.post('{{ route('compare.addToCompare') }}', {_token:'{{ csrf_token() }}', id:id}, function(data){
+            $('#compare').html(data);
+            showFrontendAlert('success', 'محصول به لیست مقایسه اضافه شد');
+            $('#compare_items_sidenav').html(parseInt($('#compare_items_sidenav').html())+1);
+        });
+    }
+
+    function addToWishList(id){
+        @if (Auth::check() && (Auth::user()->user_type == 'customer' || Auth::user()->user_type == 'seller'))
+            $.post('{{ route('wishlists.store') }}', {_token:'{{ csrf_token() }}', id:id}, function(data){
+                if(data != 0){
+                    $('#wishlist').html(data);
+                    showFrontendAlert('success', 'محصول به لیست علاقه مندی اضافه شد');
+                }
+                else{
+                    showFrontendAlert('warning', 'لطفا وارد حساب کاربری خود شوید');
+                }
+            });
+        @else
+            showFrontendAlert('warning', 'لطفا وارد حساب کاربری خود شوید');
+        @endif
+    }
+
+    function showAddToCartModal(id){
+        if(!$('#modal-size').hasClass('modal-lg')){
+            $('#modal-size').addClass('modal-lg');
+        }
+        $('#addToCart-modal-body').html(null);
+        $('#addToCart').modal();
+        $('.c-preloader').show();
+        $.post('{{ route('cart.showCartModal') }}', {_token:'{{ csrf_token() }}', id:id}, function(data){
+            $('.c-preloader').hide();
+            $('#addToCart-modal-body').html(data);
+            $('.xzoom, .xzoom-gallery').xzoom({
+                Xoffset: 20,
+                bg: true,
+                tint: '#000',
+                defaultScale: -1
+            });
+            getVariantPrice();
+        }).fail(function(xhr){
+            $('.c-preloader').hide();
+            showFrontendAlert('danger', xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'نمایش فرم محصول با خطا مواجه شد');
+        });
+    }
+
+    $('#option-choice-form input').on('change', function(){
+        getVariantPrice();
+    });
+
+    function getVariantPrice(){
+        if($('#option-choice-form input[name=quantity]').val() > 0 && checkAddToCartValidity()){
+            $.ajax({
+               type:"POST",
+               url: '{{ route('products.variant_price') }}',
+               data: $('#option-choice-form').serializeArray(),
+               success: function(data){
+                   $('#option-choice-form #chosen_price_div').removeClass('d-none');
+                   $('#option-choice-form #chosen_price_div #chosen_price').html(data.price);
+                   $('#available-quantity').html(data.quantity);
+                   $('.input-number').prop('max', data.quantity);
+                   //console.log(data.quantity);
+                   if(parseInt(data.quantity) < 1 && data.digital  != 1){
+                       $('.buy-now').hide();
+                       $('.add-to-cart').hide();
+                   }
+                   else{
+                       $('.buy-now').show();
+                       $('.add-to-cart').show();
+                   }
+               }
+           });
+        }
+    }
+
+    function checkAddToCartValidity(){
+        var names = {};
+        $('#option-choice-form input:radio').each(function() { // find unique names
+              names[$(this).attr('name')] = true;
+        });
+        var count = 0;
+        $.each(names, function() { // then count them
+              count++;
+        });
+
+        if($('#option-choice-form input:radio:checked').length == count){
+            return true;
+        }
+
+        return false;
+    }
+
+    function addToCart(){
+        if(checkAddToCartValidity()) {
+            $('#addToCart').modal();
+            $('.c-preloader').show();
+            $.ajax({
+               type:"POST",
+               url: '{{ route('cart.addToCart') }}',
+               data: $('#option-choice-form').serializeArray(),
+               success: function(data){
+                   $('#addToCart-modal-body').html(null);
+                   $('.c-preloader').hide();
+                   $('#modal-size').removeClass('modal-lg');
+                   $('#addToCart-modal-body').html(data);
+                   updateNavCart();
+                   $('#cart_items_sidenav').html(parseInt($('#cart_items_sidenav').html())+1);
+               },
+               error: function(xhr){
+                   $('.c-preloader').hide();
+                   showFrontendAlert('danger', xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'افزودن محصول به سبد خرید انجام نشد');
+               }
+           });
+        }
+        else{
+            showFrontendAlert('warning', 'لطفا تمامی موارد را انتخاب کنید');
+        }
+    }
+
+    function buyNow(){
+        if(checkAddToCartValidity()) {
+            $('#addToCart').modal();
+            $('.c-preloader').show();
+            $.ajax({
+               type:"POST",
+               url: '{{ route('cart.addToCart') }}',
+               data: $('#option-choice-form').serializeArray(),
+               success: function(data){
+                   //$('#addToCart-modal-body').html(null);
+                   //$('.c-preloader').hide();
+                   //$('#modal-size').removeClass('modal-lg');
+                   //$('#addToCart-modal-body').html(data);
+                   updateNavCart();
+                   $('#cart_items_sidenav').html(parseInt($('#cart_items_sidenav').html())+1);
+                   window.location.replace("{{ route('cart') }}");
+               },
+               error: function(xhr){
+                   $('.c-preloader').hide();
+                   showFrontendAlert('danger', xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'افزودن محصول به سبد خرید انجام نشد');
+               }
+           });
+        }
+        else{
+            showFrontendAlert('warning', 'لطفا تمامی موارد را انتخاب کنید');
+        }
+    }
+
+    function show_purchase_history_details(order_id)
+    {
+        $('#order-details-modal-body').html(null);
+
+        if(!$('#modal-size').hasClass('modal-lg')){
+            $('#modal-size').addClass('modal-lg');
+        }
+
+        $.post('{{ route('purchase_history.details') }}', { _token : '{{ @csrf_token() }}', order_id : order_id}, function(data){
+            $('#order-details-modal-body').html(data);
+            $('#order_details').modal();
+            $('.c-preloader').hide();
+        });
+    }
+
+    function show_order_details(order_id)
+    {
+        $('#order-details-modal-body').html(null);
+
+        if(!$('#modal-size').hasClass('modal-lg')){
+            $('#modal-size').addClass('modal-lg');
+        }
+
+        $.post('{{ route('orders.details') }}', { _token : '{{ @csrf_token() }}', order_id : order_id}, function(data){
+            $('#order-details-modal-body').html(data);
+            $('#order_details').modal();
+            $('.c-preloader').hide();
+        });
+    }
+
+    function cartQuantityInitialize(){
+        $('.btn-number').click(function(e) {
+            e.preventDefault();
+
+            fieldName = $(this).attr('data-field');
+            type = $(this).attr('data-type');
+            var input = $("input[name='" + fieldName + "']");
+            var currentVal = parseInt(input.val());
+
+            if (!isNaN(currentVal)) {
+                if (type == 'minus') {
+
+                    if (currentVal > input.attr('min')) {
+                        input.val(currentVal - 1).change();
+                    }
+                    if (parseInt(input.val()) == input.attr('min')) {
+                        $(this).attr('disabled', true);
+                    }
+
+                } else if (type == 'plus') {
+
+                    if (currentVal < input.attr('max')) {
+                        input.val(currentVal + 1).change();
+                    }
+                    if (parseInt(input.val()) == input.attr('max')) {
+                        $(this).attr('disabled', true);
+                    }
+
+                }
+            } else {
+                input.val(0);
+            }
+        });
+
+        $('.input-number').focusin(function() {
+            $(this).data('oldValue', $(this).val());
+        });
+
+        $('.input-number').change(function() {
+
+            minValue = parseInt($(this).attr('min'));
+            maxValue = parseInt($(this).attr('max'));
+            valueCurrent = parseInt($(this).val());
+
+            name = $(this).attr('name');
+            if (valueCurrent >= minValue) {
+                $(".btn-number[data-type='minus'][data-field='" + name + "']").removeAttr('disabled')
+            } else {
+                alert('متاسفیم ! مفدار وارد شده کمتر از حد مجاز است');
+                $(this).val($(this).data('oldValue'));
+            }
+            if (valueCurrent <= maxValue) {
+                $(".btn-number[data-type='plus'][data-field='" + name + "']").removeAttr('disabled')
+            } else {
+                alert('متاسفیم ! مفدار وارد شده بیش از حد مجاز است');
+                $(this).val($(this).data('oldValue'));
+            }
+
+
+        });
+        $(".input-number").keydown(function(e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+                // Allow: Ctrl+A
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                // Allow: home, end, left, right
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    }
+
+     function imageInputInitialize(){
+         $('.custom-input-file').each(function() {
+             var $input = $(this),
+                 $label = $input.next('label'),
+                 labelVal = $label.html();
+
+             $input.on('change', function(e) {
+                 var fileName = '';
+
+                 if (this.files && this.files.length > 1)
+                     fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
+                 else if (e.target.value)
+                     fileName = e.target.value.split('\\').pop();
+
+                 if (fileName)
+                     $label.find('span').html(fileName);
+                 else
+                     $label.html(labelVal);
+             });
+
+             // Firefox bug fix
+             $input
+                 .on('focus', function() {
+                     $input.addClass('has-focus');
+                 })
+                 .on('blur', function() {
+                     $input.removeClass('has-focus');
+                 });
+         });
+     }
+
+</script>
+
+@yield('script')
+
+<!-- Back to top -->
+<button class="d-back-top" id="dBackTop" title="بازگشت به بالا" aria-label="Back to top">
+    <i class="la la-angle-up"></i>
+</button>
+
+<script>
+(function(){
+    // Back to top
+    var bk = document.getElementById('dBackTop');
+    if (bk) {
+        window.addEventListener('scroll', function(){
+            if (window.scrollY > 400) bk.classList.add('show');
+            else bk.classList.remove('show');
+        });
+        bk.addEventListener('click', function(){
+            window.scrollTo({top:0, behavior:'smooth'});
+        });
+    }
+
+    // FAQ accordion
+    document.addEventListener('click', function(e){
+        var q = e.target.closest('.d-faq-q');
+        if (!q) return;
+        var item = q.closest('.d-faq-item');
+        var isOpen = item.classList.contains('open');
+        document.querySelectorAll('.d-faq-item.open').forEach(function(i){ i.classList.remove('open'); });
+        if (!isOpen) item.classList.add('open');
+    });
+})();
+</script>
+</body>
+</html>
