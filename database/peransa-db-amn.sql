@@ -2691,7 +2691,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3043,7 +3043,7 @@ CREATE TABLE IF NOT EXISTS `searches` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3053,13 +3053,6 @@ CREATE TABLE IF NOT EXISTS `searches` (
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `searches` WRITE;
 /*!40000 ALTER TABLE `searches` DISABLE KEYS */;
-INSERT IGNORE INTO `searches` VALUES
-(1,'نخ',4,'2026-10-16 17:14:13','2026-10-16 17:53:12'),
-(2,'قیچی',4,'2026-10-16 17:14:13','2026-10-16 17:53:12'),
-(3,'کاموا',4,'2026-10-16 17:14:13','2026-10-16 17:53:12'),
-(4,'پارچه',4,'2026-10-16 17:14:14','2026-10-16 17:53:12'),
-(5,'دکمه',4,'2026-10-16 17:14:14','2026-10-16 17:53:13'),
-(6,'گلدوزی',2,'2026-10-16 17:53:13','2026-10-16 17:53:13');
 /*!40000 ALTER TABLE `searches` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -3839,4 +3832,4 @@ SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-10-16 17:54:04
+-- Dump completed on 2026-10-16 18:22:06
