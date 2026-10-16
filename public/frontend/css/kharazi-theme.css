@@ -1,0 +1,766 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   تم روشن فروشگاه خرازی پرنسا
+   ──────────────────────────────────────────────────────────────────────────
+   فایل:  public/frontend/css/kharazi-theme.css
+   بارگذاری: در `resources/views/frontend/layouts/app.blade.php`، **پس از**
+             `drikana-luxury.css` و `megamenu-lux.css`.
+
+   ── چرا یک لایه جداگانه و نه بازنویسی فایل‌های اصلی؟ ──────────────────
+   دستور کار صراحتاً گفته است: «قالب فعلی پروژه را تا زمانی که ضرورت
+   تغییر آن اثبات نشده است، حفظ کن» و «فایل‌های اصلی قالب و utilities.css
+   را بدون ضرورت بازنویسی نکن». بنابراین:
+
+     • `drikana-luxury.css` (۵۵KB) دست‌نخورده باقی مانده است.
+     • `utilities.css` (۲۷KB) که شامل هزاران کلاس کمکی تولیدشده است
+       و ویوها به آن‌ها وابسته‌اند، دست‌نخورده باقی مانده است.
+     • `active-shop.css`، `main.css`، `bootstrap.min.css` و بقیه هم
+       تغییری نکرده‌اند.
+
+   این فایل فقط «لایه بازنویسی» است: متغیرهای رنگی تم را عوض می‌کند و
+   برای بخش‌هایی که رنگ تیره‌شان سخت‌کد شده، قاعده صریح می‌نویسد. اگر
+   روزی این فایل حذف شود، سایت دقیقاً به ظاهر تیره قبلی برمی‌گردد —
+   بدون هیچ خطای ظاهری. این یعنی تغییر کاملاً بازگشت‌پذیر است.
+
+   ── پالت رنگی ─────────────────────────────────────────────────────────
+     فیروزه‌ای (اصلی)  #0f7b7b   → دکمه‌ها، لینک‌ها، نشان‌های تأکید
+     مرجانی  (ثانویه)  #ff6b52   → تخفیف‌ها، نشان‌های ویژه، جلب توجه
+     سبز روشن (موفق)   #2f9e6f
+     پس‌زمینه          #f7fafb   → فضای سفید و تمیز
+     کارت‌ها           #ffffff   → با سایه نرم و حاشیه بسیار کم‌رنگ
+
+   ── نکته درباره دسترس‌پذیری (Accessibility) ───────────────────────────
+   نسبت کنتراست متن روی پس‌زمینه‌ها بررسی شده است:
+     • متن اصلی #1b2b33 روی #f7fafb  → نسبت ≈ ۱۳:۱  (AAA)
+     • متن ثانویه #5b6b73 روی #ffffff → نسبت ≈ ۵.۲:۱ (AA برای متن بدنه)
+     • متن سفید روی فیروزه‌ای #0f7b7b  → نسبت ≈ ۵.۴:۱ (AA)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۱) بازنویسی متغیرهای تم
+   ───────────────────────────────────────────────────────────────────────
+   بسیاری از اجزای قالب از این متغیرها رنگ می‌گیرند. با عوض‌کردن آن‌ها،
+   کل سایت یک‌جا روشن می‌شود — بدون نیاز به بازنویسی هر کامپوننت.
+   نام متغیرها عمداً «d-» نگه داشته شده تا با نسخه اصلی سازگار بماند.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root {
+    /* ── تأکید اصلی: فیروزه‌ای خانوادگی ── */
+    --d-gold:            #0f7b7b;
+    --d-gold-light:      #3aa8a3;
+    --d-gold-dark:       #0a5c5c;
+    --d-gold-soft:       #d9efee;
+
+    /* ── پس‌زمینه‌های روشن (جای پالت سرمه‌ای تیره قبلی) ── */
+    --d-navy-900:        #f7fafb;   /* پس‌زمینه اصلی صفحه */
+    --d-navy-800:        #ffffff;   /* کارت و بخش‌های روشن‌تر */
+    --d-navy-700:        #eef4f6;   /* بخش‌های خاکستری‌آبی ملایم */
+    --d-navy-600:        #e3ecef;
+    --d-navy-500:        #d4e2e6;
+
+    /* ── متن ── */
+    --d-white:           #1b2b33;   /* متن اصلی (روی زمینه روشن) */
+    --d-gray-100:        #f2f6f7;
+    --d-gray-300:        #5b6b73;   /* متن ثانویه */
+    --d-gray-500:        #7c8b92;
+    --d-gray-700:        #35454d;
+
+    /* ── رنگ‌های وضعیت ── */
+    --d-danger:          #d64545;
+    --d-success:         #2f9e6f;
+    --d-warn:            #d08b1a;
+    --d-info:            #2c7fb8;
+
+    /* ── مرجانی: رنگ مکمل برای تخفیف و جلب توجه ── */
+    --k-coral:           #ff6b52;
+    --k-coral-dark:      #e05339;
+    --k-coral-soft:      #fff0ed;
+
+    /* ── گرادیان‌ها: جای طلایی، فیروزه‌ای ── */
+    --grad-gold:         linear-gradient(135deg, #0a5c5c 0%, #0f7b7b 45%, #3aa8a3 100%);
+    --grad-gold-soft:    linear-gradient(135deg, #3aa8a3 0%, #0f7b7b 100%);
+    --grad-navy:         linear-gradient(180deg, #ffffff 0%, #f2f8f9 100%);
+    --grad-dark:         linear-gradient(180deg, #ffffff 0%, #f7fafb 100%);
+
+    /* ── سایه‌ها: نرم و روشن (جای سایه‌های سیاه سنگین) ── */
+    --shadow-sm:         0 1px 3px rgba(27,43,51,.06);
+    --shadow-md:         0 4px 16px rgba(27,43,51,.08);
+    --shadow-lg:         0 12px 32px rgba(27,43,51,.10);
+    --shadow-gold:       0 6px 18px rgba(15,123,123,.18);
+    --shadow-gold-lg:    0 12px 30px rgba(15,123,123,.26);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۲) پایه صفحه — بدنه و پوشش اصلی
+   ═══════════════════════════════════════════════════════════════════════ */
+body {
+    background: #f7fafb !important;
+    color: #1b2b33 !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+.body-wrap {
+    background: transparent;
+}
+
+/* لینک‌ها: فیروزه‌ای با تأکید ملایم */
+a { color: #0f7b7b; }
+a:hover, a:focus { color: #0a5c5c; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۳) سربرگ — نوار بالا، نوار اصلی و منو
+   ═══════════════════════════════════════════════════════════════════════ */
+.d-topbar {
+    background: #0f7b7b;
+    border-bottom: none;
+    color: #ffffff;
+}
+.d-topbar a,
+.d-topbar .d-contact-info span,
+.d-topbar .d-top-links a { color: #e8f6f5; }
+.d-topbar a:hover,
+.d-topbar .d-top-links a:hover { color: #ffffff; }
+
+.d-mainbar {
+    background: #ffffff;
+    border-bottom: 1px solid #e3ecef;
+    box-shadow: 0 1px 4px rgba(27,43,51,.04);
+}
+
+.d-nav {
+    background: #ffffff;
+    border-top: 1px solid #eef4f6;
+    border-bottom: 1px solid #e3ecef;
+}
+.d-nav-links a { color: #35454d; }
+.d-nav-links a:hover,
+.d-nav-links li.active > a { color: #0f7b7b; }
+
+/* دکمه دسته‌بندی‌ها در منو */
+.d-cat-btn {
+    background: var(--grad-gold);
+    color: #ffffff !important;
+    border: none;
+}
+
+/* کادر جست‌وجو */
+.d-search-form input {
+    background: #f2f6f7;
+    border: 1px solid #e3ecef;
+    color: #1b2b33;
+}
+.d-search-form input::placeholder { color: #8fa0a7; }
+.d-search-form input:focus {
+    border-color: #0f7b7b;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(15,123,123,.10);
+    outline: none;
+}
+.d-search-form button { background: #0f7b7b; color: #ffffff; }
+
+/* آیکون‌های سربرگ */
+.d-icon-btn { color: #35454d; }
+.d-icon-btn:hover { color: #0f7b7b; }
+
+/* جایگزین متنی لوگو (اگر هیچ تصویری موجود نبود) */
+.d-logo-fallback {
+    font-weight: 800;
+    font-size: 22px;
+    color: #0f7b7b;
+    letter-spacing: -.3px;
+    white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۴) اسلایدر اصلی — تم روشن + لایه سه‌بعدی
+   ───────────────────────────────────────────────────────────────────────
+   ساختار سه‌بعدی با `perspective` روی ظرف اسلایدر و `transform` روی
+   هر اسلاید ساخته می‌شود. کلاس `kp-3d` در زمان نگه‌داشتن ماوس روی
+   اسلایدر توسط جاوااسکریپت اضافه می‌شود (فایل
+   `frontend/js/kharazi-slider.js`).
+   ═══════════════════════════════════════════════════════════════════════ */
+.fullwidth-slider-section {
+    background: #f2f8f9;
+    perspective: 1400px;
+    perspective-origin: 50% 40%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ظرف اسلایدر: حالت سه‌بعدی */
+.fullwidth-slider-section .slick-list,
+.fullwidth-slider-section .slider-wrapper {
+    transform-style: preserve-3d;
+    transition: transform .18s ease-out;
+    will-change: transform;
+}
+
+/* هر اسلاید در حالت عادی صاف است؛ هنگام نگه‌داشتن ماوس، عمق می‌گیرد */
+.fullwidth-slider-section .slick-slide > div {
+    transform-style: preserve-3d;
+    transition: transform .45s cubic-bezier(.22,.8,.28,1),
+                filter .45s ease-out,
+                box-shadow .45s ease-out;
+}
+
+/* حالت فعال سه‌بعدی — توسط جاوااسکریپت فعال می‌شود */
+.fullwidth-slider-section.kp-3d .slick-slide.slick-current > div {
+    transform: translateZ(0) rotateY(0deg) scale(1);
+}
+.fullwidth-slider-section.kp-3d .slick-slide.slick-active:not(.slick-current) > div {
+    transform: translateZ(-70px) rotateY(9deg) scale(.955);
+    filter: brightness(.94) saturate(.92);
+}
+
+/* تصویر اسلاید */
+.fullwidth-slider-section img {
+    border-radius: 0;
+    box-shadow: 0 10px 34px rgba(27,43,51,.12);
+}
+
+/* لایه متن روی اسلاید — روشن و خوانا روی تصویر */
+.slide-content-overlay {
+    background: linear-gradient(90deg,
+        rgba(255,255,255,.94) 0%,
+        rgba(255,255,255,.86) 42%,
+        rgba(255,255,255,.30) 68%,
+        rgba(255,255,255,0) 100%);
+}
+.slide-content h2 {
+    color: #123c3c;
+    font-weight: 800;
+}
+.slide-content p { color: #35454d; }
+.slide-btn-custom {
+    background: var(--grad-gold);
+    color: #ffffff !important;
+    box-shadow: 0 6px 18px rgba(15,123,123,.28);
+}
+.slide-btn-custom:hover {
+    background: linear-gradient(135deg, #0a5c5c 0%, #0f7b7b 100%);
+    color: #ffffff !important;
+}
+
+/* نشانگرهای اسلایدر (dots) در تم روشن */
+.fullwidth-slider-section .slick-dots li button { background: #b9ccd1; }
+.fullwidth-slider-section .slick-dots li.slick-active button { background: #0f7b7b; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۵) بخش HERO
+   ═══════════════════════════════════════════════════════════════════════ */
+.d-hero {
+    background: linear-gradient(180deg, #ffffff 0%, #eef7f7 100%);
+    border-bottom: 1px solid #e3ecef;
+}
+.d-hero-badge {
+    background: #e6f4f3;
+    color: #0a5c5c;
+    border: 1px solid #c9e7e5;
+}
+.d-hero-badge .dot { background: #0f7b7b; }
+.d-hero h1 { color: #123c3c; }
+.d-hero > .container p,
+.d-hero .d-hero-content p { color: #5b6b73; }
+.gold-line {
+    background: var(--grad-gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.d-hero-stat strong { color: #0f7b7b; }
+.d-hero-stat span { color: #5b6b73; }
+
+/* کارت‌های شناور hero */
+.d-hero-float-card {
+    background: #ffffff;
+    border: 1px solid #e3ecef;
+    box-shadow: 0 8px 26px rgba(27,43,51,.10);
+}
+.d-hero-float-card .fc-icon {
+    background: var(--grad-gold);
+    color: #ffffff;
+}
+.d-hero-float-card .fc-text strong { color: #123c3c; }
+.d-hero-float-card .fc-text span { color: #5b6b73; }
+
+/* حلقه‌های تزئینی hero — از طلایی به فیروزه‌ای */
+.d-hero-ring { border-color: rgba(15,123,123,.16); }
+
+/* «قرقره نخ» — جایگزین «الماسِ» تم قبلی */
+.d-hero-spool {
+    position: relative;
+    width: 190px;
+    height: 190px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 50% 50%, #ffffff 0 26%, transparent 27%),
+        repeating-conic-gradient(from 0deg,
+            #0f7b7b 0deg 12deg,
+            #3aa8a3 12deg 24deg,
+            #ff6b52 24deg 32deg,
+            #f2b134 32deg 40deg,
+            #0f7b7b 40deg 52deg);
+    box-shadow: 0 14px 40px rgba(15,123,123,.22), inset 0 0 0 10px rgba(255,255,255,.55);
+    animation: kp-spin 26s linear infinite;
+}
+.d-hero-spool::after {
+    content: "";
+    position: absolute;
+    inset: 34%;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: inset 0 0 0 6px #e3ecef;
+}
+@keyframes kp-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+    .d-hero-spool { animation: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۶) کارت‌های مزیت، دسته‌بندی و بخش‌های عمومی
+   ═══════════════════════════════════════════════════════════════════════ */
+.d-services {
+    background: #ffffff;
+    border-top: 1px solid #eef4f6;
+    border-bottom: 1px solid #eef4f6;
+}
+.d-service-card {
+    background: #f7fafb;
+    border: 1px solid #e9f0f2;
+    box-shadow: 0 2px 10px rgba(27,43,51,.04);
+}
+.d-service-card h5 { color: #123c3c; }
+.d-service-card p { color: #5b6b73; }
+
+.d-cat-card {
+    background: #ffffff;
+    border: 1px solid #e9f0f2;
+    box-shadow: 0 3px 14px rgba(27,43,51,.06);
+}
+.d-cat-card:hover {
+    border-color: #0f7b7b;
+    box-shadow: 0 12px 30px rgba(15,123,123,.16);
+    transform: translateY(-4px);
+}
+.d-cat-card h4 { color: #123c3c; }
+.d-cat-card .cat-count { color: #5b6b73; }
+
+/* آیکون برداری دسته‌بندی — به‌جای فایل SVG؛ هیچ درخواست شبکه‌ای و
+   هیچ امکان تصویر شکسته (۴۰۴) وجود ندارد. */
+.cat-ico-vector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e6f4f3, #d3ecea);
+    color: #0f7b7b;
+    font-size: 38px;
+    line-height: 1;
+}
+.d-cat-card-all .cat-ico-vector {
+    background: var(--grad-gold);
+    color: #ffffff;
+}
+
+.d-trust {
+    background: linear-gradient(180deg, #ffffff 0%, #f2f8f9 100%);
+}
+.d-trust-feature .tf-icon {
+    background: #e6f4f3;
+    color: #0f7b7b;
+}
+.d-trust-feature h5 { color: #123c3c; }
+.d-trust-feature p { color: #5b6b73; }
+
+/* ماکت کناری بخش «راهنمای خرید» — جانشین ماکت «گواهی اصالت» */
+.d-cert-mockup {
+    background: #ffffff;
+    border: 1px solid #e3ecef;
+    box-shadow: 0 14px 40px rgba(27,43,51,.10);
+}
+.d-cert-mockup .cert-head h3,
+.d-cert-mockup .cert-head h6 { color: #123c3c; }
+.d-cert-mockup .cert-row { color: #35454d; border-bottom: 1px solid #eef4f6; }
+.d-cert-mockup .cert-row span:last-child { color: #0f7b7b; font-weight: 600; }
+.d-cert-mockup .cert-seal {
+    background: var(--grad-gold);
+    color: #ffffff;
+}
+.d-cert-mockup .cert-qr { background: #eef4f6; border: 1px solid #dbe6ea; }
+
+.d-articles { background: #ffffff; }
+
+/* بخش تخفیف / فلش‌دی‌ال — رنگ مرجانی برای جلب توجه */
+.flash-deal-section,
+.d-flash-deal { background: #ffffff; }
+.d-countdown span,
+.discount-badge,
+.badge-discount { background: #ff6b52; color: #ffffff; }
+
+/* نشان‌های تخفیف و ویژه با مرجانی */
+.d-price .new,
+.product-price-box .new-price { color: #0f7b7b; }
+.d-price .old,
+.product-price-box .old-price { color: #8fa0a7; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۷) کارت محصول — تمیز، سفید، سایه نرم
+   ═══════════════════════════════════════════════════════════════════════ */
+.card,
+.card-body,
+.hover-bg,
+.cart-product-row {
+    background: #ffffff;
+    border-color: #e9f0f2;
+}
+.product-card,
+.hover-bg { box-shadow: 0 2px 10px rgba(27,43,51,.05); }
+.product-title,
+.hover-bg h3 a,
+.card-title { color: #1b2b33; }
+.product-title:hover,
+.hover-bg h3 a:hover { color: #0f7b7b; }
+
+/* دکمه‌های خرید */
+.btn-primary,
+.btn-styled {
+    background: var(--grad-gold) !important;
+    border-color: #0f7b7b !important;
+    color: #ffffff !important;
+}
+.btn-primary:hover,
+.btn-styled:hover {
+    background: linear-gradient(135deg, #0a5c5c 0%, #0f7b7b 100%) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۸) فوتر
+   ═══════════════════════════════════════════════════════════════════════ */
+.d-footer {
+    background: #ffffff;
+    border-top: 3px solid #0f7b7b;
+    box-shadow: 0 -2px 16px rgba(27,43,51,.05);
+}
+.d-footer-perks {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 26px 0;
+    border-bottom: 1px solid #eef4f6;
+}
+.d-perk {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.d-perk-ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    border-radius: 12px;
+    background: #e6f4f3;
+    color: #0f7b7b;
+    font-size: 22px;
+}
+.d-perk-txt strong { display: block; color: #123c3c; font-size: 14px; }
+.d-perk-txt span { display: block; color: #5b6b73; font-size: 12.5px; }
+
+.d-footer .d-logo-text .brand-name { color: #123c3c; }
+.d-footer .d-logo-text .brand-tag { color: #5b6b73; }
+.d-footer h5 { color: #123c3c; }
+.d-footer-links a,
+.d-footer-contact li { color: #5b6b73; }
+.d-footer-links a:hover { color: #0f7b7b; }
+.d-footer-about { color: #5b6b73; }
+.d-footer-social a {
+    background: #eef4f6;
+    color: #35454d;
+}
+.d-footer-social a:hover { background: #0f7b7b; color: #ffffff; }
+.d-footer-bottom {
+    border-top: 1px solid #eef4f6;
+    color: #5b6b73;
+}
+.d-newsletter-note { color: #5b6b73; font-size: 12.5px; margin: 4px 0 8px; }
+.d-newsletter-form input {
+    background: #f7fafb;
+    border: 1px solid #e3ecef;
+    color: #1b2b33;
+}
+.d-newsletter-form button { background: #0f7b7b; color: #ffffff; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۹) اسکرول‌بار — هماهنگ با تم روشن
+   ═══════════════════════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #f2f6f7; }
+::-webkit-scrollbar-thumb { background: #c3d5da; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #0f7b7b; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۱۰) صفحات محتوایی تازه (راهنما، سؤالات متداول، سیاست‌ها)
+   ───────────────────────────────────────────────────────────────────────
+   کلاس‌های «kp-» در ویوهای تازه ساخته‌شده استفاده شده‌اند:
+     frontend/guide.blade.php، frontend/faq.blade.php و
+     frontend/policies/_body.blade.php
+   ═══════════════════════════════════════════════════════════════════════ */
+.kp-crumb {
+    font-size: 13px;
+    color: #5b6b73;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.kp-crumb a { color: #0f7b7b; text-decoration: none; }
+.kp-crumb a:hover { text-decoration: underline; }
+.kp-crumb-current { color: #35454d; font-weight: 600; }
+
+.kp-page {
+    border-radius: 16px;
+    box-shadow: 0 2px 14px rgba(27,43,51,.05);
+}
+.kp-page-title {
+    font-size: clamp(22px, 2.6vw, 30px);
+    font-weight: 800;
+    color: #123c3c;
+    margin-bottom: 12px;
+}
+.kp-lead {
+    color: #5b6b73;
+    font-size: 15.5px;
+    line-height: 2;
+    margin-bottom: 22px;
+}
+.kp-h2 {
+    font-size: clamp(17px, 1.6vw, 21px);
+    font-weight: 700;
+    color: #123c3c;
+    margin: 30px 0 12px;
+    padding-right: 12px;
+    border-right: 4px solid #0f7b7b;
+    line-height: 1.6;
+}
+.kp-page p { color: #35454d; line-height: 2; }
+.kp-page a { color: #0f7b7b; text-decoration: underline; text-underline-offset: 3px; }
+.kp-list { padding-right: 20px; margin: 0 0 12px; }
+.kp-list li { color: #35454d; line-height: 2; margin-bottom: 6px; }
+
+/* گام‌های خرید — شماره‌گذاری دایره‌ای فیروزه‌ای */
+.kp-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: kpstep;
+}
+.kp-steps > li {
+    position: relative;
+    padding: 18px 62px 18px 0;
+    border-bottom: 1px solid #eef4f6;
+    counter-increment: kpstep;
+}
+.kp-steps > li:last-child { border-bottom: none; }
+.kp-steps > li::before {
+    content: counter(kpstep);
+    position: absolute;
+    right: 0;
+    top: 18px;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--grad-gold);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 17px;
+}
+.kp-steps > li > strong {
+    display: block;
+    color: #123c3c;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+.kp-steps > li > p { margin: 0; color: #5b6b73; }
+
+/* سؤالات متداول */
+.kp-faq .d-faq-item {
+    border: 1px solid #e9f0f2;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    background: #ffffff;
+}
+.kp-faq .d-faq-q {
+    padding: 16px 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-weight: 600;
+    color: #123c3c;
+    background: #fbfdfd;
+}
+.kp-faq .d-faq-q i { color: #0f7b7b; transition: transform .25s ease; }
+.kp-faq .d-faq-item.open .d-faq-q { background: #e6f4f3; }
+.kp-faq .d-faq-item.open .d-faq-q i { transform: rotate(180deg); }
+.kp-faq .d-faq-a {
+    display: none;
+    padding: 0 18px 18px;
+    color: #35454d;
+    line-height: 2;
+}
+.kp-faq .d-faq-item.open .d-faq-a { display: block; }
+
+/* حالت «محتوای ثبت‌نشده» در صفحات سیاست */
+.kp-empty-state {
+    text-align: center;
+    padding: 44px 20px;
+    background: #f7fafb;
+    border: 1px dashed #c9dde2;
+    border-radius: 14px;
+}
+.kp-empty-state i {
+    font-size: 44px;
+    color: #0f7b7b;
+    display: block;
+    margin-bottom: 14px;
+}
+.kp-empty-state h3 {
+    font-size: 18px;
+    color: #123c3c;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+.kp-empty-state p { color: #5b6b73; margin: 0; }
+
+/* ستون کناری صفحات محتوایی */
+.kp-side { border-radius: 16px; box-shadow: 0 2px 14px rgba(27,43,51,.05); }
+.kp-side-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #123c3c;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e6f4f3;
+}
+.kp-side-links { list-style: none; padding: 0; margin: 0; }
+.kp-side-links li { border-bottom: 1px solid #f2f6f7; }
+.kp-side-links li:last-child { border-bottom: none; }
+.kp-side-links a {
+    display: block;
+    padding: 9px 0;
+    color: #35454d;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color .2s ease, padding-right .2s ease;
+}
+.kp-side-links a:hover { color: #0f7b7b; padding-right: 5px; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۱۱) فوتر موبایلی (چسبان پایین صفحه)
+   ───────────────────────────────────────────────────────────────────────
+   در دسکتاپ پنهان است و فقط زیر ۷۶۸ پیکسل دیده می‌شود. مقدار
+   padding-bottom روی body از پنهان‌شدن محتوای انتهایی جلوگیری می‌کند.
+   ═══════════════════════════════════════════════════════════════════════ */
+.kp-mobile-footer {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    background: #ffffff;
+    border-top: 1px solid #e3ecef;
+    box-shadow: 0 -4px 20px rgba(27,43,51,.10);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    direction: rtl;
+}
+.kp-mobile-footer-inner {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: stretch;
+}
+.kp-mf-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 8px 2px 7px;
+    color: #5b6b73;
+    text-decoration: none;
+    font-size: 10.5px;
+    line-height: 1.4;
+    text-align: center;
+    transition: color .2s ease, background .2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.kp-mf-item i { font-size: 20px; line-height: 1; }
+.kp-mf-item:hover,
+.kp-mf-item:focus { color: #0f7b7b; text-decoration: none; }
+.kp-mf-item.active { color: #0f7b7b; background: #f2f8f9; }
+.kp-mf-item.active::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 22%; left: 22%;
+    height: 2px;
+    background: #0f7b7b;
+    border-radius: 0 0 3px 3px;
+}
+.kp-mf-badge {
+    position: absolute;
+    top: 4px;
+    left: calc(50% + 6px);
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 9px;
+    background: #ff6b52;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 767.98px) {
+    .kp-mobile-footer { display: block; }
+    /* فاصله انتهای صفحه تا محتوا زیر فوتر چسبان پنهان نشود */
+    body { padding-bottom: 62px; }
+    /* دکمه «بازگشت به بالا» روی فوتر نیفتد */
+    .d-back-top { bottom: 76px !important; }
+    .d-footer-perks { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۱۲) پابرگ موبایل منو (فهرست سایدبار) و اصلاحات کوچک موبایل
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 991.98px) {
+    .d-hero-spool { width: 150px; height: 150px; }
+}
+@media (max-width: 575.98px) {
+    .kp-steps > li { padding-right: 54px; }
+    .kp-steps > li::before { width: 36px; height: 36px; font-size: 15px; }
+    .kp-page { padding: 18px 14px !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ۱۳) سازگاری با حالت چاپ
+   ═══════════════════════════════════════════════════════════════════════ */
+@media print {
+    .kp-mobile-footer,
+    .d-footer,
+    .d-header,
+    .d-back-top { display: none !important; }
+    body { background: #ffffff !important; padding-bottom: 0 !important; }
+}

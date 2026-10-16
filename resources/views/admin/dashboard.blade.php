@@ -273,63 +273,108 @@
     </div>
 @endif
 
-<!-- بخش آمار اضافی با رنگ‌های متنوع -->
+{{-- ══════════════════════════════════════════════════════════════════
+     آمار سریع فروشگاه خرازی پرنسا
+     ──────────────────────────────────────────────────────────────────
+     ── تغییرات این بخش ───────────────────────────────────────────────
+     پیش از این، چهار کارت در این قسمت بود و هر چهار مورد مشکل داشت:
+
+       ۱. «کاربران فعال» با مقدار ۱,۲۳۴ — یک عدد کاملاً ساختگی که
+          هیچ‌گاه از پایگاه داده خوانده نمی‌شد.
+       ۲. «سرقت و مفقودی» با لینک `./admin/jewelry/missing_reports`
+          — متعلق به ماژول منسوخ‌شده جواهرات.
+       ۳. «مدیریت شناسنامه‌ها» با لینک `./admin/jewelry/certificates`
+          — همان ماژول منسوخ.
+       ۴. «مدیریت مالکان طلا و جواهر» با لینک
+          `./admin/jewelry/owners` — همان ماژول منسوخ.
+
+     علاوه بر این، هر چهار لینک به‌صورت مسیر نسبی نوشته شده بودند
+     (`./admin/...`) که در آدرس‌های تودرتو یا زیرپوشه‌ای می‌شکند.
+
+     ── جایگزین ───────────────────────────────────────────────────────
+     چهار کارت با **داده واقعی** از پایگاه داده و **لینک نامی لاراول**
+     (`route('…')`) که در هر آدرس‌ای درست کار می‌کند. کوئری‌ها با
+     `try/catch` محافظت شده‌اند تا نبودِ جدول، داشبورد را از کار نیندازد.
+     ══════════════════════════════════════════════════════════════════ --}}
+@php
+    // شمارش‌های واقعی — هر کدام مستقل و محافظت‌شده تا یک خطای احتمالی
+    // کل داشبورد را از کار نیندازد.
+    try { $kpUsersCount = \App\User::where('user_type', 'customer')->count(); }
+    catch (\Exception $e) { $kpUsersCount = null; }
+
+    try { $kpPublishedProducts = \App\Product::where('published', 1)->count(); }
+    catch (\Exception $e) { $kpPublishedProducts = null; }
+
+    try { $kpOrdersCount = \App\Order::count(); }
+    catch (\Exception $e) { $kpOrdersCount = null; }
+
+    try { $kpCategoriesCount = safe_table_exists('categories') ? \App\Category::count() : null; }
+    catch (\Exception $e) { $kpCategoriesCount = null; }
+@endphp
+
+<!-- بخش آمار سریع فروشگاه -->
 <div class="row">
+
+    {{-- ۱) مشتریان --}}
     <div class="col-md-3">
         <div class="small-stat-card">
             <div class="stat-icon u-background-linear-gradient-135deg-var-purple-color-8b5cf6">
                 <span>👥</span>
             </div>
-            <span class="stat-label">کاربران فعال</span>
-            <div class="stat-value">1,234</div>
-            <a href="#" class="btn-link">
-                مشاهده جزئیات
+            <span class="stat-label">مشتریان</span>
+            <div class="stat-value">{{ $kpUsersCount !== null ? number_format($kpUsersCount) : '—' }}</div>
+            <a href="{{ route('customers.index') }}" class="btn-link">
+                مدیریت مشتریان
                 <span class="emoji-icon">←</span>
             </a>
         </div>
     </div>
-    
+
+    {{-- ۲) محصولات منتشرشده --}}
     <div class="col-md-3">
         <div class="small-stat-card">
             <div class="stat-icon u-background-linear-gradient-135deg-var-pink-color-ec4899">
-                <span>🛒</span>
+                <span>🧵</span>
             </div>
-            <span class="stat-label">سرقت و مفقودی </span>
-            <div class="stat-value">---</div>
-            <a href="./admin/jewelry/missing_reports" class="btn-link">
-                مشاهده جزئیات
+            <span class="stat-label">محصولات منتشرشده</span>
+            <div class="stat-value">{{ $kpPublishedProducts !== null ? number_format($kpPublishedProducts) : '—' }}</div>
+            <a href="{{ route('products.admin') }}" class="btn-link">
+                مدیریت محصولات
                 <span class="emoji-icon">←</span>
             </a>
         </div>
     </div>
-    
+
+    {{-- ۳) سفارش‌ها --}}
     <div class="col-md-3">
         <div class="small-stat-card">
             <div class="stat-icon u-background-linear-gradient-135deg-var-orange-color-f97316">
-                <span>💰</span>
+                <span>🧾</span>
             </div>
-            <span class="stat-label">مدیریت شناسنامه‌ها</span>
-            <div class="stat-value">---</div>
-            <a href="./admin/jewelry/certificates" class="btn-link">
-                مشاهده جزئیات
+            <span class="stat-label">سفارش‌ها</span>
+            <div class="stat-value">{{ $kpOrdersCount !== null ? number_format($kpOrdersCount) : '—' }}</div>
+            <a href="{{ route('orders.index.admin') }}" class="btn-link">
+                مدیریت سفارش‌ها
                 <span class="emoji-icon">←</span>
             </a>
         </div>
     </div>
-    
+
+    {{-- ۴) دسته‌بندی‌ها --}}
     <div class="col-md-3">
         <div class="small-stat-card">
             <div class="stat-icon u-background-linear-gradient-135deg-var-info-color-3b82f6">
-                <span>👁️</span>
+                <span>🗂️</span>
             </div>
-            <span class="stat-label">مدیریت مالکان طلا و جواهر </span>
-            <div class="stat-value">---</div>
-            <a href="./admin/jewelry/owners" class="btn-link">
-                مشاهده جزئیات
+            <span class="stat-label">دسته‌بندی‌ها</span>
+            <div class="stat-value">{{ $kpCategoriesCount !== null ? number_format($kpCategoriesCount) : '—' }}</div>
+            <a href="{{ route('categories.index') }}" class="btn-link">
+                مدیریت دسته‌بندی‌ها
                 <span class="emoji-icon">←</span>
             </a>
         </div>
     </div>
+
 </div>
 
 @endsection

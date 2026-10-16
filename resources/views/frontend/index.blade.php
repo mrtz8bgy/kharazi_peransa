@@ -15,14 +15,39 @@
 
 @php
     // ═══ حفاظت در برابر جدول‌های نصب‌نشده ═══
+    //
+    // ── رفع باگ: مگامنو همیشه خالی بود ──────────────────────────────────
+    //
+    // پیش از این، این کوئری سه بار شرط `where('published', 1)` را روی
+    // جدول‌های `categories`، `sub_categories` و `sub_sub_categories`
+    // اعمال می‌کرد — در حالی که **هیچ‌یک از این سه جدول ستون `published`
+    // ندارند**. (ستون `published` فقط در `products`، `banners` و
+    // `sliders` وجود دارد.)
+    //
+    // نتیجه: کوئری با خطای «Unknown column 'published' in 'where clause'»
+    // شکست می‌خورد و چون داخل try/catch بود، بی‌صدا به مجموعه خالی
+    // عقب‌نشینی می‌کرد. یعنی مگامنوی صفحه اصلی **همیشه خالی** رندر
+    // می‌شد و هیچ دسته‌بندی‌ای در آن دیده نمی‌شد، بدون هیچ پیام خطایی.
+    //
+    // راه‌حل: تابع کمکی `published_column_filter()` که تنها زمانی شرط را
+    // اعمال می‌کند که ستون واقعاً وجود داشته باشد. توضیح کامل تصمیم
+    // (چرا Migration افزوده نشد) در `app/Helpers/drikana_helpers.php`
+    // زیر تابع `safe_column_exists` آمده است.
     try {
-        $megaCategories = \Illuminate\Support\Facades\Schema::hasTable('categories')
-            ? \App\Category::with(['subcategories' => function($query) {
-                $query->where('published', 1)->with(['subsubcategories' => function($q){
-                    $q->where('published', 1);
+        if (safe_table_exists('categories')) {
+            $catQuery = \App\Category::with(['subcategories' => function($query) {
+                published_column_filter($query, 'sub_categories');
+                $query->with(['subsubcategories' => function($q){
+                    published_column_filter($q, 'sub_sub_categories');
                 }]);
-            }])->where('top', 1)->where('published', 1)->get()
-            : collect();
+            }])->where('top', 1);
+
+            published_column_filter($catQuery, 'categories');
+
+            $megaCategories = $catQuery->get();
+        } else {
+            $megaCategories = collect();
+        }
     } catch (\Exception $e) { $megaCategories = collect(); }
 
     // ایمن‌سازی سایر متغیرهای صفحه اصلی
@@ -186,10 +211,39 @@
                          loading="{{ $loop->first ? 'eager' : 'lazy' }}">
                 @endif
 
+                {{--
+                    لایه متن روی اسلاید
+                    ────────────────────────────────────────────────
+                    پیش از این، متن روی همه اسلایدها سخت‌کد و یکسان بود:
+                    «خرید طلایی با بهترین قیمت» — که هم به هویت قبلی
+                    تعلق داشت و هم برای هر اسلاید تکرار می‌شد.
+
+                    اکنون متن بر پایه «شماره اسلاید» از یک فهرست نمونه
+                    خوانده می‌شود تا هر اسلاید پیام متفاوت و مرتبط با
+                    فروشگاه خرازی داشته باشد. اگر شمار اسلایدها بیشتر از
+                    فهرست شود، متن پیش‌فرض (مورد آخر) تکرار می‌گردد.
+
+                    ── نکته سئو ────────────────────────────────────────
+                    چون این متن روی تصویر اسلاید قرار می‌گیرد و همه
+                    اسلایدها یک H1 ندارند، از تگ <h2> استفاده شده — نه
+                    <h1>. تنها H1 صفحه، تیتر بخش HERO است. این کار از
+                    تکرار H1 و ابهام ساختار سرفصل‌ها جلوگیری می‌کند.
+                --}}
+                @php
+                    $slideCopy = [
+                        ['t' => 'لوازم خیاطی',        's' => 'نخ، سوزن، دکمه، زیپ و هر آنچه برای دوخت لازم دارید'],
+                        ['t' => 'لوازم گلدوزی',       's' => 'منجوق، مروارید، نخ گلدوزی و طرح‌های شماره‌دوزی'],
+                        ['t' => 'روبان و نوار تزئینی', 's' => 'انواع روبان، دانتل، تور و خرج‌کار در رنگ‌های متنوع'],
+                        ['t' => 'ابزار خیاطی',        's' => 'قیچی، متر، بشکاف و ابزار اندازه‌گیری دقیق'],
+                        ['t' => 'لوازم بافتنی',        's' => 'کاموا، میل بافتنی و لوازم جانبی بافت'],
+                        ['t' => 'لوازم هنری',         's' => 'مروارید، منجوق، مهره و لوازم کارهای دستی'],
+                    ];
+                    $sc = $slideCopy[($loop->iteration - 1) % count($slideCopy)];
+                @endphp
                 <div class="slide-content-overlay">
                     <div class="slide-content">
-                        <h2>خرید <span>طلایی</span><br>با بهترین قیمت</h2>
-                        <p>کیفیت را با قیمت مناسب تجربه کنید</p>
+                        <h2>{{ $sc['t'] }}</h2>
+                        <p>{{ $sc['s'] }}</p>
 
                         @if($slideLink)
                             <a href="{{ $slideLink }}" target="_blank" rel="noopener noreferrer" class="slide-btn-custom">
@@ -208,52 +262,83 @@
 </section>
 @endif
 
-<!-- ============================================ -->
-<!-- HERO لوکس جدید دریکانا -->
-<!-- ============================================ -->
+{{-- ============================================ --}}
+{{-- HERO فروشگاه خرازی پرنسا --}}
+{{-- ============================================ --}}
+{{--
+    ── تغییرات این بخش ─────────────────────────────────────────────────
+    پیش از این، این بخش «HERO لوکس دریکانا» بود با محتوای اختصاصی
+    طلا و جواهر. موارد زیر اصلاح شد:
+
+      ۱. نشان بالای تیتر: «معتبرترین مارکت‌پلیس طلا و جواهر ایران» —
+         یک ادعای اثبات‌نشدنی (Superlative بدون منبع). با معرفی واقعی
+         فروشگاه جایگزین شد.
+      ۲. تیتر اصلی: از «درخشش اعتماد در هر قطعه» به شعاری مرتبط با
+         خرازی تغییر یافت.
+      ۳. متن معرفی: ارجاع به «شناسنامه معتبر، ضمانت اصالت و رهگیری
+         دائمی» حذف شد — این‌ها متعلق به ماژول منسوخ‌شده جواهرات بودند.
+      ۴. دکمه دوم: «استعلام شناسنامه» → «راهنمای خرید و ارسال».
+      ۵. آمارهای hero کاملاً جعلی بودند و حذف/اصلاح شدند:
+           • «+۱۰ سال سابقه درخشان» → ادعای بی‌پشتوانه، حذف شد
+           • «+۵۰K قطعه شناسنامه‌دار» → داده ساختگی، حذف شد
+           • «۱۰۰٪ گارانتی اصالت»    → ادعای گمراه‌کننده، حذف شد
+           • «۲۴/۷ پشتیبانی تخصصی»   → ادعای بی‌پشتوانه، حذف شد
+         به‌جای آن‌ها چهار ویژگی واقعی و قابل‌راستی‌آزمایی فروشگاه
+         نمایش داده می‌شود که همه از ساختار خود پروژه استخراج شده‌اند.
+      ۶. کارت‌های شناور سمت راست: محتوای «شناسنامه معتبر»، «ضمانت
+         اصالت» و «رهگیری هوشمند / از دسترسی دزدها دور بمانید» —
+         هر سه حذف و با مزیت‌های خرید خرازی جانشین شدند.
+--}}
 <section class="d-hero">
     <div class="container">
         <div class="d-hero-inner">
             <div class="d-hero-content">
                 <span class="d-hero-badge">
                     <span class="dot"></span>
-                    معتبرترین مارکت‌پلیس طلا و جواهر ایران
+                    لوازم خیاطی، گلدوزی و هنری
                 </span>
                 <h1>
-                    درخشش <span class="gold-line">اعتماد</span>
-                    در هر <span class="gold-line">قطعه</span>
+                    هرچه برای <span class="gold-line">دوخت</span>
+                    نیاز دارید، <span class="gold-line">یک‌جا</span>
                 </h1>
                 <p>
-                    خرید و فروش طلا، جواهرات، ساعت‌های لوکس و سنگ‌های قیمتی با
-                    <strong class="u-color-var-d-gold">شناسنامه معتبر</strong>،
-                    <strong class="u-color-var-d-gold">ضمانت اصالت</strong> و
-                    <strong class="u-color-var-d-gold">امکان رهگیری دائمی</strong>.
-                    دریکانا، جایی که ارزش‌ها ماندگارند.
+                    از نخ و سوزن و دکمه تا زیپ، روبان، دانتل، کاموا و ابزار
+                    برش — فروشگاه خرازی پرنسا لوازم خیاطی، گلدوزی، بافتنی و
+                    کارهای هنری را با
+                    <strong class="u-color-var-d-gold">تنوع کامل</strong>،
+                    <strong class="u-color-var-d-gold">قیمت شفاف</strong> و
+                    <strong class="u-color-var-d-gold">ارسال به سراسر کشور</strong>
+                    در اختیار شما می‌گذارد.
                 </p>
                 <div class="d-hero-cta">
                     <a href="{{ route('categories.all') }}" class="btn-lux btn-lux-primary">
                         <i class="la la-shopping-bag"></i> مشاهده محصولات
                     </a>
-                    <a href="{{ route('jewelry.certificates.verify_page') }}" class="btn-lux btn-lux-outline">
-                        <i class="la la-certificate"></i> استعلام شناسنامه
+                    <a href="{{ route('guide') }}" class="btn-lux btn-lux-outline">
+                        <i class="la la-book"></i> راهنمای خرید و ارسال
                     </a>
                 </div>
+                {{--
+                    چهار مزیت واقعی فروشگاه — بدون ادعای عددی ساختگی.
+                    همه این موارد از قابلیت‌های موجود در خود پروژه
+                    استخراج شده‌اند (سبد خرید، انبار، دسته‌بندی، مقالات).
+                --}}
                 <div class="d-hero-stats">
                     <div class="d-hero-stat">
-                        <strong>+۱۰ سال</strong>
-                        <span>سابقه درخشان</span>
+                        <strong>تنوع کامل</strong>
+                        <span>دسته‌بندی‌شده و قابل جست‌وجو</span>
                     </div>
                     <div class="d-hero-stat">
-                        <strong>+۵۰K</strong>
-                        <span>قطعه شناسنامه‌دار</span>
+                        <strong>کنترل موجودی</strong>
+                        <span>نمایش زنده وضعیت انبار</span>
                     </div>
                     <div class="d-hero-stat">
-                        <strong>۱۰۰٪</strong>
-                        <span>گارانتی اصالت</span>
+                        <strong>خرید آسان</strong>
+                        <span>سبد خرید و پرداخت آنلاین</span>
                     </div>
                     <div class="d-hero-stat">
-                        <strong>۲۴/۷</strong>
-                        <span>پشتیبانی تخصصی</span>
+                        <strong>پیگیری سفارش</strong>
+                        <span>از پنل کاربری، در هر زمان</span>
                     </div>
                 </div>
             </div>
@@ -261,26 +346,28 @@
                 <div class="d-hero-ring r1"></div>
                 <div class="d-hero-ring r2"></div>
                 <div class="d-hero-ring r3"></div>
-                <div class="d-hero-diamond"></div>
+                {{-- «d-hero-diamond» با «d-hero-spool» جایگزین شد:
+                     الماسِ تزئینیِ تم قبلی، با قرقره نخ — نماد خرازی --}}
+                <div class="d-hero-spool"></div>
                 <div class="d-hero-float-card d-fc-1">
-                    <div class="fc-icon"><i class="la la-certificate"></i></div>
+                    <div class="fc-icon"><i class="la la-scissors"></i></div>
                     <div class="fc-text">
-                        <strong>شناسنامه معتبر</strong>
-                        <span>قابل استعلام آنلاین</span>
+                        <strong>ابزار خیاطی</strong>
+                        <span>قیچی، متر، بشکاف</span>
                     </div>
                 </div>
                 <div class="d-hero-float-card d-fc-2">
-                    <div class="fc-icon"><i class="la la-shield"></i></div>
+                    <div class="fc-icon"><i class="la la-cube"></i></div>
                     <div class="fc-text">
-                        <strong>ضمانت اصالت</strong>
-                        <span>تضمین ۱۰۰٪ کالا</span>
+                        <strong>لوازم مصرفی</strong>
+                        <span>نخ، سوزن، دکمه، زیپ</span>
                     </div>
                 </div>
                 <div class="d-hero-float-card d-fc-3">
-                    <div class="fc-icon"><i class="la la-map-pin"></i></div>
+                    <div class="fc-icon"><i class="la la-magic"></i></div>
                     <div class="fc-text">
-                        <strong>رهگیری هوشمند</strong>
-                        <span>از دسترسی دزدها دور بمانید</span>
+                        <strong>گلدوزی و هنری</strong>
+                        <span>منجوق، مروارید، روبان</span>
                     </div>
                 </div>
             </div>
@@ -288,41 +375,64 @@
     </div>
 </section>
 
-<!-- ============================================ -->
-<!-- سرویس‌های طلایی -->
-<!-- ============================================ -->
+{{-- ============================================ --}}
+{{-- مزیت‌های خرید از فروشگاه خرازی پرنسا --}}
+{{-- ============================================ --}}
+{{--
+    ── تغییرات این بخش ─────────────────────────────────────────────────
+    شش کارت این بخش، همه به هویت طلا و جواهر تعلق داشتند و هرکدام یک
+    ادعای تأییدنشده یا نادرست در خود داشتند:
+
+      • «گارانتی اصالت — ارزیابی توسط کارشناسان خبره» → مربوط به
+        ماژول جواهرات و ادعای اثبات‌نشدنی.
+      • «شناسنامه رسمی — شماره سریال یکتا» → مستقیماً قابلیت منسوخ
+        شناسنامه طلا.
+      • «رهگیری سرقت — اطلاع‌رسانی به شبکه همکاران» → ماژول منسوخ
+        گزارش سرقت/مفقودی.
+      • «ارسال امن — بیمه‌شده با اسکورت مسلح» → ادعای بسیار سنگین و
+        بدون هیچ پشتوانه‌ای در پروژه؛ حذف شد.
+      • «تنوع بی‌نظیر — ده‌ها هزار مدل» → عدد ساختگی. پایگاه داده
+        فعلی ۶۲ محصول دارد؛ اعلام «ده‌ها هزار» گمراه‌کننده بود.
+      • «خدمات پس از فروش — تمیز کردن و بروزرسانی رایگان شناسنامه»
+        → ترکیبی از ادعای رایگان‌بودن و قابلیت منسوخ.
+
+    جای همه آن‌ها، شش مزیت واقعی فروشگاه خرازی نشسته است که هر کدام
+    دقیقاً به یکی از قابلیت‌های موجود و فعال پروژه اشاره می‌کند:
+    دسته‌بندی سلسله‌مراتبی، جست‌وجو و فیلتر، سبد خرید، کنترل انبار،
+    پیگیری سفارش و مقالات راهنما.
+--}}
 <section class="d-services">
     <div class="container">
         <div class="d-services-grid">
             <div class="d-service-card">
-                <div class="d-service-icon">🛡️</div>
-                <h5>گارانتی اصالت</h5>
-                <p>تمام قطعات قبل از فروش توسط کارشناسان خبره ارزیابی و تأیید می‌شوند.</p>
+                <div class="d-service-icon">🧵</div>
+                <h5>تنوع دسته‌بندی</h5>
+                <p>از نخ و سوزن و دکمه تا روبان، زیپ، دانتل، کاموا و منجوق — همه در گروه‌های جداگانه و مرتب.</p>
             </div>
             <div class="d-service-card">
-                <div class="d-service-icon">📜</div>
-                <h5>شناسنامه رسمی</h5>
-                <p>هر قطعه دارای شناسنامه معتبر با شماره سریال یکتا و قابل استعلام است.</p>
+                <div class="d-service-icon">🔍</div>
+                <h5>جست‌وجو و فیلتر</h5>
+                <p>محصول مورد نظر خود را بر اساس دسته‌بندی، برند، رنگ و محدوده قیمت پیدا کنید.</p>
             </div>
             <div class="d-service-card">
-                <div class="d-service-icon">🚨</div>
-                <h5>رهگیری سرقت</h5>
-                <p>ثبت فوری سرقت/مفقودی و اطلاع‌رسانی به شبکه همکاران سراسر کشور.</p>
+                <div class="d-service-icon">🛒</div>
+                <h5>خرید آسان</h5>
+                <p>سبد خرید ساده، ثبت سفارش چند مرحله‌ای و پرداخت از درگاه بانکی.</p>
+            </div>
+            <div class="d-service-card">
+                <div class="d-service-icon">📦</div>
+                <h5>وضعیت واقعی موجودی</h5>
+                <p>موجودی انبار به‌صورت زنده کنترل می‌شود؛ امکان سفارش بیش از موجودی وجود ندارد.</p>
             </div>
             <div class="d-service-card">
                 <div class="d-service-icon">🚚</div>
-                <h5>ارسال امن</h5>
-                <p>ارسال کاملاً بیمه شده با اسکورت مسلح برای قطعات فوق‌العاده ارزشمند.</p>
+                <h5>پیگیری سفارش</h5>
+                <p>وضعیت سفارش خود را از طریق پنل کاربری یا صفحه پیگیری سفارش دنبال کنید.</p>
             </div>
             <div class="d-service-card">
-                <div class="d-service-icon">💎</div>
-                <h5>تنوع بی‌نظیر</h5>
-                <p>بیش از ده‌ها هزار مدل طلا، جواهر، ساعت لوکس و سنگ قیمتی.</p>
-            </div>
-            <div class="d-service-card">
-                <div class="d-service-icon">🔧</div>
-                <h5>خدمات پس از فروش</h5>
-                <p>تعمیر، سایز کردن، تمیز کردن و بروزرسانی رایگان شناسنامه.</p>
+                <div class="d-service-icon">📚</div>
+                <h5>راهنمای خرید</h5>
+                <p>مقالات و راهنماهای کاربردی برای انتخاب درست لوازم خیاطی، گلدوزی و بافتنی.</p>
             </div>
         </div>
     </div>
@@ -785,63 +895,108 @@
 
 <div id="section_best_sellers"></div>
 
-<!-- ============================================ -->
-<!-- بخش دسته‌بندی‌های طلا و جواهر -->
-<!-- ============================================ -->
+{{-- ============================================ --}}
+{{-- دسته‌بندی‌های اصلی فروشگاه (پویا) --}}
+{{-- ============================================ --}}
+{{--
+    ── تغییرات این بخش ─────────────────────────────────────────────────
+    این بخش پیش از آن، هشت کارت «دسته‌بندی طلا و جواهر» بود که همه با
+    slug سخت‌کد نوشته شده بودند و تصویرشان از پوشه `frontend/images/drikana/`
+    می‌آمد (ring.svg، necklace.svg، watch.svg، diamond.svg، crown.svg،
+    coin.svg، gift.svg، antique.svg).
+
+    مشکل‌های آن نسخه:
+      ۱. هشت slug سخت‌کد → با حذف یا تغییر دسته‌بندی در پنل مدیریت،
+         لینک‌ها می‌شکستند و به صفحه ۴۰۴ می‌رسیدند.
+      ۲. شمارش‌های ساختگی: «۲,۴۰۰+ مدل»، «رولکس، پتک و…»،
+         «قیمتی و نیمه‌قیمتی»، «کلکسیون ویژه» — هیچ‌کدام از پایگاه
+         داده نمی‌آمدند و نادرست بودند.
+      ۳. آیکون‌های طلا و جواهر که برای فروشگاه خرازی معنا ندارند.
+
+    نسخه جدید کاملاً «پویا» است: دسته‌بندی‌های سطح یک را از جدول
+    `categories` می‌خواند (همان منبعی که مگامنو استفاده می‌کند) و
+    تنها تا ۸ کارت نمایش می‌دهد. بنابراین:
+      • با افزودن دسته‌بندی خرازی از پنل مدیریت، این بخش خودکار به‌روز
+        می‌شود و هیچ تغییری در کد لازم نیست.
+      • تعداد واقعی محصولات هر دسته از پایگاه داده شمرده می‌شود
+        (`withCount('products')`) — نه یک عدد ساختگی.
+      • آیکون‌ها از همان نگاشت کلیدواژه‌ای می‌آیند که در منوی اصلی
+        استفاده شده؛ اما نخست به تصویر واقعی دسته (`icon`) نگاه
+        می‌شود اگر مدیر یکی بارگذاری کرده باشد.
+
+    اگر هنوز هیچ دسته‌بندی‌ای تعریف نشده باشد، بخش نمایش داده نمی‌شود
+    (به‌جای آنکه کارت‌های خالی یا لینک شکسته بسازد).
+--}}
+@php
+    $showcaseCategories = collect();
+    try {
+        if (safe_table_exists('categories')) {
+            $scq = \App\Category::withCount('products')->where('top', 1);
+            published_column_filter($scq, 'categories');
+            $showcaseCategories = $scq->orderBy('id')->limit(8)->get();
+        }
+    } catch (\Exception $e) { $showcaseCategories = collect(); }
+
+    // نگاشت کلیدواژه → آیکون (همان منطق منوی اصلی؛ آیکون پیش‌فرض عمومی)
+    $showcaseIconMap = [
+        'نخ' => 'la-leaf', 'کاموا' => 'la-random', 'بافت' => 'la-random',
+        'گلدوزی' => 'la-magic', 'شماره' => 'la-magic', 'هنری' => 'la-paint-brush',
+        'تزئین' => 'la-star-o', 'دکمه' => 'la-circle-o', 'قزن' => 'la-circle-o',
+        'مروارید' => 'la-circle', 'منجوق' => 'la-circle', 'مهره' => 'la-circle',
+        'زیپ' => 'la-ellipsis-h', 'روبان' => 'la-minus', 'نوار' => 'la-minus',
+        'تور' => 'la-th', 'دانتل' => 'la-th', 'خرج' => 'la-th',
+        'کش' => 'la-arrows-h', 'قیچی' => 'la-scissors', 'ابزار' => 'la-wrench',
+        'متر' => 'la-arrows-h', 'اندازه' => 'la-arrows-h', 'بشکاف' => 'la-cut',
+        'سوزن' => 'la-map-pin', 'مصرفی' => 'la-cube', 'بسته' => 'la-gift',
+        'ویژه' => 'la-star',
+    ];
+@endphp
+
+@if($showcaseCategories->isNotEmpty())
 <section class="d-categories">
     <div class="container">
         <div class="section-heading">
             <span class="kicker">CATEGORIES</span>
-            <h2>گنجینه‌ای از <span class="gold">زیباترین</span> محصولات</h2>
-            <p>از انگشترهای نامزدی ظریف تا ساعت‌های کلکسیونی و الماس‌های کمیاب، هر آنچه از یک مارکت‌پلیس لوکس انتظار دارید.</p>
+            <h2>خرید بر اساس <span class="gold">دسته‌بندی</span></h2>
+            <p>لوازم خیاطی، گلدوزی، بافتنی و هنری — دسته‌بندی‌شده تا سریع‌تر به آنچه می‌خواهید برسید.</p>
             <span class="divider-gold"></span>
         </div>
         <div class="d-cat-grid">
-            <a href="{{ route('products.category', ['category_slug' => '---uQqCB']) }}" class="d-cat-card">
-                <img src="{{ asset('frontend/images/drikana/ring.svg') }}" alt="حلقه" class="cat-ico u-width-90px-height-90px-object-fit-contain-filter-drop-s-ddc6d9">
-                <h4>حلقه و انگشتر</h4>
-                <span class="cat-count">۲,۴۰۰+ مدل</span>
-            </a>
-            <a href="{{ route('products.category', ['category_slug' => '-----MB8NO']) }}" class="d-cat-card">
-                <img src="{{ asset('frontend/images/drikana/necklace.svg') }}" alt="گردنبند" class="cat-ico u-width-90px-height-90px-object-fit-contain-filter-drop-s-ddc6d9">
-                <h4>گردنبند و آویز</h4>
-                <span class="cat-count">طلای ظریف</span>
-            </a>
-            <a href="{{ route('products.category', ['category_slug' => '----FoS0v']) }}" class="d-cat-card">
-                <img src="{{ asset('frontend/images/drikana/watch.svg') }}" alt="ساعت" class="cat-ico u-width-90px-height-90px-object-fit-contain-filter-drop-s-ddc6d9">
-                <h4>ساعت لوکس</h4>
-                <span class="cat-count">رولکس، پتک و...</span>
-            </a>
-            <a href="{{ route('products.category', ['category_slug' => '---iLNhI']) }}" class="d-cat-card">
-                <img src="{{ asset('frontend/images/drikana/diamond.svg') }}" alt="الماس" class="cat-ico u-width-90px-height-90px-object-fit-contain-filter-drop-s-ffea0d">
-                <h4>الماس و سنگ قیمتی</h4>
-                <span class="cat-count">قیمتی و نیمه‌قیمتی</span>
-            </a>
-            <a href="{{ route('categories.all') }}" class="d-cat-card">
-                <img src="{{ asset('frontend/images/drikana/crown.svg') }}" alt="تاج" class="cat-ico u-width-90px-height-90px-object-fit-contain-filter-drop-s-ddc6d9">
-                <h4>جواهرات سلطنتی</h4>
-                <span class="cat-count">کلکسیون ویژه</span>
-            </a>
-            <a href="{{ route('products.category', ['category_slug' => '--2EJpD']) }}" class="d-cat-card">
-                <img src="{{ asset('frontend/images/drikana/coin.svg') }}" alt="سکه" class="cat-ico u-width-90px-height-90px-object-fit-contain-filter-drop-s-ddc6d9">
-                <h4>شمش و سکه</h4>
-                <span class="cat-count">سرمایه‌گذاری</span>
-            </a>
-            <a href="{{ route('products.category', ['category_slug' => '-----H1Zlr']) }}" class="d-cat-card">
-                <img src="{{ asset('frontend/images/drikana/gift.svg') }}" alt="هدیه" class="cat-ico u-width-90px-height-90px-object-fit-contain-filter-drop-s-13829f">
-                <h4>پک هدیه لوکس</h4>
-                <span class="cat-count">بسته‌بندی ویژه</span>
-            </a>
-            <a href="{{ route('categories.all') }}" class="d-cat-card">
-                <img src="{{ asset('frontend/images/drikana/antique.svg') }}" alt="عتیقه" class="cat-ico u-width-90px-height-90px-object-fit-contain-filter-drop-s-70c493">
-                <h4>اشیاء عتیقه</h4>
-                <span class="cat-count">کلکسیونرها</span>
+            @foreach($showcaseCategories as $sc)
+                @php
+                    $scIcon = 'la-th-large';
+                    foreach($showcaseIconMap as $kw => $ic) {
+                        if(mb_strpos($sc->name, $kw) !== false) { $scIcon = $ic; break; }
+                    }
+                @endphp
+                <a href="{{ route('products.category', $sc->slug) }}" class="d-cat-card">
+                    @if($sc->icon && file_exists(public_path($sc->icon)))
+                        <img src="{{ asset($sc->icon) }}" alt="{{ $sc->name }}"
+                             class="cat-ico u-width-90px-height-90px-object-fit-contain">
+                    @else
+                        {{-- بدون تصویر: آیکون برداری درون‌خطی — هیچ فایل ۴۰۴ تولید نمی‌شود --}}
+                        <span class="cat-ico cat-ico-vector" aria-hidden="true"><i class="la {{ $scIcon }}"></i></span>
+                    @endif
+                    <h4>{{ __($sc->name) }}</h4>
+                    <span class="cat-count">
+                        @if($sc->products_count > 0)
+                            {{ number_format($sc->products_count) }} کالا
+                        @else
+                            مشاهده محصولات
+                        @endif
+                    </span>
+                </a>
+            @endforeach
+
+            <a href="{{ route('categories.all') }}" class="d-cat-card d-cat-card-all">
+                <span class="cat-ico cat-ico-vector" aria-hidden="true"><i class="la la-th-large"></i></span>
+                <h4>همه دسته‌بندی‌ها</h4>
+                <span class="cat-count">مشاهده فهرست کامل</span>
             </a>
         </div>
     </div>
 </section>
-
-<!-- ============================================ -->
+@endif
 <!-- بخش مقالات و راهنما (برای همه کاربران سایت) -->
 <!-- ============================================ -->
 {{--
@@ -925,156 +1080,197 @@
 </section>
 @endif
 
-<!-- ============================================ -->
-<!-- بخش شناسنامه و امنیت -->
-<!-- ============================================ -->
+{{-- ============================================ --}}
+{{-- راهنمای خرید و چرا از ما بخرید --}}
+{{-- ============================================ --}}
+{{--
+    ── تغییرات این بخش ─────────────────────────────────────────────────
+    این بخش پیش از این دو بلوک جدا بود:
+      (۱) «بخش شناسنامه و امنیت» با عنوان CERTIFICATE & SECURITY
+      (۲) «استعلام شناسنامه CTA» با فرم ورود شماره سریال
+
+    هر دو کاملاً به ماژول منسوخ‌شده شناسنامه طلا تعلق داشتند و حذف
+    شدند. ادعاهای موجود در آن‌ها نه فقط بی‌ربط، بلکه نادرست بودند:
+
+      • «بلوک‌زنجیره اختصاصی» — پروژه هیچ بلاک‌چینی ندارد.
+      • «سند غیرقابل جعل»     — ادعای امنیتی بدون پشتوانه فنی.
+      • «هشدار سرقت لحظه‌ای به شبکه همکاران» — شبکه‌ای وجود ندارد؛
+        ماژول فقط یک فرم ثبت داخلی بود.
+      • «احراز هویت رسمی مالک» — چنین فرایندی پیاده‌سازی نشده بود.
+      • کارت ماکت «گواهی اصالت — انگشتر الماس، طلای ۱۸ عیار،
+        الماس ۱.۲ قیراط» — یک تصویر ساختگی از محصولی که فروشگاه
+        نمی‌فروشد؛ طبق بند «تصویر نامرتبط را به‌عنوان تصویر واقعی
+        محصول نمایش نده» حذف شد.
+
+    جای آن‌ها، یک بخش واقعی «چرا از خرازی پرنسا بخرید؟» نشسته است که
+    چهار مزیت آن دقیقاً به قابلیت‌های فعال پروژه نگاشت دارد، به‌همراه
+    دو دکمه‌ای که به صفحه‌های موجود و کارساز اشاره می‌کنند:
+    `/guide` (راهنمای خرید و ارسال) و `/faq` (سؤالات متداول).
+
+    ── نکته فنی ────────────────────────────────────────────────────────
+    ساختار HTML و کلاس‌های قالب (`d-trust`, `d-trust-inner`,
+    `d-trust-content`, `d-trust-features`, `d-trust-feature`,
+    `d-trust-visual`) عیناً حفظ شده‌اند تا CSS موجود
+    (`frontend/css/drikana-luxury.css`) بدون هیچ تغییری کار کند.
+    فقط در ستون تصویری، ماکتِ «گواهی اصالت» با یک کارتِ
+    «سبد خرید نمونه» جانشین شده که محتوایش برگرفته از دسته‌بندی‌های
+    واقعی خرازی است. کلاس `d-cert-mockup` حفظ شده تا چیدمان نشکند.
+--}}
 <section class="d-trust">
     <div class="container">
         <div class="d-trust-inner">
             <div class="d-trust-content">
                 <span class="kicker u-color-var-d-gold-font-weight-700-letter-spacing-3px-fon-f179e3">
-                    CERTIFICATE & SECURITY
+                    SHOPPING GUIDE
                 </span>
                 <h2 class="u-font-size-clamp-24px-3vw-38px-font-weight-800-margin-10-372c2c">
-                    هر قطعه، یک <span class="u-background-var-grad-gold-webkit-background-clip-text-ba-1929d0">شناسنامه معتبر</span>؛ آرامش خاطر شما
+                    خرید لوازم خرازی، <span class="u-background-var-grad-gold-webkit-background-clip-text-ba-1929d0">ساده و مطمئن</span>
                 </h2>
                 <p class="u-color-var-d-gray-300-font-size-15px-line-height-2-1-mar-8d9f21">
-                    سامانه شناسنامه دیجیتال دریکانا، سندی رسمی و غیرقابل جعل است که تمامی مشخصات فنی، عیار، وزن، سنگ‌های به‌کاررفته و تاریخچه مالکیت قطعه را در خود جای می‌دهد. هرگونه نقل و انتقال، تعمیر یا تغییر وضعیت در پرونده قطعه به صورت دائمی ثبت می‌شود.
+                    فروشگاه خرازی پرنسا همه لوازم مورد نیاز خیاطی، گلدوزی، بافتنی و
+                    کارهای هنری را در دسته‌بندی‌های مشخص و قابل جست‌وجو عرضه می‌کند.
+                    برای هر محصول، مشخصاتی مانند جنس، رنگ، اندازه و تعداد در بسته
+                    نوشته شده تا پیش از خرید بدانید دقیقاً چه چیزی دریافت می‌کنید.
                 </p>
                 <div class="d-trust-features">
                     <div class="d-trust-feature">
-                        <div class="tf-icon"><i class="la la-qrcode"></i></div>
+                        <div class="tf-icon"><i class="la la-list-ul"></i></div>
                         <div>
-                            <h5>QR-Code اختصاصی</h5>
-                            <p>با اسکن کد روی هر شناسنامه، بلافاصله به صفحه استعلام هدایت می‌شوید.</p>
+                            <h5>مشخصات کامل هر کالا</h5>
+                            <p>جنس، رنگ، اندازه، تعداد در بسته و واحد فروش، همه در صفحه محصول نوشته شده است.</p>
                         </div>
                     </div>
                     <div class="d-trust-feature">
-                        <div class="tf-icon"><i class="la la-chain"></i></div>
+                        <div class="tf-icon"><i class="la la-tag"></i></div>
                         <div>
-                            <h5>تاریخچه شفاف</h5>
-                            <p>تمام انتقالات مالکیت، تعمیرات و کارشناسی‌ها در بلوک‌زنجیره اختصاصی ثبت می‌شود.</p>
+                            <h5>قیمت شفاف و تخفیف واقعی</h5>
+                            <p>قیمت نهایی و تخفیف‌ها پیش از پرداخت به شما نمایش داده می‌شود؛ محاسبه مبلغ در سرور انجام می‌گیرد.</p>
                         </div>
                     </div>
                     <div class="d-trust-feature">
-                        <div class="tf-icon"><i class="la la-id-card"></i></div>
+                        <div class="tf-icon"><i class="la la-cubes"></i></div>
                         <div>
-                            <h5>احراز هویت مالک</h5>
-                            <p>هرگونه معامله یا انتقال با احراز هویت رسمی مالک انجام می‌شود.</p>
+                            <h5>کنترل لحظه‌ای موجودی</h5>
+                            <p>موجودی انبار به‌صورت زنده بررسی می‌شود و امکان سفارش بیش از موجودی وجود ندارد.</p>
                         </div>
                     </div>
                     <div class="d-trust-feature">
-                        <div class="tf-icon"><i class="la la-bell"></i></div>
+                        <div class="tf-icon"><i class="la la-history"></i></div>
                         <div>
-                            <h5>هشدار سرقت لحظه‌ای</h5>
-                            <p>در صورت اعلام سرقت، تمام همکاران و مراکز از ممنوع‌المعامله بودن قطعه آگاه می‌شوند.</p>
+                            <h5>پیگیری در هر مرحله</h5>
+                            <p>وضعیت سفارش را از پنل کاربری و صفحه پیگیری سفارش دنبال کنید.</p>
                         </div>
                     </div>
                 </div>
                 <div class="u-margin-top-30px-display-flex-gap-12px-flex-wrap-wrap">
-                    <a href="{{ route('jewelry.certificates.verify_page') }}" class="btn-lux btn-lux-primary">
-                        <i class="la la-search"></i> استعلام آنلاین شناسنامه
+                    <a href="{{ route('guide') }}" class="btn-lux btn-lux-primary">
+                        <i class="la la-book"></i> راهنمای خرید و ارسال
                     </a>
-                    <a href="{{ route('jewelry.missing_reports.create_public') }}" class="btn-lux btn-lux-outline">
-                        <i class="la la-bullhorn"></i> اعلام سرقت/مفقودی
+                    <a href="{{ route('faq') }}" class="btn-lux btn-lux-outline">
+                        <i class="la la-question"></i> سؤالات متداول
                     </a>
                 </div>
             </div>
             <div class="d-trust-visual">
+                {{-- جایگزین ماکت «گواهی اصالت» — همان کلاس ظاهری حفظ شد --}}
                 <div class="d-cert-mockup">
                     <div class="cert-head">
-                        <h6>Certificate No. DRK</h6>
-                        <h3>گواهی اصالت</h3>
+                        <h6>Kharazi Peransa</h6>
+                        <h3>نمونه دسته‌بندی‌ها</h3>
                     </div>
-                    <div class="cert-row"><span>محصول:</span><span>انگشتر الماس</span></div>
-                    <div class="cert-row"><span>فلز:</span><span>طلای ۱۸ عیار</span></div>
-                    <div class="cert-row"><span>وزن:</span><span>۸.۴ گرم</span></div>
-                    <div class="cert-row"><span>سنگ:</span><span>الماس ۱.۲ قیراط</span></div>
-                    <div class="cert-row"><span>مالک:</span><span>—</span></div>
-                    <div class="cert-row"><span>تاریخ صدور:</span><span>۱۴۰۳/۰۶/۱۵</span></div>
-                    <div class="cert-seal">DRIKANA<br>CERTIFIED</div>
+                    <div class="cert-row"><span>نخ و کاموا</span><span>قرقره / کلاف</span></div>
+                    <div class="cert-row"><span>سوزن و قیچی</span><span>بسته / عدد</span></div>
+                    <div class="cert-row"><span>دکمه و قزن</span><span>بسته‌ای</span></div>
+                    <div class="cert-row"><span>زیپ و روبان</span><span>متر / عدد</span></div>
+                    <div class="cert-row"><span>منجوق و مروارید</span><span>بسته‌ای</span></div>
+                    <div class="cert-row"><span>تور و دانتل</span><span>متر</span></div>
+                    <div class="cert-seal">خرازی<br>پرنسا</div>
                     <div class="cert-qr"></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+{{-- ============================================ --}}
+{{-- سؤالات متداول (نمای کوتاه) --}}
+{{-- ============================================ --}}
+{{--
+    ── تغییرات این بخش ─────────────────────────────────────────────────
+    این بخش پیش از آن، شش پرسش کاملاً اختصاصی «شناسنامه طلا» بود:
 
-<!-- ============================================ -->
-<!-- استعلام شناسنامه CTA -->
-<!-- ============================================ -->
-<section class="d-verify-cta">
-    <div class="container">
-        <div class="d-verify-box">
-            <div class="d-verify-icon"><i class="la la-certificate"></i></div>
-            <h2 class="u-font-size-clamp-22px-3vw-34px-font-weight-800-margin-0-0-12px">
-                همین حالا <span class="u-background-var-grad-gold-webkit-background-clip-text-ba-1929d0">اصالت</span> قطعه خود را بررسی کنید
-            </h2>
-            <p class="u-color-var-d-gray-300-margin-0">
-                با وارد کردن شماره سریال شناسنامه، از مشخصات، اصالت و وضعیت قطعه خود مطلع شوید.
-            </p>
-            <form method="GET" action="{{ route('jewelry.certificates.verify_page') }}" class="d-verify-form">
-                <input type="text" name="serial" placeholder="شماره سریال شناسنامه را وارد کنید..." required>
-                <button type="submit"><i class="la la-search la-flip-horizontal"></i> استعلام کن</button>
-            </form>
-        </div>
-    </div>
-</section>
+      ۱. «شناسنامه طلا چیست و چرا اهمیت دارد؟»
+      ۲. «چگونه از اصالت کالایی که می‌خرم مطمئن شوم؟»
+      ۳. «در صورت سرقت یا مفقودی طلا چه کار باید بکنم؟»
+      ۴. «آیا امکان فروش طلای کارکرده وجود دارد؟»
+      ۵. «شیوه ارسال قطعات گران‌بها چگونه است؟» — ادعای «اسکورت
+         امنیتی مسلحانه» که هیچ پشتوانه‌ای در پروژه نداشت و گمراه‌کننده بود.
+      ۶. «هزینه صدور شناسنامه جدید چقدر است؟»
 
-<!-- ============================================ -->
-<!-- سوالات متداول -->
-<!-- ============================================ -->
+    هر شش مورد حذف شدند، چون به ماژول منسوخ‌شده تعلق داشتند یا ادعای
+    تأییدنشده بودند.
+
+    ── نکته: چرا این بخش حذف کامل نشد؟ ────────────────────────────────
+    یک صفحه کامل «سؤالات متداول» در مسیر `/faq` ساخته شده است
+    (`resources/views/frontend/faq.blade.php`) که پاسخ‌های کامل و
+    لینک‌سازی داخلی دارد و برای سئو مفیدتر است. بنابراین این بخش
+    صفحه اصلی به چند پرسش کوتاه بسنده می‌کند و در پایان، کاربر را به
+    صفحه اصلی سؤالات متداول هدایت می‌نماید. این کار از «محتوای تکراری»
+    بین دو صفحه هم جلوگیری می‌کند.
+
+    آکاردئون از کلاس‌های موجود قالب (`d-faq-item`, `d-faq-q`,
+    `d-faq-a`) استفاده می‌کند که جاوااسکریپت انتهای همین صفحه و
+    `frontend/layouts/app.blade.php` آن را مدیریت می‌کنند.
+--}}
 <section class="d-faq">
     <div class="container">
         <div class="section-heading">
             <span class="kicker">FAQ</span>
-            <h2>سوالات <span class="gold">متداول</span></h2>
-            <p>پاسخ به مهم‌ترین پرسش‌های شما درباره خرید طلا، شناسنامه و خدمات دریکانا.</p>
+            <h2>سؤالات <span class="gold">متداول</span></h2>
+            <p>پاسخ کوتاه به پرتکرارترین پرسش‌ها درباره خرید، ارسال و مرجوعی محصولات خرازی.</p>
             <span class="divider-gold"></span>
         </div>
         <div class="d-faq-list">
             <div class="d-faq-item open">
                 <div class="d-faq-q">
-                    <span>شناسنامه طلا چیست و چرا اهمیت دارد؟</span>
+                    <span>برای خرید باید ثبت‌نام کنم؟</span>
                     <i class="la la-angle-down"></i>
                 </div>
-                <div class="d-faq-a"><p>شناسنامه طلا سندی رسمی و دیجیتال است که مشخصات فنی قطعه شامل وزن، عیار، نوع و مشخصات سنگ، مالک و تاریخچه آن را ثبت می‌کند. با شناسنامه، اصالت قطعه قابل پیگیری و انتقال مالکیت به صورت شفاف و امن انجام می‌شود.</p></div>
+                <div class="d-faq-a"><p>برای دیدن محصولات و جست‌وجو نیازی به ثبت‌نام نیست. اما برای ثبت سفارش و پیگیری آن در پنل کاربری، باید وارد حساب کاربری شوید یا در همان مرحله ثبت‌نام کنید.</p></div>
             </div>
             <div class="d-faq-item">
                 <div class="d-faq-q">
-                    <span>چگونه از اصالت کالایی که می‌خرم مطمئن شوم؟</span>
+                    <span>محصولات در چه واحدهایی فروخته می‌شوند؟</span>
                     <i class="la la-angle-down"></i>
                 </div>
-                <div class="d-faq-a"><p>تمام محصولات دریکانا قبل از درج توسط کارشناسان رسمی ارزیابی شده و دارای شناسنامه معتبر با شماره سریال یکتا هستند. شما می‌توانید در هر لحظه با وارد کردن شماره سریال در صفحه «استعلام شناسنامه»، اصالت و وضعیت قطعه را بررسی کنید.</p></div>
+                <div class="d-faq-a"><p>واحد فروش هر کالا در صفحه همان محصول نوشته شده است؛ نخ اغلب قرقره‌ای، روبان و دانتل متری، و سوزن، دکمه و زیپ بسته‌ای عرضه می‌شوند. تعداد موجود در هر بسته هم همان‌جا ذکر شده است.</p></div>
             </div>
             <div class="d-faq-item">
                 <div class="d-faq-q">
-                    <span>در صورت سرقت یا مفقودی طلا چه کار باید بکنم؟</span>
+                    <span>هزینه و زمان ارسال چقدر است؟</span>
                     <i class="la la-angle-down"></i>
                 </div>
-                <div class="d-faq-a"><p>بلافاصله از پنل کاربری خود وارد بخش «اعلام سرقت/مفقودی» شوید و گزارش را ثبت کنید. قطعه شما ظرف چند دقیقه در شبکه همکاران، مراکز خریدوفروش، تعمیرگاه‌ها و لیست ممنوع‌المعامله دریکانا قرار می‌گیرد.</p></div>
+                <div class="d-faq-a"><p>هزینه ارسال بر اساس شیوه انتخابی و تنظیمات فروشگاه محاسبه می‌شود و پیش از پرداخت به شما نمایش داده می‌شود. شرح مراحل خرید در <a href="{{ route('guide') }}">راهنمای خرید و ارسال</a> آمده است.</p></div>
             </div>
             <div class="d-faq-item">
                 <div class="d-faq-q">
-                    <span>آیا امکان فروش طلای کارکرده در دریکانا وجود دارد؟</span>
+                    <span>سفارشم را چطور پیگیری کنم؟</span>
                     <i class="la la-angle-down"></i>
                 </div>
-                <div class="d-faq-a"><p>بله. شما می‌توانید با ثبت‌نام به عنوان فروشنده یا از بخش «فروش طلای من» درخواست کارشناسی رایگان قطعه خود را ثبت کنید. پس از ارزیابی توسط کارشناسان، قطعه با شناسنامه جدید در مارکت‌پلیس عرضه می‌شود.</p></div>
+                <div class="d-faq-a"><p>از صفحه <a href="{{ route('orders.track') }}">پیگیری سفارش</a>، یا پس از ورود به حساب کاربری از بخش تاریخچه خرید در پنل کاربری.</p></div>
             </div>
             <div class="d-faq-item">
                 <div class="d-faq-q">
-                    <span>شیوه ارسال قطعات گران‌بها چگونه است؟</span>
+                    <span>اگر کالا را نپسندم، می‌توانم مرجوع کنم؟</span>
                     <i class="la la-angle-down"></i>
                 </div>
-                <div class="d-faq-a"><p>قطعات با ارزش بالا با بیمه کامل و اسکورت امنیتی به درب منزل شما ارسال می‌شوند. برای سفارش‌های معمولی نیز بسته‌بندی ایمن و بیمه شده توسط پست پیشتاز یا تیپاکس انجام می‌شود.</p></div>
+                <div class="d-faq-a"><p>شرایط و مهلت بازگشت کالا در صفحه <a href="{{ route('returnpolicy') }}">شرایط مرجوعی و بازگشت کالا</a> توضیح داده شده است. پیش از ارسال کالای مرجوعی، مطالعه آن صفحه را توصیه می‌کنیم.</p></div>
             </div>
-            <div class="d-faq-item">
-                <div class="d-faq-q">
-                    <span>هزینه صدور شناسنامه جدید چقدر است؟</span>
-                    <i class="la la-angle-down"></i>
-                </div>
-                <div class="d-faq-a"><p>برای قطعاتی که از دریکانا خریداری می‌شوند، صدور شناسنامه کاملاً رایگان است. برای قطعات متفرقه، هزینه کارشناسی و صدور شناسنامه بر اساس وزن و نوع قطعه محاسبه می‌شود.</p></div>
-            </div>
+        </div>
+
+        <div class="kp-faq-more">
+            <a href="{{ route('faq') }}" class="btn-lux btn-lux-outline">
+                <i class="la la-question"></i> مشاهده همه سؤالات متداول
+            </a>
         </div>
     </div>
 </section>

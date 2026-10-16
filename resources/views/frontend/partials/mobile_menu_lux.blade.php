@@ -28,8 +28,16 @@
                     <li><a href="{{ route('home') }}"><i class="la la-home"></i> خانه</a></li>
                     <li><a href="{{ route('categories.all') }}"><i class="la la-th-large"></i> دسته‌بندی‌ها</a></li>
                     <li><a href="{{ route('products.featured') }}"><i class="la la-star"></i> محصولات ویژه</a></li>
-                    <li><a href="{{ route('jewelry.certificates.verify_page') }}"><i class="la la-certificate"></i> استعلام شناسنامه</a></li>
-                    <li><a href="{{ route('jewelry.missing_reports.create_public') }}"><i class="la la-bullhorn"></i> اعلام سرقت/مفقودی</a></li>
+                    {{--
+                        دو لینک «استعلام شناسنامه» و «اعلام سرقت/مفقودی» حذف
+                        شدند؛ آن‌ها به ماژول منسوخ‌شده جواهرات تعلق داشتند و
+                        پس از غیرفعال‌سازی آن ماژول، فراخوانی
+                        route('jewelry.*') باعث خطای
+                        RouteNotFoundException و ۵۰۰ شدن تمام صفحات می‌شد.
+                        جای آن‌ها دو لینک کاربردی فروشگاه خرازی نشست.
+                    --}}
+                    <li><a href="{{ route('products.new') }}"><i class="la la-star-o"></i> جدیدترین محصولات</a></li>
+                    <li><a href="{{ route('products.discounted') }}"><i class="la la-tag"></i> تخفیف‌دارها</a></li>
                     <li><a href="{{ route('orders.track') }}"><i class="la la-map-pin"></i> رهگیری سفارش</a></li>
                     <li><a href="{{ route('articles.index') }}"><i class="la la-book"></i> مقالات و راهنما</a></li>
                     <li><a href="{{ route('contact') }}"><i class="la la-phone"></i> تماس با ما</a></li>

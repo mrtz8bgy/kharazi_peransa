@@ -3,10 +3,33 @@
     <div class="d-topbar">
         <div class="container">
             <div class="d-topbar-inner">
+                {{--
+                    نوار اطلاع‌رسانی بالای سایت
+                    ────────────────────────────────────────────────
+                    مقادیر تماس از جدول `general_settings` خوانده می‌شوند تا
+                    از پنل مدیریت قابل ویرایش باشند. سه مورد اصلاح شد:
+
+                      ۱. طرز نوشتن پشتیبانی: «۲۴ ساعته» یک ادعای تأییدنشده
+                         بود؛ به «پشتیبانی فروشگاه» تغییر یافت که صادقانه و
+                         خنثی است.
+                      ۲. ایمیل پیش‌فرض `info@drikana.com` بود (برند قبلی)
+                         و حذف شد؛ اگر ایمیل در تنظیمات ثبت نشده باشد،
+                         بخش ایمیل به‌کل نمایش داده نمی‌شود.
+                      ۳. نشانی «تهران، بازار بزرگ طلا» سخت‌کد شده بود و با
+                         فروشگاه خرازی ارتباطی نداشت؛ اکنون از ستون
+                         `address` جدول تنظیمات خوانده می‌شود.
+                    --}}
+                @php $navGs = \App\GeneralSetting::first(); @endphp
                 <div class="d-contact-info">
-                    <span><i class="la la-phone"></i> پشتیبانی ۲۴ ساعته: {{ \App\GeneralSetting::first()->phone ?? '۰۲۱-۱۲۳۴۵۶۷۸' }}</span>
-                    <span><i class="la la-envelope"></i> {{ \App\GeneralSetting::first()->email ?? 'info@drikana.com' }}</span>
-                    <span><i class="la la-map-marker"></i> تهران، بازار بزرگ طلا</span>
+                    @if($navGs && $navGs->phone)
+                        <span><i class="la la-phone"></i> پشتیبانی فروشگاه: {{ $navGs->phone }}</span>
+                    @endif
+                    @if($navGs && $navGs->email)
+                        <span><i class="la la-envelope"></i> {{ $navGs->email }}</span>
+                    @endif
+                    @if($navGs && $navGs->address)
+                        <span><i class="la la-map-marker"></i> {{ $navGs->address }}</span>
+                    @endif
                 </div>
                 <ul class="d-top-links">
                     <li><a href="{{ route('orders.track') }}"><i class="la la-map-pin"></i> رهگیری سفارش</a></li>
@@ -34,12 +57,39 @@
                 </button>
 
                 <!-- Logo -->
+                {{--
+                    لوگو — با پشتیبان‌گیری چندلایه
+                    ────────────────────────────────────────────────
+                    ترتیب اولویت:
+                      ۱. لوگویی که مدیر در پنل مدیریت بارگذاری کرده
+                         (`general_settings.logo`).
+                      ۲. لوگوی SVG فروشگاه خرازی پرنسا که در همین پروژه
+                         ساخته شد.
+                      ۳. نام متنی فروشگاه (اگر هیچ تصویری موجود نبود) —
+                         بنابراین در هیچ حالتی تصویر شکسته (آیکون
+                         broken-image) نشان داده نمی‌شود.
+
+                    متن جانشین (alt) نیز از نام برنامه خوانده می‌شود تا با
+                    تغییر برند در `.env`، هم‌زمان به‌روز شود.
+                --}}
                 <a href="{{ route('home') }}" class="d-logo">
                     @php
                         $gs = \App\GeneralSetting::first();
-                        $logoUrl = ($gs && $gs->logo && file_exists(public_path($gs->logo))) ? asset($gs->logo) : asset('frontend/images/logo/drikana-logo.svg');
+                        $brandFallback = 'frontend/images/logo/kharazi-logo.svg';
+                        if ($gs && $gs->logo && file_exists(public_path($gs->logo))) {
+                            $logoUrl = asset($gs->logo);
+                        } elseif (file_exists(public_path($brandFallback))) {
+                            $logoUrl = asset($brandFallback);
+                        } else {
+                            $logoUrl = null;
+                        }
                     @endphp
-                    <img class="u-height-48px" src="{{ $logoUrl }}" alt="Drikana" onerror="this.src='{{ asset('frontend/images/logo/drikana-logo.svg') }}'">
+                    @if($logoUrl)
+                        <img class="u-height-48px" src="{{ $logoUrl }}"
+                             alt="{{ config('app.name', 'خرازی پرنسا') }}">
+                    @else
+                        <span class="d-logo-fallback">{{ config('app.name', 'خرازی پرنسا') }}</span>
+                    @endif
                 </a>
 
                 <!-- Search -->
@@ -56,12 +106,24 @@
                 </div>
 
                 <!-- Header Icons -->
+                {{--
+                    آیکون‌های سربرگ — فروشگاه خرازی پرنسا
+                    ────────────────────────────────────────────────
+                    پیش از این دو آیکون نخست به «استعلام شناسنامه طلا» و
+                    «اعلام سرقت/مفقودی» اشاره می‌کردند که بخشی از ماژول
+                    منسوخ‌شده جواهرات بودند. اکنون جای آن‌ها دو لینک
+                    کاربردی فروشگاه خرازی نشسته است:
+                      • پیگیری سفارش  → orders.track
+                      • راهنمای خرید → articles.index
+                    هر دو مسیر عمومی‌اند (بدون نیاز به ورود) و در
+                    `php artisan route:list` تأیید شده‌اند.
+                --}}
                 <div class="d-header-icons">
-                    <a href="{{ route('jewelry.certificates.verify_page') }}" class="d-icon-btn u-text-decoration-none" title="استعلام شناسنامه">
-                        <i class="la la-certificate"></i>
+                    <a href="{{ route('orders.track') }}" class="d-icon-btn u-text-decoration-none" title="پیگیری سفارش">
+                        <i class="la la-truck"></i>
                     </a>
-                    <a href="{{ route('jewelry.missing_reports.create_public') }}" class="d-icon-btn hide-sm u-text-decoration-none" title="اعلام سرقت/مفقودی">
-                        <i class="la la-shield"></i>
+                    <a href="{{ route('articles.index') }}" class="d-icon-btn hide-sm u-text-decoration-none" title="راهنمای خرید">
+                        <i class="la la-book"></i>
                     </a>
                     <a href="{{ route('compare') }}" class="d-icon-btn hide-sm u-text-decoration-none" title="مقایسه">
                         <i class="la la-refresh"></i>
@@ -91,11 +153,58 @@
                 </a>
                 <ul class="d-nav-links">
                     <li class="{{ request()->routeIs('home') ? 'active' : '' }}"><a href="{{ route('home') }}"><i class="la la-home"></i> خانه</a></li>
-                    <li><a href="{{ route('products.category', ['category_slug' => '--2EJpD']) }}"><i class="la la-diamond"></i> طلا و جواهر</a></li>
-                    <li><a href="{{ route('products.category', ['category_slug' => '----FoS0v']) }}"><i class="la la-clock-o"></i> ساعت</a></li>
-                    <li><a href="{{ route('products.category', ['category_slug' => '---iLNhI']) }}"><i class="la la-gem"></i> سنگ‌های قیمتی</a></li>
-                    <li><a href="{{ route('jewelry.certificates.verify_page') }}"><i class="la la-certificate"></i> استعلام شناسنامه</a></li>
-                    <li><a href="{{ route('jewelry.missing_reports.create_public') }}"><i class="la la-bullhorn"></i> اعلام سرقت</a></li>
+
+                    {{--
+                        لینک دسته‌بندی‌های اصلی — پویا از پایگاه داده
+                        ────────────────────────────────────────────────
+                        پیش از این، سه لینک دسته‌بندی به‌صورت «ناموجود سخت‌کد»
+                        نوشته شده بودند و slug دسته‌بندی‌های طلا/ساعت/سنگ
+                        قیمتی را مستقیماً در ویو نگه می‌داشتند؛ با هر تغییر
+                        دسته‌بندی در پنل مدیریت، لینک‌ها می‌شکستند.
+
+                        اکنون فهرست از جدول `categories` خوانده می‌شود، فقط
+                        دسته‌بندی‌های سطح یک (`top = 1`) و منتشرشده، و
+                        حداکثر ۶ مورد. بنابراین با افزودن دسته‌بندی‌های
+                        خرازی از پنل مدیریت، این منو خودکار به‌روز می‌شود و
+                        هیچ تغییری در کد لازم نیست.
+
+                        نکته: فیلتر `published` فقط زمانی اعمال می‌شود که
+                        این ستون در جدول `categories` واقعاً وجود داشته
+                        باشد؛ چون در اسکیمای فعلی این ستون تعریف نشده و
+                        فراخوانی کورکورانه آن باعث خطای SQL می‌شد.
+                    --}}
+                    @php
+                        try {
+                            $navCategories = \Illuminate\Support\Facades\Schema::hasTable('categories')
+                                ? \App\Category::query()
+                                    ->when(
+                                        \Illuminate\Support\Facades\Schema::hasColumn('categories', 'published'),
+                                        function ($q) { $q->where('published', 1); }
+                                    )
+                                    ->where('top', 1)
+                                    ->orderBy('id')
+                                    ->limit(6)
+                                    ->get()
+                                : collect();
+                        } catch (\Exception $e) {
+                            $navCategories = collect();
+                        }
+                    @endphp
+
+                    @foreach ($navCategories as $navCat)
+                        <li class="{{ request()->routeIs('products.category') && request()->route('category_slug') === $navCat->slug ? 'active' : '' }}">
+                            <a href="{{ route('products.category', $navCat->slug) }}">
+                                <i class="la la-th-large"></i> {{ __($navCat->name) }}
+                            </a>
+                        </li>
+                    @endforeach
+
+                    <li class="{{ request()->routeIs('products.new') ? 'active' : '' }}">
+                        <a href="{{ route('products.new') }}"><i class="la la-star-o"></i> جدیدترین‌ها</a>
+                    </li>
+                    <li class="{{ request()->routeIs('products.discounted') ? 'active' : '' }}">
+                        <a href="{{ route('products.discounted') }}"><i class="la la-tag"></i> تخفیف‌دارها</a>
+                    </li>
 
                     {{-- لینک مقالات برای همه کاربران — صفحه عمومی و بدون نیاز به ورود --}}
                     <li class="{{ request()->routeIs('articles.*') ? 'active' : '' }}">
@@ -124,26 +233,92 @@
             }])->whereHas('subcategories')->orderBy('name')->take(11)->get()
             : collect();
     } catch (\Exception $e) { $luxMegaCategories = collect(); }
+    /*
+    |-------------------------------------------------------------------
+    | آیکون دسته‌بندی‌ها — فروشگاه خرازی پرنسا
+    |-------------------------------------------------------------------
+    |
+    | ── چرا این ساختار عوض شد؟ ─────────────────────────────────────
+    | پیش از این، کلیدواژه‌های فهرست به فایل‌های SVG اختصاصی طلا و
+    | جواهر اشاره می‌کردند (ring.svg، necklace.svg، diamond.svg،
+    | crown.svg، coin.svg، watch.svg، antique.svg). این تصاویر متعلق به
+    | هویت قبلی سامانه بودند و در فروشگاه خرازی معنا ندارند؛ بنابراین
+    | جایگزین شدند.
+    |
+    | جای فایل تصویر، اکنون «کلاس آیکون Line Awesome» برگردانده می‌شود.
+    | مزیت‌ها:
+    |   ۱. هیچ فایل تصویری تازه‌ای لازم نیست و امکان تصویر شکسته
+    |      (404) از بین می‌رود.
+    |   ۲. آیکون با رنگ و اندازه متن هماهنگ می‌شود (CSS، نه تصویر).
+    |   ۳. افزودن دسته‌بندی تازه از پنل مدیریت، هیچ تغییر کدی لازم ندارد؛
+    |      اگر کلیدواژه‌ای تطبیق پیدا نکند، آیکون پیش‌فرض نمایش می‌یابد.
+    |
+    | تمام کلاس‌های زیر در `public/frontend/css/line-awesome.min.css`
+    | موجود بودنشان بررسی شده است.
+    */
     $luxCatIcons = [
-        'انگشتر' => 'drikana/ring.svg', 'حلقه' => 'drikana/ring.svg', 'ring' => 'drikana/ring.svg',
-        'گردنبند' => 'drikana/necklace.svg', 'ساعت' => 'drikana/watch.svg', 'watch' => 'drikana/watch.svg',
-        'الماس' => 'drikana/diamond.svg', 'سنگ' => 'drikana/diamond.svg', 'تاج' => 'drikana/crown.svg',
-        'سکه' => 'drikana/coin.svg', 'شمش' => 'drikana/coin.svg', 'طلا' => 'drikana/coin.svg',
-        'هدیه' => 'drikana/gift.svg', 'عتیقه' => 'drikana/antique.svg',
+        // نخ، کاموا و بافتنی
+        'نخ'      => 'la-leaf',
+        'کاموا'   => 'la-random',
+        'بافت'    => 'la-random',
+        // گلدوزی، شماره‌دوزی و هنری
+        'گلدوزی'  => 'la-magic',
+        'شماره'   => 'la-magic',
+        'هنری'    => 'la-paint-brush',
+        'تزئین'   => 'la-star-o',
+        // دکمه، قزن، مروارید، منجوق و مهره
+        'دکمه'    => 'la-circle-o',
+        'قزن'     => 'la-circle-o',
+        'مروارید' => 'la-circle',
+        'منجوق'   => 'la-circle',
+        'مهره'    => 'la-circle',
+        // زیپ و روبان و نوار
+        'زیپ'     => 'la-ellipsis-h',
+        'روبان'   => 'la-minus',
+        'نوار'    => 'la-minus',
+        // تور، دانتل و خرج‌کار
+        'تور'     => 'la-th',
+        'دانتل'   => 'la-th',
+        'خرج'     => 'la-th',
+        // کش
+        'کش'      => 'la-arrows-h',
+        // ابزار خیاطی و اندازه‌گیری
+        'قیچی'    => 'la-scissors',
+        'ابزار'   => 'la-wrench',
+        'متر'     => 'la-arrows-h',
+        'اندازه'  => 'la-arrows-h',
+        'بشکاف'   => 'la-cut',
+        'سوزن'    => 'la-map-pin',
+        // لوازم مصرفی، بسته‌های ترکیبی و ویژه
+        'مصرفی'   => 'la-cube',
+        'بسته'    => 'la-gift',
+        'ویژه'    => 'la-star',
     ];
+
+    /*
+     آیکون پیش‌فرض: وقتی نام دسته‌بندی با هیچ کلیدواژه‌ای تطبیق نکند.
+     عمداً یک آیکون عمومی است، نه آیکون طلا/جواهر.
+    */
+    $luxDefaultIcon = 'la-th-large';
 @endphp
 <section class="lux-mega-section">
     <div class="lux-mega-container">
         <div class="lux-mega-trigger" id="luxMegaTrigger">
             <a href="#" class="lux-cat-btn" aria-expanded="false">
                 <i class="la la-bars"></i>
-                <span>همه دسته‌بندی‌های طلا و جواهر</span>
+                <span>همه دسته‌بندی‌های محصولات</span>
                 <i class="la la-angle-down"></i>
             </a>
             <ul class="lux-mega-list" id="luxMegaList">
                 @foreach($luxMegaCategories as $cat)
                     @php
-                        $catIcon = null;
+                        /*
+                         انتخاب آیکون بر پایه کلیدواژه نام دسته‌بندی.
+                         ترتیب کلیدواژه‌های فهرست مهم است؛ نخستین تطبیق
+                         برنده می‌شود. اگر هیچ تطبیقی پیدا نشد، آیکون
+                         پیش‌فرض عمومی جایگزین می‌گردد (نه آیکون طلا/جواهر).
+                        */
+                        $catIcon = $luxDefaultIcon;
                         foreach($luxCatIcons as $key => $icon) {
                             if(mb_strpos($cat->name, $key) !== false) { $catIcon = $icon; break; }
                         }
@@ -151,15 +326,13 @@
                     <li class="lux-mega-item">
                         <a href="{{ route('products.category', $cat->slug) }}" class="lux-mega-link">
                             <span class="lux-mega-ico">
-                                @if($catIcon)
-                                    <img src="{{ asset('frontend/images/'.$catIcon) }}" alt="{{ $cat->name }}">
-                                @elseif($cat->icon && file_exists(public_path($cat->icon)))
+                                @if($cat->icon && file_exists(public_path($cat->icon)))
                                     <img src="{{ asset($cat->icon) }}" alt="{{ $cat->name }}">
                                 @else
-                                    <i class="la la-diamond"></i>
+                                    <i class="la {{ $catIcon }}"></i>
                                 @endif
                             </span>
-                            <span class="lux-mega-name">{{ $cat->name }}</span>
+                            <span class="lux-mega-name">{{ __($cat->name) }}</span>
                             @if($cat->subcategories->isNotEmpty())
                                 <i class="la la-angle-left lux-mega-arrow"></i>
                             @endif
@@ -188,10 +361,11 @@
                                     @endforeach
                                 </div>
                                 <a href="{{ route('products.category', $cat->slug) }}" class="lux-mega-banner u-text-decoration-none">
-                                    <img src="{{ asset('frontend/images/drikana/diamond.svg') }}" alt="">
+                                    {{-- آیکون جایگزین شد: پیش‌تر فایل SVG الماسِ برند قبلی بود --}}
+                                    <span class="lux-mega-banner-ico"><i class="la {{ $catIcon }}"></i></span>
                                     <div class="lux-mega-banner-text">
-                                        <strong>مشاهده همه {{ $cat->name }}</strong>
-                                        <span>جدیدترین مدل‌ها با بهترین قیمت و شناسنامه معتبر</span>
+                                        <strong>مشاهده همه {{ __($cat->name) }}</strong>
+                                        <span>تنوع کامل محصولات، قیمت مناسب و ارسال سریع به سراسر کشور</span>
                                     </div>
                                 </a>
                             </div>

@@ -14,6 +14,84 @@ if (!function_exists('safe_table_exists')) {
     }
 }
 
+if (!function_exists('safe_column_exists')) {
+    /**
+     * بررسی وجود یک ستون در جدول — بدون پرتاب استثنا.
+     *
+     * ── چرا این تابع لازم شد؟ ────────────────────────────────────────────
+     *
+     * در ویو `frontend/index.blade.php` و همچنین در منوی اصلی و مگامنو،
+     * دسته‌بندی‌ها با شرط `where('published', 1)` خوانده می‌شدند. اما در
+     * اسکیمای واقعی پایگاه داده هیچ‌کدام از سه جدول زیر ستون `published`
+     * ندارند:
+     *
+     *     categories            → بدون ستون published
+     *     sub_categories        → بدون ستون published
+     *     sub_sub_categories    → بدون ستون published
+     *
+     * (ستون `published` فقط در `products`، `banners` و `sliders` وجود دارد
+     * و در آن سه جدول استفاده‌اش درست است.)
+     *
+     * نتیجه این ناسازگاری: کوئری با خطای
+     * «Unknown column 'published' in 'where clause'» شکست می‌خورد و چون
+     * داخل بلوک try/catch بود، بی‌صدا به `collect()` خالی عقب‌نشینی
+     * می‌کرد. یعنی **مگامنوی صفحه اصلی همیشه خالی رندر می‌شد** و هیچ
+     * دسته‌بندی‌ای در آن دیده نمی‌شد — بدون هیچ پیام خطایی.
+     *
+     * ── چرا ستون اضافه نشد؟ ──────────────────────────────────────────────
+     *
+     * گزینه جایگزین این بود که با یک Migration ستون `published` به این سه
+     * جدول اضافه شود. اما بررسی شد که پنل مدیریت هیچ فیلد یا کلید
+     * «انتشار» برای دسته‌بندی ندارد (`CategoryController` فقط `name`,
+     * `slug`, `meta_*`, `commision_rate`, `banner`, `icon` و `digital` را
+     * ذخیره می‌کند و ویو مدیریت تنها `featured` را تغییر می‌دهد). پس
+     * افزودن ستون، یک فیلد بی‌استفاده و بدون راه مدیریت ایجاد می‌کرد و
+     * هدف «کمترین تغییر» را نقض می‌کرد.
+     *
+     * تصمیم: شرط ویو با اسکیمای فعلی سازگار شد. اگر در آینده ستون
+     * `published` واقعاً اضافه شد، شرط‌ها خودکار فعال می‌شوند و هیچ
+     * تغییری در ویو لازم نیست.
+     *
+     * @param  string $table  نام جدول
+     * @param  string $column نام ستون
+     * @return bool
+     */
+    function safe_column_exists($table, $column) {
+        try {
+            return safe_table_exists($table)
+                && \Illuminate\Support\Facades\Schema::hasColumn($table, $column);
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+}
+
+if (!function_exists('published_column_filter')) {
+    /**
+     * اعمال شرط `published = 1` تنها اگر ستون واقعاً وجود داشته باشد.
+     *
+     * استفاده در کوئری‌های Eloquent:
+     *
+     *     $query = Category::query();
+     *     published_column_filter($query, 'categories');
+     *
+     * یا روی یک Builder رابطه:
+     *
+     *     $query->with(['subcategories' => function ($q) {
+     *         published_column_filter($q, 'sub_categories');
+     *     }]);
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder $query
+     * @param  string $table
+     * @return void
+     */
+    function published_column_filter($query, $table) {
+        if (safe_column_exists($table, 'published')) {
+            $query->where('published', 1);
+        }
+    }
+}
+
 if (!function_exists('safe_business_setting')) {
     function safe_business_setting($key, $default = null) {
         try {

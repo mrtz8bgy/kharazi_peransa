@@ -858,6 +858,40 @@ class HomeController extends Controller
         return view("frontend.policies.privacypolicy");
     }
 
+    /**
+     * صفحه «راهنمای خرید و ارسال».
+     *
+     * ── چرا این متد اضافه شد؟ ───────────────────────────────────────────
+     * دستور کار فروشگاه خرازی، صفحه «راهنمای خرید و ارسال» را در فهرست
+     * صفحات موردنیاز هویت جدید ذکر کرده بود، اما در پروژه چنین صفحه‌ای
+     * وجود نداشت. (فایل `frontend.shipping_info` صفحه تسویه حساب است،
+     * نه راهنمای عمومی.)
+     *
+     * محتوا در خود ویو نگهداری می‌شود و به هیچ جدول پایگاه داده وابسته
+     * نیست؛ لذا در محیط تازه‌نصب هم بدون خطا نمایش داده می‌شود.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function guide()
+    {
+        return view('frontend.guide');
+    }
+
+    /**
+     * صفحه «سؤالات متداول».
+     *
+     * پرسش‌ها و پاسخ‌ها در ویو `frontend.faq` به‌صورت آرایه تعریف شده‌اند
+     * و با کامپوننت آکاردئون موجود در قالب (کلاس‌های `d-faq-item` و
+     * `d-faq-q` که جاوااسکریپت قالب آن‌ها را مدیریت می‌کند) نمایش داده
+     * می‌شوند. بنابراین به هیچ اسکریپت تازه‌ای نیاز نیست.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function faq()
+    {
+        return view('frontend.faq');
+    }
+
     public function contact()
     {
         $contact = \App\GeneralSetting::query()->first();
