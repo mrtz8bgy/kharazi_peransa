@@ -15,42 +15,6 @@
 
 <main class="kp-homepage">
 @php
-    // ═══ حفاظت در برابر جدول‌های نصب‌نشده ═══
-    //
-    // ── رفع باگ: مگامنو همیشه خالی بود ──────────────────────────────────
-    //
-    // پیش از این، این کوئری سه بار شرط `where('published', 1)` را روی
-    // جدول‌های `categories`، `sub_categories` و `sub_sub_categories`
-    // اعمال می‌کرد — در حالی که **هیچ‌یک از این سه جدول ستون `published`
-    // ندارند**. (ستون `published` فقط در `products`، `banners` و
-    // `sliders` وجود دارد.)
-    //
-    // نتیجه: کوئری با خطای «Unknown column 'published' in 'where clause'»
-    // شکست می‌خورد و چون داخل try/catch بود، بی‌صدا به مجموعه خالی
-    // عقب‌نشینی می‌کرد. یعنی مگامنوی صفحه اصلی **همیشه خالی** رندر
-    // می‌شد و هیچ دسته‌بندی‌ای در آن دیده نمی‌شد، بدون هیچ پیام خطایی.
-    //
-    // راه‌حل: تابع کمکی `published_column_filter()` که تنها زمانی شرط را
-    // اعمال می‌کند که ستون واقعاً وجود داشته باشد. توضیح کامل تصمیم
-    // (چرا Migration افزوده نشد) در `app/Helpers/drikana_helpers.php`
-    // زیر تابع `safe_column_exists` آمده است.
-    try {
-        if (safe_table_exists('categories')) {
-            $catQuery = \App\Category::with(['subcategories' => function($query) {
-                published_column_filter($query, 'sub_categories');
-                $query->with(['subsubcategories' => function($q){
-                    published_column_filter($q, 'sub_sub_categories');
-                }]);
-            }])->where('top', 1);
-
-            published_column_filter($catQuery, 'categories');
-
-            $megaCategories = $catQuery->get();
-        } else {
-            $megaCategories = collect();
-        }
-    } catch (\Exception $e) { $megaCategories = collect(); }
-
     // ایمن‌سازی سایر متغیرهای صفحه اصلی
     try {
         $num_todays_deal = \Illuminate\Support\Facades\Schema::hasTable('products')
@@ -70,93 +34,6 @@
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/kharazi/store.css') }}">
 @endpush
-
-<!-- ============================================ -->
-<!-- مگا منوی دسته‌بندی - کاملاً مستقل -->
-
-<!-- مگا منوی  من در اینجا زیر دسته بندیها را نشان نمیدهد از تو میخواهم این قسمت را برام تکمیل کنی به طوری که زیر دسته بندی ها نمایش داده شوند -->
-
-<!-- ============================================ -->
-<section class="mega-menu-section">
-    <div class="container-fluid px-0">
-        <div class="mega-menu-wrapper">
-            <nav class="mega-menu-nav">
-                <div class="mega-menu-trigger" id="megaMenuTrigger">
-                    <a href="#" class="mega-menu-btn" id="megaMenuBtn">
-                        <i class="la la-bars"></i>
-                        <span>{{__('همه دسته‌بندی‌ها')}}</span>
-                        <i class="la la-angle-down"></i>
-                    </a>
-                    
-                    <ul class="mega-menu-list" id="megaMenuList">
-                        @foreach ($megaCategories as $key => $category)
-                            <li class="mega-menu-item">
-                                <a href="{{ route('products.category', $category->slug) }}" class="mega-menu-link">
-                                    @if($category->icon && file_exists(public_path($category->icon)))
-                                        <img class="mega-cat-icon lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->icon) }}" width="30" alt="{{ __($category->name) }}">
-                                    @else
-                                        <i class="la la-folder-open u-font-size-20px-color-var-color-gold-width-30px-text-ali-7e344c"></i>
-                                    @endif
-                                    <span>{{ __($category->name) }}</span>
-                                    @if($category->subcategories && $category->subcategories->isNotEmpty())
-                                        <i class="la la-angle-left mega-arrow"></i>
-                                    @endif
-                                </a>
-
-                                @if($category->subcategories && $category->subcategories->isNotEmpty())
-                                    <div class="mega-sub-menu">
-                                        <div class="mega-sub-container">
-                                            <div class="row">
-                                                @foreach ($category->subcategories as $subcategory)
-                                                    <div class="col-lg-4 col-md-6 col-12">
-                                                        <a href="{{ route('products.subcategory', $subcategory->slug) }}" class="mega-sub-link">
-                                                            @if($subcategory->icon && file_exists(public_path($subcategory->icon)))
-                                                                <img class="mega-sub-icon lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($subcategory->icon) }}" width="24" alt="{{ __($subcategory->name) }}">
-                                                            @else
-                                                                <i class="la la-folder-o u-font-size-20px-color-var-color-gold-width-24px-text-ali-dfa443"></i>
-                                                            @endif
-                                                            <span>{{ __($subcategory->name) }}</span>
-                                                        </a>
-
-                                                        @if($subcategory->subsubcategories && $subcategory->subsubcategories->isNotEmpty())
-                                                            <ul class="mega-sub-sub-list">
-                                                                @foreach ($subcategory->subsubcategories->take(8) as $subSubCategory)
-                                                                    <li>
-                                                                        <a href="{{ route('products.subsubcategory', $subSubCategory->slug) }}">
-                                                                            {{ __($subSubCategory->name) }}
-                                                                        </a>
-                                                                    </li>
-                                                                @endforeach
-                                                                @if($subcategory->subsubcategories->count() > 8)
-                                                                    <li>
-                                                                        <a href="{{ route('products.subcategory', $subcategory->slug) }}">
-                                                                            {{ __('مشاهده بیشتر') }}
-                                                                        </a>
-                                                                    </li>
-                                                                @endif
-                                                            </ul>
-                                                        @endif
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            </li>
-                        @endforeach
-                        
-                        <li class="mega-menu-item mega-view-all">
-                            <a href="{{ route('categories.all') }}" class="mega-menu-link">
-                                <i class="la la-plus-circle"></i>
-                                <span>{{__('مشاهده همه دسته‌بندی‌ها')}}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-</section>
 
 {{-- ═══════════════════════════════════════════════════════════════
      بنر اصلی صفحه (اسلایدر) — بازگردانی‌شده
@@ -509,7 +386,7 @@
             @foreach (filter_products(\App\Product::where('published', 1)->where('todays_deal', '1'))->get() as $key => $product)
                 @if ($product != null)
                     <a href="{{ route('product', $product->slug) }}" class="flash-deal-item-horizontal">
-                        <img class="lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->flash_deal_img) }}" alt="{{ __($product->name) }}">
+                        <img class="lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->flash_deal_img ?: ($product->featured_img ?: $product->thumbnail_img)) }}" alt="{{ __($product->name) }}">
                         <div class="flash-deal-info">
                             <span class="flash-deal-price">{{ home_discounted_base_price($product->id) }}</span>
                             @if(home_base_price($product->id) != home_discounted_base_price($product->id))
@@ -570,7 +447,7 @@
                                 <div class="card-body p-0">
                                     <div class="card-image">
                                         <a href="{{ route('product', $product->slug) }}" class="d-block">
-                                            <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img) }}" alt="{{ __($product->name) }}">
+                                            <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img ?: $product->thumbnail_img) }}" alt="{{ __($product->name) }}">
                                         </a>
                                     </div>
                                     <div class="p-md-3 p-2">
@@ -621,7 +498,7 @@
                                 <div class="card-body p-0">
                                     <div class="card-image">
                                         <a href="{{ route('product', $product->slug) }}" class="d-block">
-                                            <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img) }}" alt="{{ __($product->name) }}">
+                                            <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img ?: $product->thumbnail_img) }}" alt="{{ __($product->name) }}">
                                         </a>
                                     </div>
                                     <div class="p-md-3 p-2">
@@ -678,7 +555,7 @@
                                 <div class="card-body p-0">
                                     <div class="card-image">
                                         <a href="{{ route('product', $product->slug) }}" class="d-block">
-                                            <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img) }}" alt="{{ __($product->name) }}">
+                                            <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img ?: $product->thumbnail_img) }}" alt="{{ __($product->name) }}">
                                         </a>
                                     </div>
                                     <div class="p-md-3 p-2">
@@ -809,7 +686,7 @@
                                             -{{ $product->discount }}%
                                         </span>
                                         <a href="{{ route('product', $product->slug) }}" class="d-block">
-                                            <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img) }}" alt="{{ __($product->name) }}">
+                                            <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img ?: $product->thumbnail_img) }}" alt="{{ __($product->name) }}">
                                         </a>
                                     </div>
                                     <div class="p-md-3 p-2">
@@ -1355,154 +1232,6 @@
     
     setupScrollButtons('categoriesScrollWrapper', 'categoriesScrollLeft', 'categoriesScrollRight');
     setupScrollButtons('brandsScrollWrapper', 'brandsScrollLeft', 'brandsScrollRight');
-    
-    // ===== مگا منو - کنترل کامل با هاور و کلیک =====
-    (function() {
-        var megaTrigger = document.getElementById('megaMenuTrigger');
-        var megaBtn = document.getElementById('megaMenuBtn');
-        var megaItems = document.querySelectorAll('.mega-menu-item');
-        var isMobile = window.innerWidth <= 992;
-        
-        // تابع برای تنظیم رویدادها بر اساس سایز صفحه
-        function setupMegaMenu() {
-            isMobile = window.innerWidth <= 992;
-            
-            if (isMobile) {
-                // حالت موبایل - فقط کلیک
-                megaTrigger.removeEventListener('mouseenter', onMouseEnter);
-                megaTrigger.removeEventListener('mouseleave', onMouseLeave);
-                
-                if (megaBtn) {
-                    megaBtn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        megaTrigger.classList.toggle('active');
-                    });
-                }
-                
-                // کلیک روی آیتم‌های دارای زیرمنو
-                megaItems.forEach(function(item) {
-                    var link = item.querySelector('.mega-menu-link');
-                    var hasSubMenu = item.querySelector('.mega-sub-menu');
-                    
-                    if (link && hasSubMenu) {
-                        link.removeEventListener('click', onItemClick);
-                        link.addEventListener('click', onItemClick);
-                    }
-
-                    item.removeEventListener('mouseover', onItemMouseEnter);
-                    item.removeEventListener('mouseleave', onItemMouseLeave);
-                    item.classList.remove('active');
-                });
-            } else {
-                // حالت دسکتاپ - هاور
-                megaTrigger.addEventListener('mouseenter', onMouseEnter);
-                megaTrigger.addEventListener('mouseleave', onMouseLeave);
-                
-                // حذف رویدادهای کلیک در دسکتاپ
-                if (megaBtn) {
-                    megaBtn.removeEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        megaTrigger.classList.toggle('active');
-                    });
-                }
-                
-                megaItems.forEach(function(item) {
-                    var link = item.querySelector('.mega-menu-link');
-                    if (link) {
-                        link.removeEventListener('click', onItemClick);
-                    }
-
-                    item.removeEventListener('mouseover', onItemMouseEnter);
-                    item.removeEventListener('mouseleave', onItemMouseLeave);
-                    item.addEventListener('mouseover', onItemMouseEnter);
-                    item.addEventListener('mouseleave', onItemMouseLeave);
-                });
-            }
-        }
-        
-        function setMobileSubmenuState(item, isOpen) {
-            if (!item) return;
-            if (isOpen) {
-                item.classList.add('active');
-            } else {
-                item.classList.remove('active');
-            }
-        }
-
-        function onMouseEnter() {
-            this.classList.add('active');
-        }
-        
-        function onMouseLeave() {
-            this.classList.remove('active');
-            megaItems.forEach(function(item) {
-                item.classList.remove('active');
-            });
-        }
-
-        function onItemMouseEnter() {
-            megaItems.forEach(function(item) {
-                item.classList.remove('active');
-            });
-            this.classList.add('active');
-        }
-
-        function onItemMouseLeave() {
-            this.classList.remove('active');
-        }
-        
-        function onItemClick(e) {
-            if (window.innerWidth <= 992) {
-                e.preventDefault();
-                e.stopPropagation();
-                var parent = this.closest('.mega-menu-item');
-                if (parent) {
-                    var hasSubMenu = parent.querySelector('.mega-sub-menu');
-                    if (!hasSubMenu) {
-                        // آیتم زیرمنو ندارد، صفحه را بارگذاری کن
-                        window.location.href = this.href;
-                        return;
-                    }
-
-                    // بستن تمام آیتم‌های دیگر
-                    megaItems.forEach(function(other) {
-                        if (other !== parent) {
-                            other.classList.remove('active');
-                        }
-                    });
-
-                    // تبدیل وضعیت آیتم فعلی
-                    parent.classList.toggle('active');
-                }
-            }
-        }
-        
-        // بستن منو با کلیک خارج
-        document.addEventListener('click', function(e) {
-            if (megaTrigger && !megaTrigger.contains(e.target)) {
-                megaTrigger.classList.remove('active');
-                megaItems.forEach(function(item) {
-                    item.classList.remove('active');
-                });
-            }
-        });
-        
-        // تنظیم مجدد در تغییر سایز
-        window.addEventListener('resize', function() {
-            setupMegaMenu();
-            if (megaTrigger) {
-                megaTrigger.classList.remove('active');
-                megaItems.forEach(function(item) {
-                    item.classList.remove('active');
-                });
-            }
-        });
-        
-        // اجرای اولیه
-        setupMegaMenu();
-    })();
     
     // ===== بارگذاری بخش‌های داینامیک =====
     $(document).ready(function(){

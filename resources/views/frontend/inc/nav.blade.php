@@ -310,11 +310,11 @@
 <section class="lux-mega-section">
     <div class="lux-mega-container">
         <div class="lux-mega-trigger" id="luxMegaTrigger">
-            <a href="#" class="lux-cat-btn" aria-expanded="false">
+            <button type="button" class="lux-cat-btn" aria-expanded="false" aria-controls="luxMegaList">
                 <i class="la la-bars"></i>
                 <span>همه دسته‌بندی‌های محصولات</span>
                 <i class="la la-angle-down"></i>
-            </a>
+            </button>
             <ul class="lux-mega-list" id="luxMegaList">
                 @foreach($luxMegaCategories as $cat)
                     @php
@@ -330,21 +330,28 @@
                         }
                     @endphp
                     <li class="lux-mega-item">
-                        <a href="{{ route('products.category', $cat->slug) }}" class="lux-mega-link">
-                            <span class="lux-mega-ico">
-                                @if($cat->icon && file_exists(public_path($cat->icon)))
-                                    <img src="{{ asset($cat->icon) }}" alt="{{ $cat->name }}">
-                                @else
-                                    <i class="la {{ $catIcon }}"></i>
-                                @endif
-                            </span>
-                            <span class="lux-mega-name">{{ __($cat->name) }}</span>
+                        <div class="lux-mega-row">
+                            <a href="{{ route('products.category', $cat->slug) }}" class="lux-mega-link">
+                                <span class="lux-mega-ico">
+                                    @if($cat->icon && file_exists(public_path($cat->icon)))
+                                        <img src="{{ asset($cat->icon) }}" alt="{{ $cat->name }}">
+                                    @else
+                                        <i class="la {{ $catIcon }}"></i>
+                                    @endif
+                                </span>
+                                <span class="lux-mega-name">{{ __($cat->name) }}</span>
+                            </a>
                             @if($cat->subcategories->isNotEmpty())
-                                <i class="la la-angle-left lux-mega-arrow"></i>
+                                <button type="button" class="lux-mega-toggle"
+                                        aria-expanded="false"
+                                        aria-controls="lux-mega-sub-{{ $cat->id }}"
+                                        aria-label="نمایش زیر‌دسته‌های {{ $cat->name }}">
+                                    <i class="la la-angle-down" aria-hidden="true"></i>
+                                </button>
                             @endif
-                        </a>
+                        </div>
                         @if($cat->subcategories->isNotEmpty())
-                            <div class="lux-mega-sub">
+                            <div class="lux-mega-sub" id="lux-mega-sub-{{ $cat->id }}">
                                 <div class="row u-margin-0-2">
                                     @foreach($cat->subcategories->take(9) as $sub)
                                         <div class="col-lg-4 col-md-6 u-padding-6px">
@@ -396,61 +403,71 @@
 <script>
 (function(){
     var trigger = document.getElementById('luxMegaTrigger');
-    var list = document.getElementById('luxMegaList');
     var btn = trigger ? trigger.querySelector('.lux-cat-btn') : null;
     var items = trigger ? trigger.querySelectorAll('.lux-mega-item') : [];
     function isMobile(){ return window.innerWidth <= 992; }
 
-    // Toggle root list on mobile
-    if(btn) btn.addEventListener('click', function(e){
-        e.preventDefault();
-        if(isMobile()) {
-            trigger.classList.toggle('open');
-        } else {
-            trigger.classList.toggle('force-open');
-        }
-        btn.setAttribute('aria-expanded', trigger.classList.contains('open') || trigger.classList.contains('force-open') ? 'true' : 'false');
-    });
+    if(btn) {
+        btn.addEventListener('click', function(){
+            var openClass = isMobile() ? 'open' : 'force-open';
+            var isOpen = trigger.classList.toggle(openClass);
+            btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+    }
 
     items.forEach(function(item){
-        var link = item.querySelector('.lux-mega-link');
-        link.addEventListener('click', function(e){
-            if(!isMobile()) return;
-            var hasSub = item.querySelector('.lux-mega-sub');
-            if(hasSub){
-                e.preventDefault();
-                items.forEach(function(i){ if(i!==item) i.classList.remove('open'); });
-                item.classList.toggle('open');
-            }
-        });
-        // Desktop hover
+        var toggle = item.querySelector('.lux-mega-toggle');
+        if(toggle) {
+            toggle.addEventListener('click', function(){
+                var isOpen = item.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                items.forEach(function(other){
+                    if(other !== item) {
+                        other.classList.remove('open');
+                        var otherToggle = other.querySelector('.lux-mega-toggle');
+                        if(otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+        }
+
         item.addEventListener('mouseenter', function(){
-            if(!isMobile()) return;
+            if(isMobile()) return;
+            items.forEach(function(other){
+                if(other !== item) other.classList.remove('open');
+            });
+        });
+        item.addEventListener('mouseleave', function(){
+            if(isMobile()) return;
+            item.classList.remove('open');
         });
     });
 
-    // Close on outside click (mobile)
+    var catBtn = document.querySelector('.d-cat-btn');
     document.addEventListener('click', function(e){
         if(!trigger) return;
-        if(!trigger.contains(e.target)){
+        if(!trigger.contains(e.target) && !(catBtn && catBtn.contains(e.target))){
             trigger.classList.remove('open');
             trigger.classList.remove('force-open');
-            items.forEach(function(i){ i.classList.remove('open'); });
+            items.forEach(function(item){
+                item.classList.remove('open');
+                var toggle = item.querySelector('.lux-mega-toggle');
+                if(toggle) toggle.setAttribute('aria-expanded', 'false');
+            });
             if(btn) btn.setAttribute('aria-expanded', 'false');
         }
     });
 
-    // Also wire up the "همه دسته‌بندی‌ها" button in nav to toggle
-    var catBtn = document.querySelector('.d-cat-btn');
     if(catBtn && trigger && catBtn !== btn){
         catBtn.addEventListener('click', function(e){
             e.preventDefault();
             if(isMobile()){
                 trigger.classList.toggle('open');
+                if(btn) btn.setAttribute('aria-expanded', trigger.classList.contains('open') ? 'true' : 'false');
                 trigger.scrollIntoView({behavior:'smooth', block:'start'});
             } else {
-                // simulate hover
-                trigger.classList.toggle('force-open');
+                var isOpen = trigger.classList.toggle('force-open');
+                if(btn) btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
             }
         });
     }

@@ -30,7 +30,7 @@
 @endsection
 
 @section('content')
-    <section class="product-details-area gry-bg">
+    <section class="product-details-area gry-bg kp-product-detail">
         <div class="container">
             <div class="bg-white">
                 <div class="row no-gutters cols-xs-space cols-sm-space cols-md-space">
@@ -253,7 +253,7 @@
                                         </button>
                                         <button type="button" class="btn btn-styled btn-alt-base-1 c-white btn-icon-left strong-700 hov-bounce hov-shaddow ml-2 add-to-cart" onclick="addToCart()">
                                             <i class="la la-shopping-cart"></i>
-                                            <span class="d-none d-md-inline-block"> {{__('Add to cart')}}</span>
+                                            <span class="d-inline-block"> {{__('Add to cart')}}</span>
                                         </button>
                                     @else
                                         <button type="button" class="btn btn-styled btn-base-3 btn-icon-left strong-700" disabled>
@@ -278,13 +278,13 @@
         </div>
     </section>
 
-    <section class="gry-bg">
+    <section class="gry-bg kp-product-information">
         <div class="container">
             <div class="row">
                 <div class="col-xl-9">
                     <div class="product-desc-tab bg-white">
                         <div class="tabs tabs--style-2">
-                            <ul class="nav nav-tabs justify-content-center sticky-top bg-white">
+                            <ul class="nav nav-tabs justify-content-center bg-white">
                                 <li class="nav-item">
                                     <a href="#tab_default_1" data-toggle="tab" class="nav-link text-uppercase strong-600 active show">توضیحات</a>
                                 </li>

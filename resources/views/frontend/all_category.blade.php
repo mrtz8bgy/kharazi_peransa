@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<div class="all-category-wrap py-5 u-background-1a1a4a">
+<div class="all-category-wrap py-5">
     <div class="container">
         <div class="row">
             <!-- منوی دسته‌بندی‌ها (سمت راست) -->

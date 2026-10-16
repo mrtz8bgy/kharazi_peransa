@@ -62,7 +62,7 @@
     }
 @endphp
 
-    <div class="breadcrumb-area">
+    <div class="breadcrumb-area kp-product-breadcrumb">
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -88,7 +88,7 @@
     </div>
 
 
-    <section class="gry-bg py-4">
+    <section class="gry-bg py-4 kp-product-listing">
         <div class="container sm-px-0">
             <form class="" id="search-form" action="{{ route('search') }}" method="GET">
                 <div class="row">
@@ -96,7 +96,7 @@
                     <div class="filter-overlay filter-close"></div>
                     <div class="filter-wrapper c-scrollbar">
                         <div class="filter-title d-flex d-xl-none justify-content-between pb-3 align-items-center">
-                            <h3 class="h6">Filters</h3>
+                            <h3 class="h6">فیلتر محصولات</h3>
                             <button type="button" class="close filter-close">
                               <span aria-hidden="true">&times;</span>
                             </button>
@@ -264,6 +264,7 @@
                                 <div class="d-xl-none ml-3 form-group">
                                     <button type="button" class="btn p-1 btn-sm" id="side-filter">
                                         <i class="la la-filter la-2x"></i>
+                                        <span>فیلترها</span>
                                     </button>
                                 </div>
                             </div>
