@@ -1,5 +1,9 @@
+@php
+    $currentLocale = Session::get('locale', Config::get('app.locale'));
+    $isRtl = \App\Language::isRtlForLocale($currentLocale);
+@endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1 ? 'rtl' : 'ltr' }}">
+<html lang="{{ str_replace('_', '-', $currentLocale) }}" dir="{{ $isRtl ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +21,6 @@
     @php
         $generalsetting = \App\GeneralSetting::first();
         $languages = \App\Language::all();
-        $currentLocale = Session::get('locale', Config::get('app.locale'));
     @endphp
     
     <div id="container">

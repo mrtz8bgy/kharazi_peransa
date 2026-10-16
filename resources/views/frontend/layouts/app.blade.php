@@ -1,9 +1,9 @@
+@php
+    $currentLocale = Session::get('locale', Config::get('app.locale'));
+    $isRtl = \App\Language::isRtlForLocale($currentLocale);
+@endphp
 <!DOCTYPE html>
-@if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
-<html dir="rtl" lang="en">
-@else
-<html lang="en">
-@endif
+<html lang="{{ str_replace('_', '-', $currentLocale) }}" dir="{{ $isRtl ? 'rtl' : 'ltr' }}">
 <head>
 
 @php
@@ -82,7 +82,7 @@
 
 <link type="text/css" href="{{ asset('frontend/css/main.css') }}" rel="stylesheet" media="all">
 
-@if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
+@if($isRtl)
      <!-- RTL -->
     <link type="text/css" href="{{ asset('frontend/css/active.rtl.css') }}" rel="stylesheet" media="all">
     <link type="text/css" href="{{ asset('frontend/css/custom-rtl.css') }}" rel="stylesheet" media="all">

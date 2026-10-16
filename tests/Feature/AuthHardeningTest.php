@@ -370,6 +370,23 @@ class AuthHardeningTest extends TestCase
         );
     }
 
+    public function test_login_page_renders_when_current_locale_has_no_language_record()
+    {
+        $pages = [
+            '/login',
+            '/users/login',
+            '/users/registration',
+            '/register',
+        ];
+
+        foreach ($pages as $page) {
+            $response = $this->withSession(['locale' => 'fa_TEST'])->get($page);
+
+            $response->assertStatus(200);
+            $this->assertContains('dir="rtl"', $response->getContent(), "صفحه {$page} جهت راست‌به‌چپ ندارد.");
+        }
+    }
+
     /**
      * صفحه ورود کاربران نباید اطلاعات حساب‌های نمونه را در منبع خود
      * داشته باشد — مگر در حالت نمایشی.
