@@ -16,7 +16,7 @@
 @endphp
 
 @section('content')
-    <section class="gry-bg py-5">
+    <section class="gry-bg py-5 kp-auth-page">
         <div class="profile">
             <div class="container">
                 <div class="row">
@@ -35,7 +35,7 @@
                                         <div class="form-group">
                                             <div class="input-group input-group--style-1">
                                                 <span class="input-group-addon">
-                                                    <i class="text-md la la-user"></i>
+                                                    <i class="la la-user"></i>
                                                 </span>
 
                                                 <input type="text" class="form-control form-control-sm {{ $errors->has('username') ? ' is-invalid' : '' }}" value="{{ old('username') }}" placeholder="{{__('Email')}}" name="username" id="email">
@@ -45,7 +45,7 @@
                                         <div class="form-group">
                                             <div class="input-group input-group--style-1">
                                                 <span class="input-group-addon">
-                                                    <i class="text-md la la-lock"></i>
+                                                    <i class="la la-lock"></i>
                                                 </span>
                                                 <input type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{__('Password')}}" name="password" id="password">
 

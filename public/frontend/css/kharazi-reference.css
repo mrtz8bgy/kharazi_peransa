@@ -2096,3 +2096,97 @@ a:focus { color: var(--kp-green-dark); }
         padding: 12px 14px;
     }
 }
+
+/* Keep the mobile navigation drawer consistent with the storefront palette. */
+.mobile-side-menu .side-menu-overlay {
+    background: rgba(24, 63, 52, .55);
+}
+.mobile-side-menu .side-menu {
+    color: #354b3e;
+    background: linear-gradient(180deg, #fff 0%, #f7faf5 100%);
+    border-left: 1px solid #e5ede4;
+}
+.mobile-side-menu .side-menu-header {
+    background: linear-gradient(135deg, #eef5ed 0%, #fff 100%);
+    border-bottom: 1px solid #e5ede4;
+}
+.mobile-side-menu .side-menu-close {
+    background: #fff;
+    color: var(--kp-green-dark);
+    box-shadow: 0 2px 8px rgba(32, 77, 64, .08);
+}
+.mobile-side-menu .widget-profile-box {
+    color: var(--kp-forest);
+}
+.mobile-side-menu .widget-profile-box .image {
+    border-color: var(--kp-green);
+}
+.mobile-side-menu .widget-profile-box .name {
+    color: var(--kp-forest);
+}
+.mobile-side-menu .side-user-menu li {
+    border-bottom-color: #e9efe8;
+}
+.mobile-side-menu .side-user-menu li a {
+    color: #40564a;
+}
+.mobile-side-menu .side-user-menu li a i {
+    color: var(--kp-green);
+}
+.mobile-side-menu .side-user-menu li a:hover {
+    background: #edf5ec;
+    color: var(--kp-green-dark);
+}
+.mobile-side-menu .btn-lux-outline {
+    border-color: #b8cdb9;
+    background: #fff;
+    color: var(--kp-green-dark);
+}
+.mobile-side-menu .btn-lux-outline:hover {
+    background: #edf5ec;
+    border-color: var(--kp-green);
+    color: var(--kp-forest);
+}
+.mobile-side-menu .badge {
+    background: var(--kp-green);
+    color: #fff;
+}
+
+.kp-auth-page .input-group--style-1 {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+}
+.kp-auth-page .input-group--style-1 .input-group-addon {
+    display: flex;
+    flex: 0 0 50px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    background: var(--gradient-gold) !important;
+    color: #fff !important;
+}
+.kp-auth-page .input-group--style-1 .input-group-addon > i {
+    font-size: 18px;
+    line-height: 1;
+}
+.kp-auth-page .input-group--style-1 > .form-control {
+    flex: 1 1 0%;
+    width: 1%;
+    min-width: 0;
+    margin: 0;
+}
+.kp-auth-page .input-group--style-1 .invalid-feedback {
+    flex: 0 0 100%;
+}
+
+@media (max-width: 575.98px) {
+    .kp-auth-page > .profile > .container > .row > [class*="col-"] {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+    .kp-auth-page .card > .px-5.py-3 {
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+    }
+}

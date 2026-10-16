@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-    <section class="gry-bg py-4">
+    <section class="gry-bg py-4 kp-auth-page">
         <div class="profile">
             <div class="container">
                 <div class="row">
@@ -20,29 +20,30 @@
                                         <div class="form-group">
                                             <div class="input-group input-group--style-1">
                                                 <span class="input-group-addon">
-                                                    <i class="text-md la la-user"></i>
+                                                    <i class="la la-user"></i>
                                                 </span>
                                                 <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" placeholder="{{ __('Name') }}" name="name">
 
-                                                @if ($errors->has('name'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('name') }}</strong>
-                                                    </span>
-                                                @endif
                                             </div>
+                                            @if ($errors->has('name'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('name') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
 
                                         <div class="form-group phone-form-group">
                                             <div class="input-group input-group--style-1">
                                                 <span class="input-group-addon">
-                                                    <i class="text-md la la-phone"></i>
+                                                    <i class="la la-phone"></i>
                                                 </span>
                                                 <input type="tel" id="phone-code" class="border-right-0 h-100 w-100 form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}" placeholder="{{ __('Mobile Number') }}" name="phone">
-
+                                            </div>
+                                            @if ($errors->has('phone'))
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $errors->first('phone') }}</strong>
                                                 </span>
-                                            </div>
+                                            @endif
                                         </div>
 
                                         <input type="hidden" name="country_code" value="+98">
@@ -50,16 +51,16 @@
                                         <div class="form-group email-form-group">
                                             <div class="input-group input-group--style-1">
                                                 <span class="input-group-addon">
-                                                    <i class="text-md la la-envelope"></i>
+                                                    <i class="la la-envelope"></i>
                                                 </span>
                                                 <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{ __('Email') }}" name="email">
 
-                                                @if ($errors->has('email'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('email') }}</strong>
-                                                    </span>
-                                                @endif
                                             </div>
+                                            @if ($errors->has('email'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('email') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
 
                                         <div class="form-group">
@@ -70,23 +71,23 @@
                                             <!-- <label>{{ __('password') }}</label> -->
                                             <div class="input-group input-group--style-1">
                                                 <span class="input-group-addon">
-                                                    <i class="text-md la la-lock"></i>
+                                                    <i class="la la-lock"></i>
                                                 </span>
                                                 <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Password') }}" name="password">
 
-                                                @if ($errors->has('password'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('password') }}</strong>
-                                                    </span>
-                                                @endif
                                             </div>
+                                            @if ($errors->has('password'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('password') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
 
                                         <div class="form-group">
                                             <!-- <label>{{ __('confirm_password') }}</label> -->
                                             <div class="input-group input-group--style-1">
                                                 <span class="input-group-addon">
-                                                    <i class="text-md la la-lock"></i>
+                                                    <i class="la la-lock"></i>
                                                 </span>
                                                 <input type="password" class="form-control" placeholder="{{ __('Confirm Password') }}" name="password_confirmation">
 

@@ -13,7 +13,7 @@
     <title>{{ config('app.name', 'Laravel') }} | ورود به پنل مدیریت</title>
     
     {{-- استایل به فایل مستقل منتقل شد: css/kharazi/auth.css --}}
-    <link rel="stylesheet" href="{{ asset('css/kharazi/auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/kharazi/auth.css') }}?v={{ filemtime(public_path('css/kharazi/auth.css')) }}">
     {{-- کلاس‌های استخراج‌شده از استایل درون‌خطی ویوها (بازبینی L-04) --}}
     <link rel="stylesheet" href="{{ asset('css/kharazi/utilities.css') }}">
 </head>
