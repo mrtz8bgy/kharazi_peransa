@@ -272,7 +272,7 @@
 <script src="{{ asset('js/jquery.md.bootstrap.datetimepicker.js') }}"></script>
 <!-- App JS -->
 <script src="{{ asset('frontend/js/active-shop.js') }}"></script>
-<script src="{{ asset('frontend/js/main.js') }}"></script>
+<script src="{{ asset('frontend/js/main.js') }}?v={{ @filemtime(public_path('frontend/js/main.js')) ?: time() }}"></script>
 
 <script>
 
@@ -406,7 +406,7 @@
                 Xoffset: 20,
                 bg: true,
                 tint: '#000',
-                defaultScale: -1
+                defaultScale: 0
             });
             getVariantPrice();
         }).fail(function(xhr){

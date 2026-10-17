@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <section class="gry-bg py-4 profile">
+    <section class="gry-bg py-4 profile kp-seller-page kp-seller-dashboard">
         <div class="container">
             <div class="row cols-xs-space cols-sm-space cols-md-space">
                 <div class="col-lg-3 d-none d-lg-block">
@@ -30,7 +30,7 @@
                     </div>
                     <!-- dashboard content -->
                     <div class="">
-                        <div class="row">
+                        <div class="row seller-stats-row">
                             <div class="col-md-3 col-6">
                                 <div class="dashboard-widget text-center green-widget mt-4 c-pointer">
                                     <a href="javascript:;" class="d-block">
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
                             <div class="col-md-5">
-                                <div class="bg-white mt-4 p-5 text-center">
+                                <div class="seller-verification-card bg-white mt-4 p-5 text-center">
                                     <div class="mb-3">
                                         @if(Auth::user()->seller->verification_status == 0)
                                             <img loading="lazy"  src="{{ asset('frontend/images/icons/non_verified.png') }}" alt="" width="130">
@@ -141,12 +141,12 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="bg-white mt-4 p-4 text-center">
+                                <div class="seller-action-card bg-white mt-4 p-4 text-center">
                                     <div class="heading-4 strong-700">{{__('Shop')}}</div>
                                     <p>{{__('Manage & organize your shop')}}</p>
                                     <a href="{{ route('shops.index') }}" class="btn btn-styled btn-base-1 btn-outline btn-sm">{{__('Go to setting')}}</a>
                                 </div>
-                                <div class="bg-white mt-4 p-4 text-center">
+                                <div class="seller-action-card bg-white mt-4 p-4 text-center">
                                     <div class="heading-4 strong-700">{{__('Payment')}}</div>
                                     <p>{{__('Configure your payment method')}}</p>
                                     <a href="{{ route('profile') }}" class="btn btn-styled btn-base-1 btn-outline btn-sm">{{__('Configure Now')}}</a>

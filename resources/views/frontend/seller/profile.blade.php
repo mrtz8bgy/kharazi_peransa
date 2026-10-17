@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <section class="gry-bg py-4 profile">
+    <section class="gry-bg py-4 profile kp-seller-page">
         <div class="container">
             <div class="row cols-xs-space cols-sm-space cols-md-space">
                 <div class="col-lg-3 d-none d-lg-block">

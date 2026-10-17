@@ -365,6 +365,18 @@ $(document).ready(function () {
         defaultScale: -1,
         position: zoomposition,
     });
+    $(".xzoom").each(function () {
+        var image = this;
+        var updateZoomScale = function () {
+            var zoom = $(image).data("xzoom");
+            if (zoom && image.naturalWidth) {
+                zoom.options.defaultScale =
+                    image.naturalWidth <= image.clientWidth ? 1 : -1;
+            }
+        };
+        $(image).on("load lazyloaded", updateZoomScale);
+        updateZoomScale();
+    });
 
     $(".tagsInput").tagsinput("items");
 
