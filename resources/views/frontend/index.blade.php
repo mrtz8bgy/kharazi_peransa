@@ -68,17 +68,20 @@
 
         @foreach($sliders as $slider)
             @php
-                // پیوند خالی یا «#» یعنی اسلاید بدون مقصد. در آن حالت عنصر
-                // پیوند ساخته نمی‌شود تا کلیک، تب خالی باز نکند. برای
-                // پیوندهای بیرونی `rel="noopener noreferrer"` لازم است تا
-                // صفحه مقصد به `window.opener` دسترسی نداشته باشد.
+                // پیوند خالی یا «#» یعنی اسلاید بدون مقصد. مسیرهای داخلی
+                // باید از ریشه برنامه ساخته شوند تا نصب در زیرپوشه هم درست
+                // کار کند؛ فقط مقصدهای بیرونی در تب جدید باز می‌شوند.
                 $slideLink = trim((string) $slider->link);
                 $slideLink = ($slideLink === '' || $slideLink === '#') ? null : $slideLink;
+                $isExternalSlideLink = $slideLink && preg_match('#^https?://#i', $slideLink);
+                if ($slideLink && !$isExternalSlideLink) {
+                    $slideLink = url(ltrim($slideLink, '/'));
+                }
             @endphp
 
             <div>
                 @if($slideLink)
-                    <a href="{{ $slideLink }}" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ $slideLink }}" @if($isExternalSlideLink) target="_blank" rel="noopener noreferrer" @endif>
                         <img src="{{ asset($slider->photo) }}"
                              alt="{{ __('اسلاید') }} {{ $loop->iteration }}"
                              loading="{{ $loop->first ? 'eager' : 'lazy' }}">
@@ -124,7 +127,7 @@
                         <p>{{ $sc['s'] }}</p>
 
                         @if($slideLink)
-                            <a href="{{ $slideLink }}" target="_blank" rel="noopener noreferrer" class="slide-btn-custom">
+                            <a href="{{ $slideLink }}" @if($isExternalSlideLink) target="_blank" rel="noopener noreferrer" @endif class="slide-btn-custom">
                                 {{ __('مشاهده و خرید') }} <i class="la la-angle-left"></i>
                             </a>
                         @else

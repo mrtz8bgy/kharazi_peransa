@@ -392,12 +392,25 @@
         @endif
     }
 
+    $('#addToCart').on('hide.bs.modal.quickViewZoom', function(){
+        $(this).find('.xzoom, .xzoom-gallery').each(function(){
+            var zoom = $(this).data('xzoom');
+            if(zoom){
+                zoom.destroy();
+                zoom.closezoom();
+                $(this).removeData('xzoom');
+            }
+        });
+    });
+
     function showAddToCartModal(id){
         if(!$('#modal-size').hasClass('modal-lg')){
             $('#modal-size').addClass('modal-lg');
         }
         $('#addToCart-modal-body').html(null);
         $('#addToCart').modal();
+        $('body').css('padding-right', '0');
+        $('.modal-backdrop').last().addClass('quick-view-backdrop');
         $('.c-preloader').show();
         $.post('{{ route('cart.showCartModal') }}', {_token:'{{ csrf_token() }}', id:id}, function(data){
             $('.c-preloader').hide();
@@ -406,7 +419,8 @@
                 Xoffset: 20,
                 bg: true,
                 tint: '#000',
-                defaultScale: 0
+                defaultScale: 0,
+                fadeOut: false
             });
             getVariantPrice();
         }).fail(function(xhr){

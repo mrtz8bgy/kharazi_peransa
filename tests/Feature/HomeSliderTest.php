@@ -294,6 +294,25 @@ class HomeSliderTest extends TestCase
         );
     }
 
+    public function test_internal_slider_link_uses_application_base_url_and_same_tab()
+    {
+        $this->removeAllSliders();
+        $this->makeSlider(['link' => '/products/featured']);
+
+        $section = $this->sliderSection($this->get('/')->getContent());
+
+        $this->assertContains(
+            'href="' . route('products.featured') . '"',
+            $section,
+            'پیوند داخلی باید با نشانی پایه برنامه ساخته شود تا نصب در زیرپوشه درست کار کند.'
+        );
+        $this->assertNotContains(
+            'target="_blank"',
+            $section,
+            'پیوند داخلی اسلایدر باید در همان زبانه باز شود.'
+        );
+    }
+
     /**
      * بریدن بخش بنر اسلایدر از کل HTML صفحه.
      *
