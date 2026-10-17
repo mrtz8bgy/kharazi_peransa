@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2026 at 10:19 PM
+-- Generation Time: Oct 17, 2026 at 03:13 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -1391,7 +1391,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (29, '2026_10_12_100004_fix_jewelry_schema_drift', 17),
 (30, '2026_10_16_180000_fix_orders_schema_drift', 18),
 (31, '2026_10_16_180100_fix_order_details_schema_drift', 19),
-(32, '2026_10_16_220000_create_article_content_tables', 20);
+(32, '2026_10_16_220000_create_article_content_tables', 20),
+(33, '2026_10_17_000000_create_seller_payments_table', 21);
 
 -- --------------------------------------------------------
 
@@ -2053,7 +2054,7 @@ INSERT INTO `products` (`id`, `name`, `added_by`, `user_id`, `category_id`, `sub
 (37, 'قیچی گلدوزی نوک‌کج', 'admin', 12, 9, 1020, 219, 16, '[\"uploads/products/photos/kharazi-product-37.png\"]', 'uploads/products/thumbnail/kharazi-product-37.png', 'uploads/products/thumbnail/kharazi-product-37.png', 'uploads/products/thumbnail/kharazi-product-37.png', 'youtube', NULL, 'قیچی گلدوزی, نوک‌کج, ظریف', 'قیچی گلدوزی با نوک کج و تیغه ظریف. مناسب کارهای دقیق، بریدن نخ و گلدوزی دستی.', 184000, 128000, 0, '[]', '[]', '[\"#FFFFFF\"]', NULL, 1, 1, 1, 118, 'عدد', 8.00, 'percent', 0.00, 'amount', 'flat_rate', 150000.00, 0, 'قیچی گلدوزی نوک‌کج | خرازی پرنسا', 'قیچی گلدوزی با نوک کج و تیغه ظریف. مناسب کارهای دقیق، بریدن نخ و گلدوزی دستی.', 'uploads/products/thumbnail/kharazi-product-37.png', NULL, 'kharazi-product-37', 0.00, '28934', 0, NULL, NULL, '2026-09-09 13:13:58', '2026-09-09 13:13:58'),
 (38, 'درفش خیاطی با دسته چوبی', 'admin', 12, 9, 1021, 221, 9, '[\"uploads/products/photos/kharazi-product-38.png\"]', 'uploads/products/thumbnail/kharazi-product-38.png', 'uploads/products/thumbnail/kharazi-product-38.png', 'uploads/products/thumbnail/kharazi-product-38.png', 'youtube', NULL, 'درفش, خیاطی, دسته چوبی', 'درفش خیاطی با دسته چوبی و نوک فولادی. برای باز کردن بخیه و بیرون کشیدن نخ کاربرد دارد.', 96000, 67000, 0, '[]', '[]', '[\"#FFD700\"]', NULL, 1, 1, 0, 156, 'عدد', 10.00, 'percent', 0.00, 'amount', 'flat_rate', 150000.00, 0, 'درفش خیاطی با دسته چوبی | خرازی پرنسا', 'درفش خیاطی با دسته چوبی و نوک فولادی. برای باز کردن بخیه و بیرون کشیدن نخ کاربرد دارد.', 'uploads/products/thumbnail/kharazi-product-38.png', NULL, 'kharazi-product-38', 0.00, '45823', 0, NULL, NULL, '2026-09-09 13:13:58', '2026-09-09 13:13:58'),
 (39, 'متر خیاطی ۱۵۰ سانتی', 'admin', 12, 9, 1022, 223, 9, '[\"uploads/products/photos/kharazi-product-39.png\"]', 'uploads/products/thumbnail/kharazi-product-39.png', 'uploads/products/thumbnail/kharazi-product-39.png', 'uploads/products/thumbnail/kharazi-product-39.png', 'youtube', NULL, 'متر خیاطی, ۱۵۰ سانتی, اندازه‌گیری', 'متر خیاطی پارچه‌ای ۱۵۰ سانتی با دو طرف مدرج. انعطاف‌پذیر و مناسب اندازه‌گیری اندام.', 58000, 40000, 0, '[]', '[]', '[\"#FFFFFF\"]', NULL, 1, 1, 0, 204, 'عدد', 8.00, 'percent', 0.00, 'amount', 'flat_rate', 150000.00, 0, 'متر خیاطی ۱۵۰ سانتی | خرازی پرنسا', 'متر خیاطی پارچه‌ای ۱۵۰ سانتی با دو طرف مدرج. انعطاف‌پذیر و مناسب اندازه‌گیری اندام.', 'uploads/products/thumbnail/kharazi-product-39.png', NULL, 'kharazi-product-39', 0.00, '38970', 0, NULL, NULL, '2026-09-09 13:13:58', '2026-09-09 13:13:58'),
-(61, 'رولت خیاطی و گچ رنگ‌بندی', 'admin', 12, 9, 1023, 226, 9, '[\"uploads/products/photos/kharazi-product-61.png\"]', 'uploads/products/thumbnail/kharazi-product-61.png', 'uploads/products/thumbnail/kharazi-product-61.png', 'uploads/products/thumbnail/kharazi-product-61.png', 'youtube', NULL, 'رولت, گچ خیاطی, علامت‌گذاری', 'ست رولت خیاطی و گچ در رنگ‌های مختلف. برای علامت‌گذاری الگو روی پارچه، با قابلیت پاک شدن.', 74000, 51000, 1, '[]', '[]', '[\"#FFB6C1\"]', NULL, 1, 1, 1, 148, 'ست', 0.00, 'amount', 0.00, 'amount', 'flat_rate', 500000.00, 0, 'رولت خیاطی و گچ رنگ‌بندی | خرازی پرنسا', 'ست رولت خیاطی و گچ در رنگ‌های مختلف. برای علامت‌گذاری الگو روی پارچه، با قابلیت پاک شدن.', 'uploads/products/thumbnail/kharazi-product-61.png', NULL, 'kharazi-product-61', 0.00, NULL, 0, NULL, NULL, '2026-09-09 13:19:41', '2026-09-09 09:59:35'),
+(61, 'رولت خیاطی و گچ رنگ‌بندی', 'admin', 12, 9, 1023, 226, 9, '[\"uploads\\/products\\/photos\\/o9EKYxixTyDizGik458XP7Cosz87oQ6DI28v9EKF.jpg\"]', 'uploads/products/thumbnail/XTKm4RwvyD5bLAvuEff6SoiNCH9W6OyRxOEEkcgG.jpg', 'uploads/products/featured/2mpxzdoIUljSzS9gf0UmD51SKxVWsdVzID2UVUpS.jpg', 'uploads/products/flash_deal/hDcr9RkJaK0NqjR9mqODqHQcGwUI3q9wm4qXs7H0.jpg', 'youtube', NULL, 'رولت, گچ خیاطی, علامت‌گذاری', 'ست رولت خیاطی و گچ در رنگ‌های مختلف. برای علامت‌گذاری الگو روی پارچه، با قابلیت پاک شدن.', 74000, 51000, 1, '[]', '[]', '[\"#FFB6C1\"]', NULL, 1, 1, 1, 148, 'ست', 0.00, 'amount', 0.00, 'amount', 'flat_rate', 500000.00, 0, 'رولت خیاطی و گچ رنگ‌بندی | خرازی پرنسا', 'ست رولت خیاطی و گچ در رنگ‌های مختلف. برای علامت‌گذاری الگو روی پارچه، با قابلیت پاک شدن.', 'uploads/products/meta/MwEg1iWpEAeDTribAVxPa3ZyYoQIS180mm7FLSgO.jpg', NULL, 'رولت-خیاطی-و-گچ-رنگ‌بندی-IUZ6M', 0.00, NULL, 0, NULL, NULL, '2026-09-09 13:19:41', '2026-10-16 20:05:42'),
 (62, 'منجوق شیشه‌ای رنگ‌بندی بسته ۵۰۰ گرمی', 'admin', 12, 12, 1030, 231, 15, '[\"uploads/products/photos/kharazi-product-62.png\"]', 'uploads/products/thumbnail/kharazi-product-62.png', 'uploads/products/thumbnail/kharazi-product-62.png', 'uploads/products/thumbnail/kharazi-product-62.png', 'youtube', NULL, 'منجوق شیشه‌ای, رنگ‌بندی, ۵۰۰ گرمی', 'منجوق شیشه‌ای درخشان در رنگ‌های متنوع، بستهٔ ۵۰۰ گرمی. مناسب منجوق‌کاری، تزئین لباس و کارهای هنری.', 168000, 117000, 1, '[]', '[]', '[\"#C0C0C0\"]', NULL, 1, 1, 1, 186, 'بسته', 5.00, 'percent', 0.00, 'amount', 'flat_rate', 500000.00, 0, 'منجوق شیشه‌ای رنگ‌بندی بسته ۵۰۰ گرمی | خرازی پرنسا', 'منجوق شیشه‌ای درخشان در رنگ‌های متنوع، بستهٔ ۵۰۰ گرمی. مناسب منجوق‌کاری، تزئین لباس و کارهای هنری.', 'uploads/products/thumbnail/kharazi-product-62.png', NULL, 'kharazi-product-62', 0.00, NULL, 0, NULL, NULL, '2026-09-09 13:19:41', '2026-09-09 10:40:04'),
 (63, 'منجوق پلاستیکی درشت بسته ۳۰۰ گرمی', 'admin', 12, 12, 1030, 232, 15, '[\"uploads/products/photos/kharazi-product-63.png\"]', 'uploads/products/thumbnail/kharazi-product-63.png', 'uploads/products/thumbnail/kharazi-product-63.png', 'uploads/products/thumbnail/kharazi-product-63.png', 'youtube', NULL, 'منجوق پلاستیکی, درشت, کاردستی', 'منجوق پلاستیکی درشت و سبک، مناسب کاردستی کودکان و تزئین وسایل. بستهٔ ۳۰۰ گرمی.', 96000, 67000, 1, '[]', '[]', '[\"#FFB6C1\",\"#C0C0C0\"]', NULL, 1, 1, 1, 164, 'بسته', 8.00, 'percent', 0.00, 'amount', 'flat_rate', 500000.00, 0, 'منجوق پلاستیکی درشت بسته ۳۰۰ گرمی | خرازی پرنسا', 'منجوق پلاستیکی درشت و سبک، مناسب کاردستی کودکان و تزئین وسایل. بستهٔ ۳۰۰ گرمی.', 'uploads/products/thumbnail/kharazi-product-63.png', NULL, 'kharazi-product-63', 0.00, NULL, 0, NULL, NULL, '2026-09-09 13:19:41', '2026-09-09 10:06:34'),
 (64, 'پولک درخشان رنگ‌بندی بسته ۲۰۰ گرمی', 'admin', 12, 12, 1031, 234, 15, '[\"uploads/products/photos/kharazi-product-64.png\"]', 'uploads/products/thumbnail/kharazi-product-64.png', 'uploads/products/thumbnail/kharazi-product-64.png', 'uploads/products/thumbnail/kharazi-product-64.png', 'youtube', NULL, 'پولک, درخشان, ۲۰۰ گرمی', 'پولک درخشان با سطح بازتابنده در رنگ‌های متنوع. مناسب تزئین لباس، رقص و کارهای نمایشی.', 118000, 82000, 1, '[]', '[]', '[\"#0000FF\",\"#C0C0C0\"]', NULL, 1, 1, 1, 152, 'بسته', 5.00, 'percent', 0.00, 'amount', 'flat_rate', 500000.00, 0, 'پولک درخشان رنگ‌بندی بسته ۲۰۰ گرمی | خرازی پرنسا', 'پولک درخشان با سطح بازتابنده در رنگ‌های متنوع. مناسب تزئین لباس، رقص و کارهای نمایشی.', 'uploads/products/thumbnail/kharazi-product-64.png', NULL, 'kharazi-product-64', 0.00, NULL, 0, NULL, NULL, '2026-09-09 13:19:41', '2026-09-09 10:07:41'),
@@ -2101,7 +2102,6 @@ CREATE TABLE `product_stocks` (
 --
 
 INSERT INTO `product_stocks` (`id`, `product_id`, `variant`, `sku`, `price`, `qty`, `image`, `created_at`, `updated_at`) VALUES
-(2, 61, 'LightPink', NULL, 850000000.00, 10, NULL, '2026-09-09 09:59:35', '2026-09-09 09:59:35'),
 (4, 63, 'LightPink', NULL, 450000000.00, 10, NULL, '2026-09-09 10:06:34', '2026-09-09 10:06:34'),
 (5, 63, 'Silver', NULL, 450000000.00, 10, NULL, '2026-09-09 10:06:34', '2026-09-09 10:06:34'),
 (6, 64, 'Blue', NULL, 580000000.00, 10, NULL, '2026-09-09 10:07:41', '2026-09-09 10:07:41'),
@@ -2138,7 +2138,8 @@ INSERT INTO `product_stocks` (`id`, `product_id`, `variant`, `sku`, `price`, `qt
 (38, 28, 'White', NULL, 16500000.00, 10, NULL, '2026-09-09 10:34:13', '2026-09-09 10:34:13'),
 (40, 62, 'Silver', NULL, 120000000.00, 10, NULL, '2026-09-09 10:40:03', '2026-09-09 10:40:03'),
 (41, 74, 'White', NULL, 42000000.00, 10, NULL, '2026-09-09 10:41:50', '2026-09-09 10:41:50'),
-(42, 83, 'White', NULL, 38000000.00, 10, NULL, '2026-09-09 10:44:49', '2026-09-09 10:44:49');
+(42, 83, 'White', NULL, 38000000.00, 10, NULL, '2026-09-09 10:44:49', '2026-09-09 10:44:49'),
+(43, 61, 'LightPink', NULL, 850000000.00, 10, NULL, '2026-10-16 20:05:42', '2026-10-16 20:05:42');
 
 -- --------------------------------------------------------
 
@@ -2373,6 +2374,31 @@ CREATE TABLE `sellers` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
+--
+-- Dumping data for table `sellers`
+--
+
+INSERT INTO `sellers` (`id`, `user_id`, `verification_status`, `verification_info`, `cash_on_delivery_status`, `sslcommerz_status`, `stripe_status`, `paypal_client_id`, `paypal_client_secret`, `ssl_store_id`, `ssl_password`, `stripe_key`, `stripe_secret`, `instamojo_status`, `instamojo_api_key`, `instamojo_token`, `razorpay_status`, `razorpay_api_key`, `razorpay_secret`, `paypal_status`, `admin_to_pay`, `created_at`, `updated_at`) VALUES
+(1, 3, 0, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, 0.00, '2026-10-16 20:36:14', '2026-10-16 20:36:14'),
+(5, 3, 0, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, 0.00, '2026-10-16 20:40:43', '2026-10-16 20:40:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `seller_payments`
+--
+
+CREATE TABLE `seller_payments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `seller_id` int(10) UNSIGNED DEFAULT NULL,
+  `amount` double(8,2) NOT NULL DEFAULT 0.00,
+  `payment_details` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_method` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `txn_code` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- --------------------------------------------------------
 
 --
@@ -2449,6 +2475,13 @@ CREATE TABLE `shops` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `shops`
+--
+
+INSERT INTO `shops` (`id`, `user_id`, `name`, `logo`, `sliders`, `address`, `facebook`, `google`, `twitter`, `youtube`, `instagram`, `slug`, `meta_title`, `meta_description`, `delivery_pickup_latitude`, `delivery_pickup_longitude`, `created_at`, `updated_at`) VALUES
+(1, 3, 'Morteza behnami', NULL, NULL, 'ورامین میدان رازی خیابان احمد مقیسه کوچه شهدای سوسنگرد پلاک 13', NULL, NULL, NULL, NULL, NULL, 'Morteza-behnami-', NULL, NULL, NULL, NULL, '2026-10-16 20:36:14', '2026-10-16 20:36:14');
 
 -- --------------------------------------------------------
 
@@ -2843,7 +2876,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `referred_by`, `provider_id`, `user_type`, `name`, `email`, `role`, `email_verified_at`, `password`, `remember_token`, `avatar`, `avatar_original`, `address`, `country`, `city`, `postal_code`, `phone`, `phone_verified_at`, `verification_code`, `balance`, `referral_code`, `customer_package_id`, `remaining_uploads`, `created_at`, `updated_at`) VALUES
 (1, NULL, NULL, 'admin', 'مدیر سیستم', 'admin@example.com', 'admin', NULL, '$2y$10$vyiEytr3RPcwh.VE/DrqQOcHwi9lJr/0wc0eoIowXfDgPxkMZdYCG', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, NULL, NULL, 0, '2026-08-22 18:08:12', '2026-08-22 18:08:12'),
 (2, NULL, NULL, 'customer', 'تکنسین نمونه', 'tech@example.com', 'technician', NULL, '$2y$10$vyiEytr3RPcwh.VE/DrqQOcHwi9lJr/0wc0eoIowXfDgPxkMZdYCG', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, NULL, NULL, 0, '2026-08-22 18:08:12', '2026-08-22 18:08:12'),
-(3, NULL, NULL, 'customer', 'مشتری نمونه', 'customer@example.com', 'customer', NULL, '$2y$10$vyiEytr3RPcwh.VE/DrqQOcHwi9lJr/0wc0eoIowXfDgPxkMZdYCG', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, NULL, NULL, 0, '2026-08-22 18:08:12', '2026-08-22 18:08:12'),
+(3, NULL, NULL, 'seller', 'مشتری نمونه', 'customer@example.com', 'customer', '2026-10-16 20:40:43', '$2y$10$vyiEytr3RPcwh.VE/DrqQOcHwi9lJr/0wc0eoIowXfDgPxkMZdYCG', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, NULL, NULL, 0, '2026-08-22 18:08:12', '2026-10-16 20:40:43'),
 (4, NULL, NULL, 'admin', 'مدیریت دریکانا', 'admin@drikana.com', 'admin', '2026-09-07 00:25:52', '$2y$10$vyiEytr3RPcwh.VE/DrqQOcHwi9lJr/0wc0eoIowXfDgPxkMZdYCG', NULL, NULL, NULL, 'تهران، بازار بزرگ طلا و جواهر', NULL, 'تهران', NULL, '09120000000', NULL, NULL, 0.00, NULL, NULL, 0, '2026-09-07 00:25:52', '2026-09-07 00:25:52'),
 (5, NULL, NULL, 'customer', 'Admin User', 'admin_test@example.com', 'customer', NULL, '$2y$04$vhFk5ogbswKfPA6rwlJX9.HWRDCdb4dD4MWI3NKy5fdvJgcJMyPWS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '09120000000', NULL, NULL, 0.00, NULL, NULL, 0, '2026-09-19 16:07:31', '2026-09-19 16:07:31'),
 (6, NULL, NULL, 'customer', 'Real Customer', 'customer_test@example.com', 'customer', NULL, '$2y$04$LqZpi26nc679Us7UCGbZMum/kUv4yigtfw7qhA0emCgyhoqe9d0rC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '09121111111', NULL, NULL, 0.00, NULL, NULL, 0, '2026-09-19 16:07:31', '2026-09-19 16:07:31'),
@@ -2917,6 +2950,13 @@ CREATE TABLE `wishlists` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `wishlists`
+--
+
+INSERT INTO `wishlists` (`id`, `product_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 61, 3, '2026-10-16 21:08:14', '2026-10-16 21:08:14');
 
 --
 -- Indexes for dumped tables
@@ -3322,6 +3362,14 @@ ALTER TABLE `sellers`
   ADD KEY `user_id` (`user_id`) USING BTREE;
 
 --
+-- Indexes for table `seller_payments`
+--
+ALTER TABLE `seller_payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `seller_payments_seller_id_index` (`seller_id`),
+  ADD KEY `seller_payments_created_at_index` (`created_at`);
+
+--
 -- Indexes for table `seller_withdraw_requests`
 --
 ALTER TABLE `seller_withdraw_requests`
@@ -3433,13 +3481,13 @@ ALTER TABLE `app_settings`
 -- AUTO_INCREMENT for table `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `article_categories`
 --
 ALTER TABLE `article_categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `article_images`
@@ -3457,7 +3505,7 @@ ALTER TABLE `attributes`
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `banners`
@@ -3487,7 +3535,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `colors`
@@ -3571,19 +3619,19 @@ ALTER TABLE `home_categories`
 -- AUTO_INCREMENT for table `jewelry_certificates`
 --
 ALTER TABLE `jewelry_certificates`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `jewelry_owners`
 --
 ALTER TABLE `jewelry_owners`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `jewelry_transfers`
 --
 ALTER TABLE `jewelry_transfers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `languages`
@@ -3607,7 +3655,7 @@ ALTER TABLE `login_attempts`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `missing_reports`
@@ -3685,13 +3733,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_stocks`
 --
 ALTER TABLE `product_stocks`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `repair_orders`
 --
 ALTER TABLE `repair_orders`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `repair_status_histories`
@@ -3727,7 +3775,13 @@ ALTER TABLE `searches`
 -- AUTO_INCREMENT for table `sellers`
 --
 ALTER TABLE `sellers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `seller_payments`
+--
+ALTER TABLE `seller_payments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `seller_withdraw_requests`
@@ -3745,13 +3799,13 @@ ALTER TABLE `seo_settings`
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sliders`
 --
 ALTER TABLE `sliders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `staff`
@@ -3769,7 +3823,7 @@ ALTER TABLE `subscribers`
 -- AUTO_INCREMENT for table `sub_categories`
 --
 ALTER TABLE `sub_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1083;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1095;
 
 --
 -- AUTO_INCREMENT for table `sub_sub_categories`
@@ -3793,7 +3847,7 @@ ALTER TABLE `ticket_replies`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=160;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
 
 --
 -- AUTO_INCREMENT for table `wallets`
@@ -3805,7 +3859,7 @@ ALTER TABLE `wallets`
 -- AUTO_INCREMENT for table `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -3822,6 +3876,12 @@ ALTER TABLE `articles`
 --
 ALTER TABLE `article_images`
   ADD CONSTRAINT `article_images_article_id_foreign` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `seller_payments`
+--
+ALTER TABLE `seller_payments`
+  ADD CONSTRAINT `seller_payments_seller_id_foreign` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
