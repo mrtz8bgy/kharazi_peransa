@@ -3125,3 +3125,161 @@ a:focus { color: var(--kp-green-dark); }
         padding-left: 0;
     }
 }
+
+.kp-shop-create {
+    padding: 22px 0 36px !important;
+    background: linear-gradient(180deg, #f8faf6 0%, #f1f6f0 100%) !important;
+}
+.kp-shop-create > .container {
+    max-width: 1040px;
+}
+.kp-shop-create .page-title {
+    margin-bottom: 8px;
+}
+.kp-shop-create .page-title .heading {
+    color: var(--kp-forest);
+    font-size: 22px;
+    font-weight: 700;
+}
+.kp-shop-create .breadcrumb {
+    margin-bottom: 0;
+    background: transparent;
+    color: var(--kp-muted);
+    font-size: 12px;
+}
+.kp-shop-create .breadcrumb a {
+    color: var(--kp-green-dark);
+}
+.kp-shop-create .form-box {
+    overflow: hidden;
+    border: 1px solid #e3ece2;
+    border-radius: 15px;
+    background: #fff !important;
+    box-shadow: 0 5px 18px rgba(32, 77, 64, .055);
+}
+.kp-shop-create .form-box-title {
+    min-height: 48px;
+    padding: 13px 16px !important;
+    border-bottom: 1px solid #e7eee6;
+    background: #f3f8f2 !important;
+    color: var(--kp-forest) !important;
+    font-size: 14px;
+    font-weight: 700;
+}
+.kp-shop-create .form-box-content {
+    color: #40564a !important;
+    font-size: 13px;
+    line-height: 1.8;
+}
+.kp-shop-create .form-box-content label {
+    display: block;
+    padding-top: 8px;
+    color: #53665a;
+    font-size: 12px;
+    font-weight: 600;
+}
+.kp-shop-create .form-box-content .form-control {
+    min-height: 42px;
+    border: 1px solid #dfe9de;
+    border-radius: 8px;
+    background: #fff !important;
+    color: #354b3e !important;
+    box-shadow: none;
+    font-size: 13px;
+}
+.kp-shop-create .form-box-content .form-control:focus {
+    border-color: #94b49b;
+    box-shadow: 0 0 0 3px rgba(79, 128, 104, .10);
+}
+.kp-shop-create .input-group--style-1 {
+    overflow: hidden;
+    border: 1px solid #dfe9de;
+    border-radius: 8px;
+    background: #fff;
+}
+.kp-shop-create .input-group--style-1 .form-control {
+    min-height: 42px;
+    border: 0;
+    background: transparent !important;
+    box-shadow: none;
+}
+.kp-shop-create .input-group--style-1 .input-group-addon {
+    display: inline-flex;
+    min-width: 44px;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: #f2f7f1;
+    color: var(--kp-green);
+}
+.kp-shop-create .custom-input-file + label {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px dashed #a9c2aa;
+    border-radius: 8px;
+    background: #f6faf5;
+    color: var(--kp-green-dark);
+    cursor: pointer;
+}
+.kp-shop-create .custom-input-file + label strong {
+    color: inherit;
+}
+.kp-shop-create .required-star {
+    color: #c85b52;
+}
+.kp-shop-create .text-right .btn-base-1 {
+    min-width: 112px;
+    min-height: 42px;
+    padding: 10px 20px !important;
+    border: 0;
+    border-radius: 9px !important;
+    background: linear-gradient(135deg, var(--kp-green-dark), var(--kp-green)) !important;
+    color: #fff !important;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(79, 128, 104, .17);
+}
+
+@media (max-width: 767.98px) {
+    .kp-shop-create {
+        padding: 16px 0 28px !important;
+    }
+    .kp-shop-create .page-title .heading {
+        font-size: 19px;
+    }
+    .kp-shop-create .page-title .breadcrumb {
+        padding: 8px 0 0;
+    }
+    .kp-shop-create .form-box-content > .row {
+        margin-right: 0;
+        margin-left: 0;
+    }
+    .kp-shop-create .form-box-content > .row > [class*="col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    .kp-shop-create .form-box-content label {
+        padding-top: 0;
+        margin-bottom: 5px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .kp-shop-create > .container {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+    .kp-shop-create .form-box-title {
+        padding-right: 12px !important;
+        padding-left: 12px !important;
+        font-size: 13px;
+    }
+    .kp-shop-create .form-box-content {
+        padding: 12px !important;
+    }
+    .kp-shop-create .text-right .btn-base-1 {
+        width: 100%;
+    }
+}
