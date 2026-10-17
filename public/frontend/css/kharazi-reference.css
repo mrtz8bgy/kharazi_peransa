@@ -594,12 +594,18 @@ a:focus { color: var(--kp-green-dark); }
     font-size: 25px;
 }
 .kp-homepage .category-name-horizontal {
+    display: -webkit-box;
+    height: 2.9em;
+    min-height: 2.9em;
+    max-height: 2.9em;
+    overflow: hidden;
     max-width: none;
     color: #40564a !important;
     font-size: 11.5px !important;
     font-weight: 700;
     line-height: 1.45;
-    max-height: 2.9em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 .kp-homepage .scroll-btn {
     width: 30px;
@@ -2434,6 +2440,28 @@ a:focus { color: var(--kp-green-dark); }
     border-radius: 9px 0 0 9px;
     text-align: left;
     white-space: nowrap;
+}
+#page-content .table-cart-review tfoot tr.cart-total {
+    background: transparent !important;
+}
+#page-content .table-cart-review .cart-total th,
+#page-content .table-cart-review .cart-total td {
+    border: 0 !important;
+    background: #edf5ec !important;
+    color: var(--kp-forest) !important;
+    font-weight: 800 !important;
+}
+#page-content .table-cart-review .cart-total th {
+    border-radius: 0 9px 9px 0;
+}
+#page-content .table-cart-review .cart-total td {
+    border-radius: 9px 0 0 9px;
+    text-align: left;
+    white-space: nowrap;
+}
+#page-content .table-cart-review .cart-total th *,
+#page-content .table-cart-review .cart-total td * {
+    color: var(--kp-forest) !important;
 }
 .kp-cart-page .card.sticky-top .card-body .form-control {
     min-height: 40px;
@@ -4427,4 +4455,210 @@ a:focus { color: var(--kp-green-dark); }
 .body-wrap .btn-base-1:focus {
     background: var(--kp-green-dark) !important;
     color: #fff !important;
+}
+
+#new-address-modal {
+    z-index: 1305;
+    padding-right: 0 !important;
+}
+
+body.kp-address-modal-open {
+    padding-right: 0 !important;
+}
+
+.modal-backdrop.kp-address-backdrop {
+    z-index: 1300;
+}
+
+#new-address-modal .modal-dialog {
+    width: calc(100% - 32px);
+    max-width: 600px;
+    max-height: calc(100vh - 24px);
+    margin: 12px auto;
+}
+
+#new-address-modal .modal-content {
+    max-height: calc(100vh - 24px);
+    overflow: hidden;
+    border: 1px solid #e2ebe0;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 18px 48px rgba(32, 77, 64, .2);
+}
+
+#new-address-modal .modal-header {
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid #e8efe7;
+    background: #f4f8f2;
+}
+
+#new-address-modal .modal-title,
+#new-address-modal .modal-header .close {
+    margin: 0;
+    color: var(--kp-forest);
+    font-size: 16px;
+    font-weight: 800;
+}
+
+#new-address-modal .modal-header .close {
+    padding: 4px 8px;
+    opacity: .75;
+}
+
+#new-address-modal .modal-body {
+    max-height: calc(100vh - 150px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 16px 20px;
+    overscroll-behavior: contain;
+}
+
+#new-address-modal .modal-body > .p-3 {
+    padding: 0 !important;
+}
+
+#new-address-modal .modal-body .row {
+    align-items: center;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+#new-address-modal .modal-body .row > [class*="col-"] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+#new-address-modal .modal-body label {
+    display: block;
+    margin: 0 0 12px;
+    padding-top: 0;
+    color: #53695b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#new-address-modal .form-control {
+    min-height: 44px;
+    border: 1px solid #dfe9df !important;
+    border-radius: 9px !important;
+    background: #fff !important;
+    color: #283d33 !important;
+    box-shadow: none;
+    font-size: 13px;
+}
+
+#new-address-modal textarea.form-control {
+    min-height: 92px;
+    padding-top: 10px;
+    resize: vertical;
+}
+
+#new-address-modal .form-control:focus {
+    border-color: #83a88f !important;
+    box-shadow: 0 0 0 3px rgba(79, 128, 104, .12);
+}
+
+#new-address-modal .modal-footer {
+    padding: 12px 20px;
+    border-top: 1px solid #e8efe7;
+    background: #fbfcfa;
+}
+
+#new-address-modal .modal-footer .btn-base-1 {
+    min-width: 96px;
+    min-height: 40px;
+    padding: 9px 20px !important;
+    border: 0 !important;
+    border-radius: 9px !important;
+    background: var(--kp-green) !important;
+    color: #fff !important;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.kp-checkout-address-add {
+    display: flex;
+    width: 100%;
+    min-height: 116px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 15px;
+    padding: 16px;
+    border: 1px dashed #a9c2aa;
+    border-radius: 12px;
+    background: #f7faf5;
+    color: var(--kp-green-dark);
+    cursor: pointer;
+    font: inherit;
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.kp-checkout-address-add:hover,
+.kp-checkout-address-add:focus {
+    border-color: var(--kp-green);
+    background: #edf5ec;
+    color: var(--kp-forest);
+}
+
+.kp-checkout-address-add:hover {
+    transform: translateY(-1px);
+}
+
+.kp-checkout-address-add:focus-visible {
+    outline: 3px solid rgba(79, 128, 104, .3);
+    outline-offset: 2px;
+}
+
+@media (max-width: 767.98px) {
+    #new-address-modal .modal-dialog {
+        width: calc(100% - 16px);
+        max-height: calc(100vh - 16px);
+        margin: 8px auto;
+    }
+
+    #new-address-modal .modal-content {
+        max-height: calc(100vh - 16px);
+        border-radius: 13px;
+    }
+
+    #new-address-modal .modal-header {
+        padding: 11px 14px;
+    }
+
+    #new-address-modal .modal-body {
+        max-height: calc(100vh - 128px);
+        padding: 12px 10px;
+    }
+
+    #new-address-modal .modal-body .row {
+        margin-bottom: 7px;
+    }
+
+    #new-address-modal .modal-body .row > .col-md-2 {
+        width: 25%;
+        max-width: 25%;
+        flex: 0 0 25%;
+        padding-right: 4px;
+        padding-left: 4px;
+    }
+
+    #new-address-modal .modal-body .row > .col-md-10 {
+        width: 75%;
+        max-width: 75%;
+        flex: 0 0 75%;
+        padding-right: 4px;
+        padding-left: 4px;
+    }
+
+    #new-address-modal .modal-body label {
+        margin-bottom: 10px;
+        font-size: 12px;
+    }
+
+    #new-address-modal .modal-footer {
+        padding: 10px 14px;
+    }
 }

@@ -103,11 +103,11 @@
                                             </div>
                                         @endforeach
                                         <input type="hidden" name="checkout_type" value="logged">
-                                        <div class="col-md-6 mx-auto" onclick="add_new_address()">
-                                            <div class="border p-3 rounded mb-3 c-pointer text-center bg-white">
-                                                <i class="la la-plus la-2x"></i>
-                                                <div class="alpha-7">افزودن آدرس جدید</div>
-                                            </div>
+                                        <div class="col-md-6 mx-auto">
+                                            <button type="button" class="kp-checkout-address-add">
+                                                <i class="la la-plus la-2x" aria-hidden="true"></i>
+                                                <span>افزودن آدرس جدید</span>
+                                            </button>
                                         </div>
                                     </div>
                                 @else
@@ -267,5 +267,14 @@
     function add_new_address(){
         $('#new-address-modal').modal('show');
     }
+
+    $('.kp-checkout-address-add').on('click', add_new_address);
+    $('#new-address-modal').on('show.bs.modal', function(){
+        $('body').addClass('kp-address-modal-open');
+    }).on('shown.bs.modal', function(){
+        $('.modal-backdrop').last().addClass('kp-address-backdrop');
+    }).on('hidden.bs.modal', function(){
+        $('body').removeClass('kp-address-modal-open');
+    });
 </script>
 @endsection
