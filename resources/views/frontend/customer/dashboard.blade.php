@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <section class="gry-bg py-4 profile">
+    <section class="gry-bg py-4 profile kp-customer-dashboard">
         <div class="container">
             <div class="row cols-xs-space cols-sm-space cols-md-space">
                 <div class="col-lg-3 d-none d-lg-block">
@@ -30,7 +30,7 @@
 
                     <!-- dashboard content -->
                     <div class="">
-                        <div class="row">
+                        <div class="row dashboard-stats-row">
                             <div class="col-md-4">
                                 <div class="dashboard-widget text-center green-widget mt-4 c-pointer">
                                     <a href="javascript:;" class="d-block">

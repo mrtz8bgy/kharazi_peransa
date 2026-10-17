@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <section class="gry-bg py-4 profile">
+    <section class="gry-bg py-4 profile kp-profile-page">
         <div class="container">
             <div class="row cols-xs-space cols-sm-space cols-md-space">
                 <div class="col-lg-3 d-none d-lg-block">
@@ -111,7 +111,7 @@
                                     <div class="row gutters-10">
                                         @foreach (Auth::user()->addresses as $key => $address)
                                             <div class="col-lg-6">
-                                                <div class="border p-3 pr-5 rounded mb-3 position-relative">
+                                                <div class="address-card border p-3 pr-5 rounded mb-3 position-relative">
                                                     <div class="mb-2">
                                                         <span class="alpha-6">شهر:</span>
                                                         <span class="strong-600 mr-2">{{ $address->city }}</span>
@@ -150,7 +150,7 @@
                                             </div>
                                         @endforeach
                                         <div class="col-lg-6 mx-auto" onclick="add_new_address()">
-                                            <div class="border p-3 rounded mb-3 c-pointer text-center bg-light">
+                                            <div class="address-add-card border p-3 rounded mb-3 c-pointer text-center bg-light">
                                                 <i class="la la-plus la-2x"></i>
                                                 <div class="alpha-7">افزودن آدرس جدید</div>
                                             </div>
@@ -166,7 +166,7 @@
         </div>
     </section>
 
-    <div class="modal fade" id="new-address-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade kp-profile-modal" id="new-address-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-zoom" role="document">
             <div class="modal-content">
                 <div class="modal-header">
