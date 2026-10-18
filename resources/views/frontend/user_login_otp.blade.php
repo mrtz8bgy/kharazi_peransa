@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-    <section class="gry-bg py-5">
+    <section class="gry-bg py-5 kp-auth-page">
         <div class="profile">
             <div class="container">
                 <div class="row">
@@ -26,12 +26,15 @@
                                         <div class="form-group">
                                             <div class="input-group input-group--style-1">
                                                 <span class="input-group-addon">
-                                                    <i class="text-md la la-user"></i>
+                                                    <i class="la la-phone"></i>
                                                 </span>
 
                                                 <input
-                                                    type="text"
-                                                    class="form-control form-control-sm {{ $errors->has('phone') ? ' is-invalid' : '' }}"
+                                                    type="tel"
+                                                    inputmode="tel"
+                                                    autocomplete="tel"
+                                                    dir="ltr"
+                                                    class="form-control form-control-sm text-left {{ $errors->has('phone') ? ' is-invalid' : '' }}"
                                                     value="{{ old('phone') }}"
                                                     placeholder="شماره موبایل"
                                                     name="phone"
@@ -39,6 +42,11 @@
                                                     {{ isset($step) && $step == '2' ? 'disabled': '' }}
                                                 >
                                             </div>
+                                            @if ($errors->has('phone'))
+                                                <span class="invalid-feedback d-block" role="alert">
+                                                    <strong>{{ $errors->first('phone') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
 
                                         @if (isset($step) && $step == '2')
@@ -51,13 +59,21 @@
 
                                                     <input
                                                         type="text"
-                                                        class="form-control form-control-sm {{ $errors->has('code') ? ' is-invalid' : '' }}"
+                                                        inputmode="numeric"
+                                                        autocomplete="one-time-code"
+                                                        dir="ltr"
+                                                        class="form-control form-control-sm text-left {{ $errors->has('code') ? ' is-invalid' : '' }}"
                                                         value="{{ old('code') }}"
                                                         placeholder="کد تایید"
                                                         name="code"
                                                         id="code"
                                                     >
                                                 </div>
+                                                @if ($errors->has('code'))
+                                                    <span class="invalid-feedback d-block" role="alert">
+                                                        <strong>{{ $errors->first('code') }}</strong>
+                                                    </span>
+                                                @endif
                                             </div>
                                         @endif
 
