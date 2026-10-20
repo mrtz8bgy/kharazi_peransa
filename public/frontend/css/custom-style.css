@@ -79,7 +79,7 @@ a:hover {
 
 /* کانتینر */
 .container {
-    width: 89%;
+    width: 96%;
     max-width: var(--container-max);
     margin: 0 auto;
     padding: 0 1rem;

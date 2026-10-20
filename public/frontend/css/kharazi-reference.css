@@ -2220,6 +2220,7 @@ a:focus { color: var(--kp-green-dark); }
     padding: 0 12px;
     background: var(--gradient-gold) !important;
     color: #fff !important;
+    border-radius: 25px;
 }
 .kp-auth-page .input-group--style-1 .input-group-addon > i {
     font-size: 18px;

@@ -91,6 +91,17 @@
                                         </label>
                                     </li>
                                 @endif
+                                @if(\App\BusinessSetting::where('type', 'sadad_payment')->value('value') == 1)
+                                    <li>
+                                        <label class="payment_option" title="پرداخت آنلاین از طریق بانک ملی">
+                                            <input type="radio" name="payment_option" value="sadad">
+                                            <span>
+                                                <img src="{{ asset('frontend/images/icons/cards/payment_sticker.png') }}" class="img-fluid" alt="بانک ملی">
+                                            </span>
+                                        </label>
+                                        <p>بانک ملی (سداد)</p>
+                                    </li>
+                                @endif
                             </ul>
                             @if (Auth::check())
                                 <div class="text-center mt-4">

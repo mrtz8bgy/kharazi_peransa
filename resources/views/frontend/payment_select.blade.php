@@ -114,6 +114,17 @@
                                                         </div>
                                                     @endif
                                                 @endif
+                                                @if(\App\BusinessSetting::where('type', 'sadad_payment')->value('value') == 1)
+                                                    <div class="col-6">
+                                                        <label class="payment_option mb-4" data-toggle="tooltip" title="پرداخت آنلاین از طریق بانک ملی">
+                                                            <input type="radio" name="payment_option" value="sadad">
+                                                            <span>
+                                                                <img loading="lazy" src="{{ asset('frontend/images/icons/cards/payment_sticker.png') }}" class="img-fluid" alt="بانک ملی">
+                                                            </span>
+                                                        </label>
+                                                        <p>بانک ملی (سداد)</p>
+                                                    </div>
+                                                @endif
                                                 @if (Auth::check())
                                                     @if (\App\Addon::where('unique_identifier', 'offline_payment')->first() != null && \App\Addon::where('unique_identifier', 'offline_payment')->first()->activated)
                                                         @foreach(\App\ManualPaymentMethod::all() as $method)

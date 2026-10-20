@@ -16,6 +16,13 @@
             }
         },
         {
+            "type": "path",
+            "url": "sizpay-laravel-981025/sizpay-laravel-981025/gateway-master",
+            "options": {
+                "symlink": false
+            }
+        },
+        {
             "type": "vcs",
             "url": "https://github.com/activeitzone-github/core-component-repository.git"
         },
@@ -48,6 +55,7 @@
         "netshell/paypal": "dev-master",
         "nexmo/laravel": "^2.2",
         "niklasravnsborg/laravel-pdf": "^4.0",
+        "parsisolution/gateway": "dev-main",
         "razorpay/razorpay": "2.0.0",
         "shetabit/payment": "^3.1",
         "spatie/laravel-image-optimizer": "^1.3",

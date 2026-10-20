@@ -7,6 +7,7 @@ use Auth;
 use App\Category;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ZarinpalController;
+use App\Http\Controllers\SadadPaymentController;
 use App\Http\Controllers\ClubPointController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AffiliateController;
@@ -46,6 +47,8 @@ class CheckoutController extends Controller
                 }elseif($request->payment_option == 'zarinpal'){
                     $paypal = new ZarinpalController;
                     return $paypal->getCheckout();
+                }elseif($request->payment_option == 'sadad'){
+                    return app(SadadPaymentController::class)->checkout();
                 }elseif ($request->payment_option == 'cash_on_delivery') {
                     $request->session()->put('cart', collect([]));
                     // $request->session()->forget('order_id');
@@ -373,5 +376,4 @@ class CheckoutController extends Controller
         return view('frontend.order_confirmed', compact('order'));
     }
 }
-
 

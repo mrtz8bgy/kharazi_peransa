@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Currency;
 use App\BusinessSetting;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Artisan;
 use CoreComponentRepository;
 
@@ -44,6 +46,62 @@ class BusinessSettingsController extends Controller
     {
         CoreComponentRepository::instantiateShopRepository();
         return view('admin.business_settings.payment_method');
+    }
+
+    public function updateSadadSettings(Request $request)
+    {
+        $validated = $request->validate([
+            'merchant' => 'nullable|string|max:100',
+            'terminal_id' => 'nullable|string|max:100',
+            'transaction_key' => 'nullable|string|max:255',
+        ]);
+
+        $settingTypes = [
+            'merchant' => 'sadad_merchant',
+            'terminal_id' => 'sadad_terminal_id',
+            'transaction_key' => 'sadad_transaction_key',
+        ];
+        $currentValues = [];
+
+        foreach ($settingTypes as $field => $settingType) {
+            $storedValue = BusinessSetting::where('type', $settingType)->value('value');
+            try {
+                $currentValues[$field] = $storedValue ? Crypt::decrypt($storedValue) : '';
+            } catch (DecryptException $exception) {
+                \Log::error('Stored Sadad configuration could not be decrypted.', [
+                    'setting' => $settingType,
+                ]);
+                flash('اطلاعات قبلی درگاه بانک ملی قابل خواندن نیست؛ کلید رمزنگاری برنامه را بررسی کنید.')->error();
+                return back();
+            }
+
+            if (isset($validated[$field]) && $validated[$field] !== '') {
+                $currentValues[$field] = $validated[$field];
+            }
+        }
+
+        $isActive = $request->input('active') === '1';
+        if ($isActive && in_array('', $currentValues, true)) {
+            flash('برای فعال‌سازی درگاه، شناسه پذیرنده، شماره پایانه و کلید تراکنش را وارد کنید.')->error();
+            return back();
+        }
+
+        foreach ($settingTypes as $field => $settingType) {
+            if (isset($validated[$field]) && $validated[$field] !== '') {
+                BusinessSetting::updateOrCreate(
+                    ['type' => $settingType],
+                    ['value' => Crypt::encrypt($validated[$field])]
+                );
+            }
+        }
+
+        BusinessSetting::updateOrCreate(
+            ['type' => 'sadad_payment'],
+            ['value' => $isActive ? '1' : '0']
+        );
+
+        flash('تنظیمات درگاه بانک ملی با موفقیت ذخیره شد.')->success();
+        return back();
     }
 
     /**
@@ -532,5 +590,4 @@ class BusinessSettingsController extends Controller
         return back();
     }
 }
-
 

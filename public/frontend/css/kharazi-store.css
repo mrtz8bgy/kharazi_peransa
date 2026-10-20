@@ -202,7 +202,7 @@ body::before {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    top: 25px;
+    top: 0px;
     padding: 13px 32px;
     border-radius: var(--r-pill);
     font-weight: 700;

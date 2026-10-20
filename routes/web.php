@@ -186,6 +186,9 @@ Route::get('/paypal/payment/cancel', 'PaypalController@getCancel')->name('paymen
 // درگاه پرداخت زرین‌پال (Zarinpal)
 Route::get('/zarinpal/back_url', 'ZarinpalController@back_url')->name('payment.backurl');
 
+// درگاه پرداخت بانک ملی (Sadad)
+Route::match(['get', 'post'], '/sadad/callback', 'SadadPaymentController@callback')->name('sadad.callback');
+
 // درگاه پرداخت SSLCOMMERZ
 Route::get('/sslcommerz/pay', 'PublicSslCommerzPaymentController@index');
 Route::POST('/sslcommerz/success', 'PublicSslCommerzPaymentController@success');
@@ -562,5 +565,3 @@ Route::get('/articles/category/{slug}', 'ArticleController@category')->name('art
 Route::get('/articles/{slug}', 'ArticleController@show')
     ->name('articles.show')
     ->where('slug', '[A-Za-z0-9][A-Za-z0-9-]*');
-
-

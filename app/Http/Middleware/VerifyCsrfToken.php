@@ -29,6 +29,7 @@ class VerifyCsrfToken extends Middleware
         // می‌کند و توکن CSRF ندارد. اعتبارسنجی این مسیرها با بررسی
         // تراکنش (verify) نزد درگاه انجام می‌شود، نه با CSRF.
         '/sslcommerz/success', '/sslcommerz/cancel', '/sslcommerz/fail', '/sslcommerz/ipn',
+        '/sadad/callback',
         '/paytm*',
     ];
 }

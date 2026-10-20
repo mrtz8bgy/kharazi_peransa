@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff0d82693d101a197b6511cdb11cce9f",
+    "content-hash": "c1ddce044aed99a761bb94421138083d",
     "packages": [
         {
             "name": "anandsiddharth/laravel-paytm-wallet",
@@ -3987,6 +3987,101 @@
                 "source": "https://github.com/paragonie/random_compat"
             },
             "time": "2020-10-15T08:29:30+00:00"
+        },
+        {
+            "name": "parsisolution/gateway",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "sizpay-laravel-981025/sizpay-laravel-981025/gateway-master",
+                "reference": "84e5cbb566b0841ae7caca89f033af2fd3aed880"
+            },
+            "require": {
+                "illuminate/contracts": "~5.4|^6.0|^7.0",
+                "illuminate/database": "~5.4|^6.0|^7.0",
+                "illuminate/http": "~5.4|^6.0|^7.0",
+                "illuminate/support": "~5.4|^6.0|^7.0",
+                "illuminate/view": "~5.4|^6.0|^7.0",
+                "nesbot/carbon": ">=1.20",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^7.0|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Parsisolution\\Gateway\\GatewayServiceProvider"
+                    ],
+                    "aliases": {
+                        "Gateway": "Parsisolution\\Gateway\\Facades\\Gateway"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Parsisolution\\Gateway\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hamed Ehtesham",
+                    "email": "parsisolution@gmail.com"
+                }
+            ],
+            "description": "A Laravel package for connecting to all Iraninan payment gateways",
+            "homepage": "https://github.com/parsisolution/gateway",
+            "keywords": [
+                "asan-pardakht",
+                "bank",
+                "dargah",
+                "gateway",
+                "ipay",
+                "iran",
+                "iranian-banks",
+                "irankish",
+                "jibit",
+                "laravel",
+                "mabna",
+                "mabna2",
+                "meli",
+                "mellat",
+                "nextpay",
+                "pardakht",
+                "pardano",
+                "parsian",
+                "pay",
+                "pay-ir",
+                "payline",
+                "payment",
+                "persian-banks",
+                "poolport",
+                "port",
+                "sabapay",
+                "sadad",
+                "saderat",
+                "saman",
+                "shaparak",
+                "zarinpal"
+            ],
+            "support": {
+                "issues": "https://github.com/parsisolution/gateway/issues",
+                "source": "https://github.com/parsisolution/gateway"
+            },
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -10503,7 +10598,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "mehedi-iitdu/core-component-repository": 20,
-        "netshell/paypal": 20
+        "netshell/paypal": 20,
+        "parsisolution/gateway": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

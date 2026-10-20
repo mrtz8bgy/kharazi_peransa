@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.3
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Oct 20, 2026 at 11:09 AM
--- Server version: 10.11.19-MariaDB-cll-lve
--- PHP Version: 8.4.26
+-- Host: 127.0.0.1
+-- Generation Time: Oct 20, 2026 at 03:44 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,11 +29,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `addons` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `unique_identifier` varchar(255) DEFAULT NULL,
-  `version` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf32_unicode_ci DEFAULT NULL,
+  `unique_identifier` varchar(255) COLLATE utf32_unicode_ci DEFAULT NULL,
+  `version` varchar(255) COLLATE utf32_unicode_ci DEFAULT NULL,
   `activated` int(11) NOT NULL DEFAULT 1,
-  `image` varchar(1000) DEFAULT NULL,
+  `image` varchar(1000) COLLATE utf32_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -47,15 +47,15 @@ CREATE TABLE `addons` (
 CREATE TABLE `addresses` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `country` varchar(255) DEFAULT NULL,
-  `city` varchar(255) DEFAULT NULL,
-  `postal_code` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `country` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `city` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `postal_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `set_default` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `addresses`
@@ -79,18 +79,18 @@ INSERT INTO `addresses` (`id`, `user_id`, `address`, `country`, `city`, `postal_
 
 CREATE TABLE `app_settings` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `logo` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `logo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `currency_id` int(11) DEFAULT NULL,
-  `currency_format` char(10) DEFAULT NULL,
-  `facebook` varchar(255) DEFAULT NULL,
-  `twitter` varchar(255) DEFAULT NULL,
-  `instagram` varchar(255) DEFAULT NULL,
-  `youtube` varchar(255) DEFAULT NULL,
-  `google_plus` varchar(255) DEFAULT NULL,
+  `currency_format` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `facebook` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `twitter` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `instagram` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `youtube` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `google_plus` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `app_settings`
@@ -107,20 +107,20 @@ INSERT INTO `app_settings` (`id`, `name`, `logo`, `currency_id`, `currency_forma
 
 CREATE TABLE `articles` (
   `id` int(10) UNSIGNED NOT NULL,
-  `title` varchar(191) NOT NULL,
-  `slug` varchar(191) NOT NULL,
-  `excerpt` varchar(500) DEFAULT NULL,
-  `content` longtext DEFAULT NULL,
-  `featured_image` varchar(191) DEFAULT NULL,
-  `featured_image_alt` varchar(191) DEFAULT NULL,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `excerpt` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `content` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `featured_image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `featured_image_alt` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `category_id` int(10) UNSIGNED DEFAULT NULL,
   `user_id` int(10) UNSIGNED DEFAULT NULL,
-  `author_name` varchar(191) DEFAULT NULL,
-  `keywords` text DEFAULT NULL,
-  `meta_title` varchar(191) DEFAULT NULL,
-  `meta_description` varchar(500) DEFAULT NULL,
-  `canonical_url` varchar(500) DEFAULT NULL,
-  `status` varchar(30) NOT NULL DEFAULT 'draft',
+  `author_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `keywords` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_description` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `canonical_url` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'draft',
   `is_featured` tinyint(1) NOT NULL DEFAULT 0,
   `views_count` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
   `sort_order` int(10) UNSIGNED NOT NULL DEFAULT 0,
@@ -141,10 +141,10 @@ CREATE TABLE `articles` (
 
 CREATE TABLE `article_categories` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(191) NOT NULL,
-  `slug` varchar(191) NOT NULL,
-  `description` varchar(500) DEFAULT NULL,
-  `image` varchar(191) DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `parent_id` int(10) UNSIGNED DEFAULT NULL,
   `sort_order` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
@@ -161,12 +161,12 @@ CREATE TABLE `article_categories` (
 CREATE TABLE `article_images` (
   `id` int(10) UNSIGNED NOT NULL,
   `article_id` int(10) UNSIGNED NOT NULL,
-  `path` varchar(191) NOT NULL,
-  `original_name` varchar(191) DEFAULT NULL,
-  `alt` varchar(191) DEFAULT NULL,
-  `caption` varchar(500) DEFAULT NULL,
+  `path` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `original_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alt` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `caption` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `file_size` int(10) UNSIGNED DEFAULT NULL,
-  `mime_type` varchar(100) DEFAULT NULL,
+  `mime_type` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sort_order` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -180,7 +180,7 @@ CREATE TABLE `article_images` (
 
 CREATE TABLE `attributes` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf32_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -211,17 +211,17 @@ INSERT INTO `attributes` (`id`, `name`, `created_at`, `updated_at`) VALUES
 CREATE TABLE `audit_logs` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED DEFAULT NULL,
-  `event` varchar(100) NOT NULL,
-  `auditable_type` varchar(191) DEFAULT NULL,
+  `event` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `auditable_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `auditable_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `description` varchar(500) DEFAULT NULL,
-  `old_values` text DEFAULT NULL,
-  `new_values` text DEFAULT NULL,
-  `ip_address` varchar(45) DEFAULT NULL,
-  `user_agent` varchar(500) DEFAULT NULL,
-  `url` varchar(500) DEFAULT NULL,
-  `method` varchar(10) DEFAULT NULL,
-  `severity` varchar(20) NOT NULL DEFAULT 'info',
+  `description` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `old_values` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `new_values` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `url` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `method` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `severity` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'info',
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -278,13 +278,13 @@ INSERT INTO `audit_logs` (`id`, `user_id`, `event`, `auditable_type`, `auditable
 
 CREATE TABLE `banners` (
   `id` int(11) NOT NULL,
-  `photo` varchar(255) DEFAULT NULL,
-  `url` varchar(1000) DEFAULT NULL,
+  `photo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
   `position` int(11) NOT NULL DEFAULT 1,
   `published` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `banners`
@@ -305,15 +305,15 @@ INSERT INTO `banners` (`id`, `photo`, `url`, `position`, `published`, `created_a
 
 CREATE TABLE `brands` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `logo` varchar(100) DEFAULT NULL,
+  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `logo` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `top` int(11) NOT NULL DEFAULT 0,
-  `slug` varchar(255) DEFAULT NULL,
-  `meta_title` varchar(255) DEFAULT NULL,
-  `meta_description` text DEFAULT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_description` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `brands`
@@ -344,11 +344,11 @@ INSERT INTO `brands` (`id`, `name`, `logo`, `top`, `slug`, `meta_title`, `meta_d
 
 CREATE TABLE `business_settings` (
   `id` int(11) NOT NULL,
-  `type` varchar(30) NOT NULL,
-  `value` longtext DEFAULT NULL,
+  `type` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `value` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `business_settings`
@@ -381,7 +381,7 @@ INSERT INTO `business_settings` (`id`, `type`, `value`, `created_at`, `updated_a
 (24, 'payumoney_sandbox', '1', '2019-03-05 11:38:17', '2019-03-05 05:39:18'),
 (36, 'facebook_chat', '0', '2019-04-15 11:45:04', '2019-04-15 11:45:04'),
 (37, 'email_verification', '0', '2019-04-30 07:30:07', '2019-04-30 07:30:07'),
-(38, 'wallet_system', '0', '2019-05-19 08:05:44', '2020-08-05 00:21:08'),
+(38, 'wallet_system', '1', '2019-05-19 08:05:44', '2026-10-20 16:45:50'),
 (39, 'coupon_system', '0', '2019-06-11 09:46:18', '2019-06-11 09:46:18'),
 (40, 'current_version', '2.9', '2019-06-11 09:46:18', '2019-06-11 09:46:18'),
 (41, 'instamojo_payment', '0', '2019-07-06 09:58:03', '2019-07-06 09:58:03'),
@@ -412,14 +412,14 @@ CREATE TABLE `carts` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
-  `variation` text DEFAULT NULL,
+  `variation` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `price` double(8,2) DEFAULT NULL,
   `tax` double(8,2) DEFAULT NULL,
   `shipping_cost` double(8,2) DEFAULT NULL,
   `quantity` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -429,19 +429,19 @@ CREATE TABLE `carts` (
 
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
+  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `commision_rate` double(8,2) NOT NULL DEFAULT 0.00,
-  `banner` varchar(100) DEFAULT NULL,
-  `icon` varchar(100) DEFAULT NULL,
+  `banner` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `icon` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `featured` int(11) NOT NULL DEFAULT 0,
   `top` int(11) NOT NULL DEFAULT 0,
   `digital` int(11) NOT NULL DEFAULT 0,
-  `slug` varchar(255) DEFAULT NULL,
-  `meta_title` varchar(255) DEFAULT NULL,
-  `meta_description` text DEFAULT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_description` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `categories`
@@ -500,11 +500,11 @@ INSERT INTO `categories` (`id`, `name`, `commision_rate`, `banner`, `icon`, `fea
 
 CREATE TABLE `colors` (
   `id` int(11) NOT NULL,
-  `name` varchar(30) DEFAULT NULL,
-  `code` varchar(10) DEFAULT NULL,
+  `name` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `code` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `colors`
@@ -665,7 +665,7 @@ CREATE TABLE `conversations` (
   `id` int(11) NOT NULL,
   `sender_id` int(11) NOT NULL,
   `receiver_id` int(11) NOT NULL,
-  `title` varchar(1000) DEFAULT NULL,
+  `title` varchar(1000) COLLATE utf32_unicode_ci DEFAULT NULL,
   `sender_viewed` int(11) NOT NULL DEFAULT 1,
   `receiver_viewed` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -680,12 +680,12 @@ CREATE TABLE `conversations` (
 
 CREATE TABLE `countries` (
   `id` int(11) NOT NULL,
-  `code` varchar(2) NOT NULL DEFAULT '',
-  `name` varchar(100) NOT NULL DEFAULT '',
+  `code` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `status` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `countries`
@@ -997,16 +997,16 @@ INSERT INTO `countries` (`id`, `code`, `name`, `status`, `created_at`, `updated_
 
 CREATE TABLE `coupons` (
   `id` int(11) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `code` varchar(255) NOT NULL,
-  `details` longtext NOT NULL,
+  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `details` longtext COLLATE utf8_unicode_ci NOT NULL,
   `discount` double(8,2) NOT NULL,
-  `discount_type` varchar(100) NOT NULL,
+  `discount_type` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `start_date` int(11) NOT NULL,
   `end_date` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -1020,7 +1020,7 @@ CREATE TABLE `coupon_usages` (
   `coupon_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -1030,14 +1030,14 @@ CREATE TABLE `coupon_usages` (
 
 CREATE TABLE `currencies` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `symbol` varchar(255) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `symbol` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `exchange_rate` double(10,5) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
-  `code` varchar(20) DEFAULT NULL,
+  `code` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `currencies`
@@ -1057,7 +1057,7 @@ CREATE TABLE `customers` (
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `customers`
@@ -1123,13 +1123,13 @@ INSERT INTO `customers` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `customer_packages` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `amount` double(28,2) DEFAULT NULL,
   `product_upload` int(11) DEFAULT NULL,
-  `logo` varchar(150) DEFAULT NULL,
+  `logo` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -1139,33 +1139,33 @@ CREATE TABLE `customer_packages` (
 
 CREATE TABLE `customer_products` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `published` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL DEFAULT 0,
-  `added_by` varchar(50) DEFAULT NULL,
+  `added_by` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
   `subcategory_id` int(11) DEFAULT NULL,
   `subsubcategory_id` int(11) DEFAULT NULL,
   `brand_id` int(11) DEFAULT NULL,
-  `photos` varchar(255) DEFAULT NULL,
-  `thumbnail_img` varchar(150) DEFAULT NULL,
-  `conditon` varchar(50) DEFAULT NULL,
-  `location` text DEFAULT NULL,
-  `video_provider` varchar(100) DEFAULT NULL,
-  `video_link` varchar(200) DEFAULT NULL,
-  `unit` varchar(200) DEFAULT NULL,
-  `tags` varchar(255) DEFAULT NULL,
-  `description` mediumtext DEFAULT NULL,
+  `photos` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `thumbnail_img` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `conditon` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `location` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `video_provider` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `video_link` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `unit` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tags` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` mediumtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `unit_price` double(28,2) DEFAULT 0.00,
-  `meta_title` varchar(200) DEFAULT NULL,
-  `meta_description` varchar(500) DEFAULT NULL,
-  `meta_img` varchar(150) DEFAULT NULL,
-  `pdf` varchar(200) DEFAULT NULL,
-  `slug` varchar(200) DEFAULT NULL,
+  `meta_title` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_img` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pdf` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `slug` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -1175,18 +1175,18 @@ CREATE TABLE `customer_products` (
 
 CREATE TABLE `flash_deals` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `start_date` int(11) DEFAULT NULL,
   `end_date` int(11) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `featured` int(11) NOT NULL DEFAULT 0,
-  `background_color` varchar(255) DEFAULT NULL,
-  `text_color` varchar(255) DEFAULT NULL,
-  `banner` varchar(255) DEFAULT NULL,
+  `background_color` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `text_color` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `banner` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `flash_deals`
@@ -1207,10 +1207,47 @@ CREATE TABLE `flash_deal_products` (
   `flash_deal_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `discount` double(8,2) DEFAULT 0.00,
-  `discount_type` varchar(20) DEFAULT NULL,
+  `discount_type` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gateway_transactions`
+--
+
+CREATE TABLE `gateway_transactions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `provider` enum('MELLAT','SADAD','SAMAN','PARSIAN','MABNA','MABNA_OLD','IRANKISH','ASANPARDAKHT','PAYIR','PARDANO','ZARINPAL','NEXTPAY','JIBIT','SABAPAY','SIZPAY') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` decimal(15,2) NOT NULL,
+  `currency` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ref_id` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tracking_code` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `card_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('INIT','SUCCEEDED','FAILED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'INIT',
+  `ip` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `extra` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`extra`)),
+  `paid_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gateway_transactions_logs`
+--
+
+CREATE TABLE `gateway_transactions_logs` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `transaction_id` bigint(20) UNSIGNED NOT NULL,
+  `result_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `result_message` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `log_date` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1220,25 +1257,25 @@ CREATE TABLE `flash_deal_products` (
 
 CREATE TABLE `general_settings` (
   `id` int(11) NOT NULL,
-  `frontend_color` varchar(255) NOT NULL DEFAULT 'default',
-  `logo` varchar(255) DEFAULT NULL,
-  `admin_logo` varchar(255) DEFAULT NULL,
-  `admin_login_background` varchar(255) DEFAULT NULL,
-  `admin_login_sidebar` varchar(255) DEFAULT NULL,
-  `favicon` varchar(255) DEFAULT NULL,
-  `site_name` varchar(255) DEFAULT NULL,
-  `address` varchar(1000) DEFAULT NULL,
-  `description` mediumtext NOT NULL,
-  `phone` varchar(100) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `facebook` varchar(1000) DEFAULT NULL,
-  `instagram` varchar(1000) DEFAULT NULL,
-  `twitter` varchar(1000) DEFAULT NULL,
-  `youtube` varchar(1000) DEFAULT NULL,
-  `google_plus` varchar(1000) DEFAULT NULL,
+  `frontend_color` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'default',
+  `logo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `admin_logo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `admin_login_background` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `admin_login_sidebar` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `favicon` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `site_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `facebook` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `instagram` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `twitter` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `youtube` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `google_plus` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `general_settings`
@@ -1256,11 +1293,11 @@ INSERT INTO `general_settings` (`id`, `frontend_color`, `logo`, `admin_logo`, `a
 CREATE TABLE `home_categories` (
   `id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `subsubcategories` varchar(1000) DEFAULT NULL,
+  `subsubcategories` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `home_categories`
@@ -1278,22 +1315,22 @@ INSERT INTO `home_categories` (`id`, `category_id`, `subsubcategories`, `status`
 CREATE TABLE `jewelry_certificates` (
   `id` int(10) UNSIGNED NOT NULL,
   `owner_id` int(10) UNSIGNED NOT NULL,
-  `product_name` varchar(191) NOT NULL,
-  `metal_type` varchar(191) NOT NULL,
-  `purity` varchar(191) DEFAULT NULL,
+  `product_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `metal_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `purity` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `weight` decimal(10,2) DEFAULT NULL,
-  `stone_type` varchar(191) DEFAULT NULL,
-  `serial_number` varchar(191) NOT NULL,
+  `stone_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `serial_number` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `issued_at` date DEFAULT NULL,
-  `certificate_file` varchar(191) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `certificate_file` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_verified` tinyint(1) DEFAULT 0,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_by` int(10) UNSIGNED DEFAULT NULL,
   `approved_by` int(10) UNSIGNED DEFAULT NULL,
   `approved_at` timestamp NULL DEFAULT NULL,
   `rejected_at` timestamp NULL DEFAULT NULL,
-  `rejection_reason` varchar(500) DEFAULT NULL,
+  `rejection_reason` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -1303,10 +1340,10 @@ CREATE TABLE `jewelry_certificates` (
 --
 
 INSERT INTO `jewelry_certificates` (`id`, `owner_id`, `product_name`, `metal_type`, `purity`, `weight`, `stone_type`, `serial_number`, `issued_at`, `certificate_file`, `description`, `is_verified`, `is_active`, `created_by`, `approved_by`, `approved_at`, `rejected_at`, `rejection_reason`, `created_at`, `updated_at`) VALUES
-(1, 1, 'انگشتر طلای مصری', 'طلا', '18', 100.00, NULL, '202020', '2026-02-02', 'jewelry-certificates/LIAeemlzzLTOHPVWtUQJwYEISWrYDaasdqNRmxtB.jpg', NULL, 0, 1, NULL, NULL, NULL, NULL, NULL, '2026-02-02 16:15:33', '2026-09-16 01:15:14'),
-(2, 5, 'دستبند پلاتین', 'پلاتین', '26', 40.00, 'سایر', '202210', '2026-02-02', 'jewelry-certificates/pCZppsVdq5XoLlqe18qNFtadREogR3uN7CQHvI5B.jpg', 'این یک دستبند عتیقه هست', 0, 1, NULL, NULL, NULL, NULL, NULL, '2026-02-02 16:41:22', '2026-02-04 20:06:38'),
-(3, 3, 'گردنبند پلاتین نقره ای زنانه', 'پلاتین', '26', 10.00, 'الماس', '042101010', '2026-02-04', 'jewelry-certificates/hTiFsHoN8yhoSB7vB7CRYHvMPDobLeRcuz8gZ1TK.jpg', 'این گردنبند عتیقه هست', 0, 1, NULL, NULL, NULL, NULL, NULL, '2026-02-04 19:47:10', '2026-02-04 19:47:10'),
-(4, 1, 'انگشتر طلا', 'طلا', '18', 7.00, 'عقیق', '2679427981', '2026-09-10', 'jewelry-certificates/kSpgT0S1dyt8KLQwK4jjuibthyQObrGiUSdJEEaG.jpg', 'کلاسیک 21*25 میلیمتر - نوع گوهر عقیق قیمت 140 میلیون تومان -', 0, 1, NULL, NULL, NULL, NULL, NULL, '2026-09-10 05:49:24', '2026-09-10 05:49:24');
+(1, 1, 'انگشتر طلای مصری', 'طلا', '18', '100.00', NULL, '202020', '2026-02-02', 'jewelry-certificates/LIAeemlzzLTOHPVWtUQJwYEISWrYDaasdqNRmxtB.jpg', NULL, 0, 1, NULL, NULL, NULL, NULL, NULL, '2026-02-02 16:15:33', '2026-09-16 01:15:14'),
+(2, 5, 'دستبند پلاتین', 'پلاتین', '26', '40.00', 'سایر', '202210', '2026-02-02', 'jewelry-certificates/pCZppsVdq5XoLlqe18qNFtadREogR3uN7CQHvI5B.jpg', 'این یک دستبند عتیقه هست', 0, 1, NULL, NULL, NULL, NULL, NULL, '2026-02-02 16:41:22', '2026-02-04 20:06:38'),
+(3, 3, 'گردنبند پلاتین نقره ای زنانه', 'پلاتین', '26', '10.00', 'الماس', '042101010', '2026-02-04', 'jewelry-certificates/hTiFsHoN8yhoSB7vB7CRYHvMPDobLeRcuz8gZ1TK.jpg', 'این گردنبند عتیقه هست', 0, 1, NULL, NULL, NULL, NULL, NULL, '2026-02-04 19:47:10', '2026-02-04 19:47:10'),
+(4, 1, 'انگشتر طلا', 'طلا', '18', '7.00', 'عقیق', '2679427981', '2026-09-10', 'jewelry-certificates/kSpgT0S1dyt8KLQwK4jjuibthyQObrGiUSdJEEaG.jpg', 'کلاسیک 21*25 میلیمتر - نوع گوهر عقیق قیمت 140 میلیون تومان -', 0, 1, NULL, NULL, NULL, NULL, NULL, '2026-09-10 05:49:24', '2026-09-10 05:49:24');
 
 -- --------------------------------------------------------
 
@@ -1317,11 +1354,11 @@ INSERT INTO `jewelry_certificates` (`id`, `owner_id`, `product_name`, `metal_typ
 CREATE TABLE `jewelry_owners` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
-  `full_name` varchar(191) NOT NULL,
-  `national_id` varchar(10) DEFAULT NULL,
-  `phone` varchar(15) DEFAULT NULL,
-  `address` varchar(500) DEFAULT NULL,
-  `email` varchar(191) DEFAULT NULL,
+  `full_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `national_id` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -1347,15 +1384,15 @@ CREATE TABLE `jewelry_transfers` (
   `from_owner_id` int(10) UNSIGNED NOT NULL,
   `to_owner_id` int(10) UNSIGNED NOT NULL,
   `transfer_date` date DEFAULT NULL,
-  `transfer_type` varchar(191) DEFAULT NULL,
+  `transfer_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price` decimal(15,2) DEFAULT NULL,
-  `contract_file` varchar(191) DEFAULT NULL,
+  `contract_file` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `requested_by` int(10) UNSIGNED DEFAULT NULL,
   `approved_by` int(10) UNSIGNED DEFAULT NULL,
-  `status` varchar(20) NOT NULL DEFAULT 'approved',
-  `approval_note` varchar(500) DEFAULT NULL,
+  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'approved',
+  `approval_note` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `approved_at` timestamp NULL DEFAULT NULL,
-  `notes` text DEFAULT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -1368,12 +1405,12 @@ CREATE TABLE `jewelry_transfers` (
 
 CREATE TABLE `languages` (
   `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `code` varchar(100) NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `code` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `rtl` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `languages`
@@ -1391,8 +1428,8 @@ INSERT INTO `languages` (`id`, `name`, `code`, `rtl`, `created_at`, `updated_at`
 
 CREATE TABLE `links` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `url` varchar(500) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `position` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1406,8 +1443,8 @@ CREATE TABLE `links` (
 
 CREATE TABLE `login_attempts` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `identifier` varchar(191) NOT NULL,
-  `ip_address` varchar(45) DEFAULT NULL,
+  `identifier` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `successful` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1420,7 +1457,7 @@ CREATE TABLE `login_attempts` (
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(191) NOT NULL,
+  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
@@ -1461,7 +1498,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (30, '2026_10_16_180000_fix_orders_schema_drift', 18),
 (31, '2026_10_16_180100_fix_order_details_schema_drift', 19),
 (32, '2026_10_16_220000_create_article_content_tables', 20),
-(33, '2026_10_17_000000_create_seller_payments_table', 21);
+(33, '2026_10_17_000000_create_seller_payments_table', 21),
+(34, '2026_10_20_000001_create_gateway_transactions_table', 22),
+(35, '2026_10_20_000002_create_gateway_status_log_table', 22);
 
 -- --------------------------------------------------------
 
@@ -1473,12 +1512,12 @@ CREATE TABLE `missing_reports` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `jewelry_id` bigint(20) UNSIGNED NOT NULL,
-  `type` enum('theft','lost') NOT NULL COMMENT 'سرقت یا مفقودی',
-  `location` varchar(191) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `police_report_path` varchar(191) DEFAULT NULL,
-  `police_report_name` varchar(191) DEFAULT NULL,
-  `status` enum('pending','found') NOT NULL DEFAULT 'pending',
+  `type` enum('theft','lost') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'سرقت یا مفقودی',
+  `location` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `police_report_path` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `police_report_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('pending','found') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -1500,11 +1539,11 @@ INSERT INTO `missing_reports` (`id`, `user_id`, `jewelry_id`, `type`, `location`
 --
 
 CREATE TABLE `oauth_access_tokens` (
-  `id` varchar(100) NOT NULL,
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint(20) DEFAULT NULL,
   `client_id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(191) DEFAULT NULL,
-  `scopes` text DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `revoked` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1518,10 +1557,10 @@ CREATE TABLE `oauth_access_tokens` (
 --
 
 CREATE TABLE `oauth_auth_codes` (
-  `id` varchar(100) NOT NULL,
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `client_id` int(10) UNSIGNED NOT NULL,
-  `scopes` text DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `revoked` tinyint(1) NOT NULL,
   `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -1535,9 +1574,9 @@ CREATE TABLE `oauth_auth_codes` (
 CREATE TABLE `oauth_clients` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` bigint(20) DEFAULT NULL,
-  `name` varchar(191) NOT NULL,
-  `secret` varchar(100) NOT NULL,
-  `redirect` text NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `secret` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `redirect` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `personal_access_client` tinyint(1) NOT NULL,
   `password_client` tinyint(1) NOT NULL,
   `revoked` tinyint(1) NOT NULL,
@@ -1565,8 +1604,8 @@ CREATE TABLE `oauth_personal_access_clients` (
 --
 
 CREATE TABLE `oauth_refresh_tokens` (
-  `id` varchar(100) NOT NULL,
-  `access_token_id` varchar(100) NOT NULL,
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `revoked` tinyint(1) NOT NULL,
   `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -1579,29 +1618,29 @@ CREATE TABLE `oauth_refresh_tokens` (
 
 CREATE TABLE `orders` (
   `id` int(10) UNSIGNED NOT NULL,
-  `code` varchar(50) NOT NULL,
+  `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` int(11) DEFAULT NULL,
   `user_id` int(10) UNSIGNED DEFAULT NULL,
   `guest_id` int(11) DEFAULT NULL,
   `seller_id` int(10) UNSIGNED DEFAULT NULL,
-  `payment_type` varchar(50) DEFAULT NULL,
-  `payment_details` text DEFAULT NULL,
+  `payment_type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_details` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `payment_status` tinyint(4) NOT NULL DEFAULT 0,
   `manual_payment` tinyint(4) NOT NULL DEFAULT 0,
-  `manual_payment_data` text DEFAULT NULL,
-  `payment_status_string` varchar(20) NOT NULL DEFAULT 'unpaid',
-  `delivery_status` varchar(20) NOT NULL DEFAULT 'pending',
-  `shipping_type` varchar(20) NOT NULL DEFAULT 'home_delivery',
+  `manual_payment_data` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_status_string` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unpaid',
+  `delivery_status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `shipping_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'home_delivery',
   `grand_total` double(20,2) NOT NULL DEFAULT 0.00,
   `coupon_discount` double(20,2) NOT NULL DEFAULT 0.00,
-  `shipping_address` text DEFAULT NULL,
+  `shipping_address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pickup_point_id` int(11) DEFAULT NULL,
-  `note` text DEFAULT NULL,
+  `note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `viewed` int(11) NOT NULL DEFAULT 0,
   `delivery_viewed` int(11) NOT NULL DEFAULT 0,
   `payment_status_viewed` int(11) NOT NULL DEFAULT 0,
   `commission_calculated` tinyint(4) NOT NULL DEFAULT 0,
-  `trx_id` varchar(255) DEFAULT NULL,
+  `trx_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -1644,7 +1683,9 @@ INSERT INTO `orders` (`id`, `code`, `date`, `user_id`, `guest_id`, `seller_id`, 
 (38, '20261019-19332389', 1792438403, 181, NULL, NULL, 'zarinpal', NULL, 0, 0, NULL, 'unpaid', 'pending', 'home_delivery', 891031.00, 0.00, '{\"name\":\"\\u0631\\u06cc\\u062d\\u0627\\u0646\\u0647 \\u0627\\u062d\\u062a\\u0634\\u0627\\u0645\",\"email\":null,\"address\":\"\\u0639\\u0638\\u06cc\\u0645\\u06cc\\u0647\\u060c \\u0628\\u0644\\u0648\\u0627\\u0631 \\u0627\\u0633\\u062a\\u0642\\u0644\\u0627\\u0644\\u060c \\u067e\\u0627\\u0633\\u062f\\u0627\\u0631\\u0627\\u0646 \\u0634\\u0631\\u0642\\u06cc\\u060c \\u062e\\u06cc\\u0627\\u0628\\u0627\\u0646 \\u0627\\u0634\\u06a9\\u0627\\u0646\\u060c \\u0633\\u0627\\u062e\\u062a\\u0645\\u0627\\u0646 \\u0627\\u0631\\u06a9\\u06cc\\u062f\\u0647\\u060c \\u0637\\u0628\\u0642\\u0647 \\u062f\\u0648\\u0645\\r\\n\\u067e\\u0644\\u0627\\u06a9 66 - \\u0637\\u0628\\u0642\\u0647 \\u062f\\u0648\\u0645\",\"country\":\"Iran (Islamic Republic of)\",\"city\":\"\\u06a9\\u0631\\u062c\",\"postal_code\":\"3155975485\",\"phone\":\"09128613712\",\"checkout_type\":\"logged\"}', NULL, NULL, 0, 0, 0, 0, NULL, '2026-10-19 16:03:23', '2026-10-19 16:03:23'),
 (39, '20261019-19411524', 1792438875, 181, NULL, NULL, 'zarinpal', NULL, 0, 0, NULL, 'unpaid', 'pending', 'home_delivery', 891031.00, 0.00, '{\"name\":\"\\u0631\\u06cc\\u062d\\u0627\\u0646\\u0647 \\u0627\\u062d\\u062a\\u0634\\u0627\\u0645\",\"email\":null,\"address\":\"\\u0639\\u0638\\u06cc\\u0645\\u06cc\\u0647\\u060c \\u0628\\u0644\\u0648\\u0627\\u0631 \\u0627\\u0633\\u062a\\u0642\\u0644\\u0627\\u0644\\u060c \\u067e\\u0627\\u0633\\u062f\\u0627\\u0631\\u0627\\u0646 \\u0634\\u0631\\u0642\\u06cc\\u060c \\u062e\\u06cc\\u0627\\u0628\\u0627\\u0646 \\u0627\\u0634\\u06a9\\u0627\\u0646\\u060c \\u0633\\u0627\\u062e\\u062a\\u0645\\u0627\\u0646 \\u0627\\u0631\\u06a9\\u06cc\\u062f\\u0647\\u060c \\u0637\\u0628\\u0642\\u0647 \\u062f\\u0648\\u0645\\r\\n\\u067e\\u0644\\u0627\\u06a9 66 - \\u0637\\u0628\\u0642\\u0647 \\u062f\\u0648\\u0645\",\"country\":\"Iran (Islamic Republic of)\",\"city\":\"\\u06a9\\u0631\\u062c\",\"postal_code\":\"3155975485\",\"phone\":\"09128613712\",\"checkout_type\":\"logged\"}', NULL, NULL, 0, 0, 0, 0, NULL, '2026-10-19 16:11:15', '2026-10-19 16:11:15'),
 (40, '20261019-20114452', 1792440704, 181, NULL, NULL, 'zarinpal', NULL, 0, 0, NULL, 'unpaid', 'pending', 'home_delivery', 891031.00, 0.00, '{\"name\":\"\\u0631\\u06cc\\u062d\\u0627\\u0646\\u0647 \\u0627\\u062d\\u062a\\u0634\\u0627\\u0645\",\"email\":null,\"address\":\"\\u0639\\u0638\\u06cc\\u0645\\u06cc\\u0647\\u060c \\u0628\\u0644\\u0648\\u0627\\u0631 \\u0627\\u0633\\u062a\\u0642\\u0644\\u0627\\u0644\\u060c \\u067e\\u0627\\u0633\\u062f\\u0627\\u0631\\u0627\\u0646 \\u0634\\u0631\\u0642\\u06cc\\u060c \\u062e\\u06cc\\u0627\\u0628\\u0627\\u0646 \\u0627\\u0634\\u06a9\\u0627\\u0646\\u060c \\u0633\\u0627\\u062e\\u062a\\u0645\\u0627\\u0646 \\u0627\\u0631\\u06a9\\u06cc\\u062f\\u0647\\u060c \\u0637\\u0628\\u0642\\u0647 \\u062f\\u0648\\u0645\\r\\n\\u067e\\u0644\\u0627\\u06a9 66 - \\u0637\\u0628\\u0642\\u0647 \\u062f\\u0648\\u0645\",\"country\":\"Iran (Islamic Republic of)\",\"city\":\"\\u06a9\\u0631\\u062c\",\"postal_code\":\"3155975485\",\"phone\":\"09128613712\",\"checkout_type\":\"logged\"}', NULL, NULL, 0, 0, 0, 0, NULL, '2026-10-19 16:41:44', '2026-10-19 16:41:44'),
-(41, '20261020-06272255', 1792477642, NULL, 848899, NULL, 'cash_on_delivery', NULL, 0, 0, NULL, 'unpaid', 'pending', 'home_delivery', 1576279.74, 0.00, '{\"name\":\"\\u0646\\u0648\\u0634\\u06cc\\u0646 \\u062d\\u06a9\\u0627\\u06a9\",\"email\":\"nooshin.farshadmehr@gmail.com\",\"address\":\"\\u0628\\u0644\\u0648\\u0627\\u0631 \\u0627\\u0646\\u062f\\u0631\\u0632\\u06af\\u0648\\u060c\\u0641\\u0631\\u0645\\u0627\\u0646\\u06cc\\u0647 \\u0634\\u0631\\u0642\\u06cc\\u060c\\u0628\\u0639\\u062f\\u0627\\u0632 \\u062f\\u06cc\\u0628\\u0627\\u062c\\u06cc \\u0634\\u0645\\u0627\\u0644\\u06cc \\u060c\\u06a9\\u0648\\u0686\\u0647 \\u06cc\\u0627\\u0633\\u060c\\u0646\\u0628\\u0634 \\u0633\\u0644\\u0645\\u0627\\u0646\\u067e\\u0648\\u0631\\u0638\\u0647\\u06cc\\u0631\\u060c \\u067e\\u0644\\u0627\\u06a9 \\u06f2\\u06f2 \\u062e\\u0627\\u0646\\u0647 \\u06cc \\u0632\\u06cc\\u0628\\u0627\\u06cc\\u06cc  \\u0631\\u0648\\u0634\\u0646 \\u06f0\\u06f9\\u06f1\\u06f9\\u06f2\\u06f2\\u06f4\\u06f2\\u06f7\\u06f8\\u06f8 \\u0646\\u0648\\u0634\\u06cc\\u0646 \\u062d\\u06a9\\u0627\\u06a9\",\"country\":\"Iran (Islamic Republic of)\",\"city\":\"\\u062a\\u0647\\u0631\\u0627\\u0646\",\"postal_code\":\"1953763450\",\"phone\":\"09192242788\",\"checkout_type\":\"guest\"}', NULL, NULL, 0, 0, 0, 0, NULL, '2026-10-20 02:57:22', '2026-10-20 02:57:22');
+(41, '20261020-06272255', 1792477642, NULL, 848899, NULL, 'cash_on_delivery', NULL, 0, 0, NULL, 'unpaid', 'pending', 'home_delivery', 1576279.74, 0.00, '{\"name\":\"\\u0646\\u0648\\u0634\\u06cc\\u0646 \\u062d\\u06a9\\u0627\\u06a9\",\"email\":\"nooshin.farshadmehr@gmail.com\",\"address\":\"\\u0628\\u0644\\u0648\\u0627\\u0631 \\u0627\\u0646\\u062f\\u0631\\u0632\\u06af\\u0648\\u060c\\u0641\\u0631\\u0645\\u0627\\u0646\\u06cc\\u0647 \\u0634\\u0631\\u0642\\u06cc\\u060c\\u0628\\u0639\\u062f\\u0627\\u0632 \\u062f\\u06cc\\u0628\\u0627\\u062c\\u06cc \\u0634\\u0645\\u0627\\u0644\\u06cc \\u060c\\u06a9\\u0648\\u0686\\u0647 \\u06cc\\u0627\\u0633\\u060c\\u0646\\u0628\\u0634 \\u0633\\u0644\\u0645\\u0627\\u0646\\u067e\\u0648\\u0631\\u0638\\u0647\\u06cc\\u0631\\u060c \\u067e\\u0644\\u0627\\u06a9 \\u06f2\\u06f2 \\u062e\\u0627\\u0646\\u0647 \\u06cc \\u0632\\u06cc\\u0628\\u0627\\u06cc\\u06cc  \\u0631\\u0648\\u0634\\u0646 \\u06f0\\u06f9\\u06f1\\u06f9\\u06f2\\u06f2\\u06f4\\u06f2\\u06f7\\u06f8\\u06f8 \\u0646\\u0648\\u0634\\u06cc\\u0646 \\u062d\\u06a9\\u0627\\u06a9\",\"country\":\"Iran (Islamic Republic of)\",\"city\":\"\\u062a\\u0647\\u0631\\u0627\\u0646\",\"postal_code\":\"1953763450\",\"phone\":\"09192242788\",\"checkout_type\":\"guest\"}', NULL, NULL, 0, 0, 0, 0, NULL, '2026-10-20 02:57:22', '2026-10-20 02:57:22'),
+(42, '20261020-10104939', 1792491049, 3, NULL, NULL, 'zarinpal', NULL, 0, 0, NULL, 'unpaid', 'pending', 'home_delivery', 48002.40, 0.00, '{\"name\":\"\\u0645\\u0634\\u062a\\u0631\\u06cc \\u0646\\u0645\\u0648\\u0646\\u0647\",\"email\":\"customer@example.com\",\"address\":\"\\u0648\\u0644\\u06cc\\u0639\\u0635\\u0631 \\u067e\\u0627\\u0633\\u0627\\u0698 \\u0631\\u0636\\u0627 \\u067e\\u0644\\u0627\\u06a9 1234\",\"country\":\"Iran (Islamic Republic of)\",\"city\":\"\\u062a\\u0647\\u0631\\u0627\\u0646\",\"postal_code\":\"1476822666\",\"phone\":\"9121112233\",\"checkout_type\":\"logged\"}', NULL, NULL, 0, 0, 0, 0, NULL, '2026-10-20 17:10:49', '2026-10-20 17:10:49'),
+(43, '20261020-10112343', 1792491083, 3, NULL, NULL, 'cash_on_delivery', NULL, 0, 0, NULL, 'unpaid', 'pending', 'home_delivery', 48002.40, 0.00, '{\"name\":\"\\u0645\\u0634\\u062a\\u0631\\u06cc \\u0646\\u0645\\u0648\\u0646\\u0647\",\"email\":\"customer@example.com\",\"address\":\"\\u0648\\u0644\\u06cc\\u0639\\u0635\\u0631 \\u067e\\u0627\\u0633\\u0627\\u0698 \\u0631\\u0636\\u0627 \\u067e\\u0644\\u0627\\u06a9 1234\",\"country\":\"Iran (Islamic Republic of)\",\"city\":\"\\u062a\\u0647\\u0631\\u0627\\u0646\",\"postal_code\":\"1476822666\",\"phone\":\"9121112233\",\"checkout_type\":\"logged\"}', NULL, NULL, 0, 0, 0, 0, NULL, '2026-10-20 17:11:23', '2026-10-20 17:11:23');
 
 -- --------------------------------------------------------
 
@@ -1657,16 +1698,16 @@ CREATE TABLE `order_details` (
   `order_id` int(10) UNSIGNED NOT NULL,
   `seller_id` int(10) UNSIGNED DEFAULT NULL,
   `product_id` int(10) UNSIGNED NOT NULL,
-  `variation` text DEFAULT NULL,
+  `variation` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price` double(20,2) NOT NULL DEFAULT 0.00,
   `tax` double(20,2) NOT NULL DEFAULT 0.00,
   `shipping_cost` double(20,2) NOT NULL DEFAULT 0.00,
   `quantity` int(11) NOT NULL DEFAULT 1,
-  `delivery_status` varchar(20) NOT NULL DEFAULT 'pending',
-  `shipping_type` varchar(255) DEFAULT NULL,
-  `product_referral_code` varchar(255) DEFAULT NULL,
+  `delivery_status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `shipping_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_referral_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pickup_point_id` int(10) UNSIGNED DEFAULT NULL,
-  `payment_status` varchar(20) NOT NULL DEFAULT 'unpaid',
+  `payment_status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unpaid',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -2104,7 +2145,9 @@ INSERT INTO `order_details` (`id`, `order_id`, `seller_id`, `product_id`, `varia
 (430, 41, 12, 2642, '', 83401.00, 0.00, 0.00, 1, 'pending', 'home_delivery', NULL, NULL, 'unpaid', '2026-10-20 02:57:22', '2026-10-20 02:57:22'),
 (431, 41, 12, 2595, '', 19360.00, 0.00, 0.00, 1, 'pending', 'home_delivery', NULL, NULL, 'unpaid', '2026-10-20 02:57:22', '2026-10-20 02:57:22'),
 (432, 41, 12, 2594, '', 19360.00, 0.00, 0.00, 1, 'pending', 'home_delivery', NULL, NULL, 'unpaid', '2026-10-20 02:57:22', '2026-10-20 02:57:22'),
-(433, 41, 12, 2593, '', 19360.00, 0.00, 0.00, 1, 'pending', 'home_delivery', NULL, NULL, 'unpaid', '2026-10-20 02:57:22', '2026-10-20 02:57:22');
+(433, 41, 12, 2593, '', 19360.00, 0.00, 0.00, 1, 'pending', 'home_delivery', NULL, NULL, 'unpaid', '2026-10-20 02:57:22', '2026-10-20 02:57:22'),
+(434, 42, 12, 3131, '', 48002.40, 0.00, 0.00, 1, 'pending', 'home_delivery', NULL, NULL, 'unpaid', '2026-10-20 17:10:49', '2026-10-20 17:10:49'),
+(435, 43, 12, 3131, '', 48002.40, 0.00, 0.00, 1, 'pending', 'home_delivery', NULL, NULL, 'unpaid', '2026-10-20 17:11:23', '2026-10-20 17:11:23');
 
 -- --------------------------------------------------------
 
@@ -2114,8 +2157,8 @@ INSERT INTO `order_details` (`id`, `order_id`, `seller_id`, `product_id`, `varia
 
 CREATE TABLE `otp_configurations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `type` varchar(191) NOT NULL,
-  `value` text DEFAULT NULL,
+  `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -2143,13 +2186,13 @@ INSERT INTO `otp_configurations` (`id`, `type`, `value`, `created_at`, `updated_
 
 CREATE TABLE `pages` (
   `id` int(10) UNSIGNED NOT NULL,
-  `title` varchar(191) DEFAULT NULL,
-  `slug` varchar(191) DEFAULT NULL,
-  `content` text DEFAULT NULL,
-  `meta_title` text DEFAULT NULL,
-  `meta_description` varchar(1000) DEFAULT NULL,
-  `keywords` varchar(1000) DEFAULT NULL,
-  `meta_image` varchar(191) DEFAULT NULL,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `content` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_title` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_description` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `keywords` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -2161,8 +2204,8 @@ CREATE TABLE `pages` (
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(191) NOT NULL,
-  `token` varchar(191) NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
@@ -2174,13 +2217,13 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `payments` (
   `id` int(10) UNSIGNED NOT NULL,
-  `payment_type` varchar(50) NOT NULL,
+  `payment_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `order_id` int(11) DEFAULT NULL,
   `amount` double(20,2) NOT NULL DEFAULT 0.00,
-  `payment_status` varchar(20) NOT NULL DEFAULT 'due',
-  `payment_details` text DEFAULT NULL,
-  `txn_code` text DEFAULT NULL,
-  `method` varchar(50) DEFAULT NULL,
+  `payment_status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'due',
+  `payment_details` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `txn_code` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `method` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -2193,10 +2236,10 @@ CREATE TABLE `payments` (
 
 CREATE TABLE `permissions` (
   `id` int(10) UNSIGNED NOT NULL,
-  `slug` varchar(150) NOT NULL,
-  `name` varchar(191) NOT NULL,
-  `group` varchar(100) NOT NULL DEFAULT 'general',
-  `description` varchar(500) DEFAULT NULL,
+  `slug` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `group` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'general',
+  `description` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2464,9 +2507,9 @@ INSERT INTO `permission_role` (`role_id`, `permission_id`, `created_at`, `update
 CREATE TABLE `pickup_points` (
   `id` int(10) UNSIGNED NOT NULL,
   `staff_id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(191) NOT NULL,
-  `address` text NOT NULL,
-  `phone` varchar(15) NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pick_up_status` tinyint(4) DEFAULT NULL,
   `cash_on_pickup_status` tinyint(4) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -2481,8 +2524,8 @@ CREATE TABLE `pickup_points` (
 
 CREATE TABLE `policies` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `content` longtext DEFAULT NULL,
+  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -2506,53 +2549,53 @@ INSERT INTO `policies` (`id`, `name`, `content`, `created_at`, `updated_at`) VAL
 
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `added_by` varchar(6) NOT NULL DEFAULT 'admin',
+  `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `added_by` varchar(6) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'admin',
   `user_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `subcategory_id` int(11) NOT NULL,
   `subsubcategory_id` int(11) DEFAULT NULL,
   `brand_id` int(11) DEFAULT NULL,
-  `photos` varchar(2000) DEFAULT NULL,
-  `thumbnail_img` varchar(100) DEFAULT NULL,
-  `featured_img` varchar(100) DEFAULT NULL,
-  `flash_deal_img` varchar(100) DEFAULT NULL,
-  `video_provider` varchar(20) DEFAULT NULL,
-  `video_link` varchar(100) DEFAULT NULL,
-  `tags` mediumtext DEFAULT NULL,
-  `description` longtext DEFAULT NULL,
+  `photos` varchar(2000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `thumbnail_img` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `featured_img` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `flash_deal_img` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `video_provider` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `video_link` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tags` mediumtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `unit_price` double(12,0) NOT NULL,
   `purchase_price` double(12,0) NOT NULL,
   `variant_product` int(11) NOT NULL DEFAULT 0,
-  `attributes` varchar(1000) NOT NULL DEFAULT '[]',
-  `choice_options` mediumtext DEFAULT NULL,
-  `colors` mediumtext DEFAULT NULL,
-  `variations` text DEFAULT NULL,
+  `attributes` varchar(1000) COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]',
+  `choice_options` mediumtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `colors` mediumtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `variations` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `todays_deal` int(11) NOT NULL DEFAULT 0,
   `published` int(11) NOT NULL DEFAULT 1,
   `featured` int(11) NOT NULL DEFAULT 0,
   `current_stock` int(11) NOT NULL DEFAULT 0,
-  `unit` varchar(20) DEFAULT NULL,
+  `unit` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `discount` double(8,2) DEFAULT NULL,
-  `discount_type` varchar(10) DEFAULT NULL,
+  `discount_type` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `tax` double(8,2) DEFAULT NULL,
-  `tax_type` varchar(10) DEFAULT NULL,
-  `shipping_type` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT 'flat_rate',
+  `tax_type` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `shipping_type` varchar(20) CHARACTER SET latin1 DEFAULT 'flat_rate',
   `shipping_cost` double(8,2) DEFAULT 0.00,
   `num_of_sale` int(11) NOT NULL DEFAULT 0,
-  `meta_title` mediumtext DEFAULT NULL,
-  `meta_description` longtext DEFAULT NULL,
-  `meta_img` varchar(255) DEFAULT NULL,
-  `pdf` varchar(255) DEFAULT NULL,
-  `slug` mediumtext NOT NULL,
+  `meta_title` mediumtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_description` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_img` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pdf` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `slug` mediumtext COLLATE utf8_unicode_ci NOT NULL,
   `rating` double(8,2) NOT NULL DEFAULT 0.00,
-  `barcode` varchar(255) DEFAULT NULL,
+  `barcode` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `digital` int(11) NOT NULL DEFAULT 0,
-  `file_name` varchar(255) DEFAULT NULL,
-  `file_path` varchar(255) DEFAULT NULL,
+  `file_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `file_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `products`
@@ -3971,7 +4014,7 @@ INSERT INTO `products` (`id`, `name`, `added_by`, `user_id`, `category_id`, `sub
 (3128, 'زیپ مخفی 20 سانت', 'admin', 12, 63, 0, NULL, NULL, '[\"uploads\\/products\\/wp\\/2026\\/07\\/IMG_20260717_172542_copy_1080x1080.jpg\"]', 'uploads/products/wp/2026/07/IMG_20260717_172542_copy_1080x1080.jpg', 'uploads/products/wp/2026/07/IMG_20260717_172542_copy_1080x1080.jpg', NULL, NULL, NULL, 'زیپ مخفی,زیپ مخفی 20 سانت,زیپ لباس,زیپ دامن,زیپ پیراهن,زیپ خیاطی,لوازم خیاطی,مزون دوزی,تولیدی پوشاک,لوازم خرازی', '<strong>زیپ مخفی ۲۰ سانتی‌متری یکی از پرکاربردترین زیپ‌ها در خیاطی است که پس از دوخت، دندانه‌های آن در داخل پارچه پنهان می‌شود و ظاهری تمیز، یکدست و حرفه‌ای به لباس می‌بخشد. این زیپ برای دوخت انواع دامن، شلوار، پیراهن، لباس مجلسی، لباس کودک، کوسن و سایر پروژه‌های خیاطی بسیار مناسب است.\r\nکیفیت بالا، حرکت روان و تنوع رنگی، زیپ مخفی ۲۰ سانتی را به انتخابی ایده‌آل برای خیاطان، مزون‌ها و تولیدی‌های پوشاک تبدیل کرده است.', 15000, 0, 1, '[4]', '[{\"attribute_id\":4,\"values\":[\"مشکی\",\"سفید\"]}]', '[]', NULL, 0, 1, 0, 11, 'عدد', 0.00, 'percent', 0.00, 'amount', 'flat_rate', 0.00, 1, 'زیپ مخفی 20 سانت', '<strong>زیپ مخفی ۲۰ سانتی با کیفیت بالا و حرکت روان، مناسب دوخت انواع لباس، دامن، پیراهن، شلوار و پروژه‌های خیاطی.', 'uploads/products/wp/2026/07/IMG_20260717_172542_copy_1080x1080.jpg', NULL, 'zip-mkhfi-20-sant-wp-14003', 0.00, NULL, 0, NULL, NULL, '2026-07-19 08:11:53', '2026-09-19 21:23:27'),
 (3129, 'زیپ  ساده 20 سانت', 'admin', 12, 63, 0, NULL, NULL, '[\"uploads\\/products\\/wp\\/2026\\/07\\/IMG_20260717_172512_copy_930x930.jpg\"]', 'uploads/products/wp/2026/07/IMG_20260717_172512_copy_930x930.jpg', 'uploads/products/wp/2026/07/IMG_20260717_172512_copy_930x930.jpg', NULL, NULL, NULL, 'تولیدی پوشاک,زیپ پیراهن,زیپ خیاطی,زیپ دامن,زیپ لباس,زیپ مخفی,زیپ مخفی 20 سانت,لوازم خرازی,لوازم خیاطی,مزون دوزی,زیپ ساده,زیپ 20 سانت,زیپ کیف,زیپ جامدادی', '<strong>زیپ ساده ۲۰ سانتی‌متری یکی از پرمصرف‌ترین ملزومات خیاطی است که برای دوخت انواع لباس، کیف، جامدادی، کوسن و سایر محصولات پارچه‌ای کاربرد دارد. این زیپ با کیفیت مناسب، دندانه‌های مقاوم و حرکت روان، باز و بسته شدن آسانی داشته و دوام بالایی در استفاده روزمره دارد.\r\nتنوع رنگی و کیفیت مطلوب، زیپ ساده ۲۰ سانتی را به انتخابی مناسب برای خیاطان، مزون‌ها، تولیدی‌های پوشاک و انواع پروژه‌های دوخت و دوز تبدیل کرده است.', 15000, 0, 1, '[4]', '[{\"attribute_id\":4,\"values\":[\"مشکی\",\"سفید\"]}]', '[]', NULL, 0, 1, 0, 12, 'عدد', 0.00, 'percent', 0.00, 'amount', 'flat_rate', 0.00, 0, 'زیپ  ساده 20 سانت', '<strong>زیپ ساده ۲۰ سانتی با کیفیت بالا و حرکت روان، مناسب دوخت انواع لباس، کیف، جامدادی و پروژه‌های خیاطی.', 'uploads/products/wp/2026/07/IMG_20260717_172512_copy_930x930.jpg', NULL, 'zip-sadh-20-sant-wp-14008', 0.00, NULL, 0, NULL, NULL, '2026-07-19 08:12:45', '2026-07-19 08:15:51'),
 (3130, 'زیپ  50 سانت', 'admin', 12, 63, 0, NULL, NULL, '[\"uploads\\/products\\/wp\\/2026\\/07\\/IMG_20260717_172656_copy_816x816.jpg\"]', 'uploads/products/wp/2026/07/IMG_20260717_172656_copy_816x816.jpg', 'uploads/products/wp/2026/07/IMG_20260717_172656_copy_816x816.jpg', NULL, NULL, NULL, 'تولیدی پوشاک,زیپ 20 سانت,زیپ پیراهن,زیپ جامدادی,زیپ خیاطی,زیپ دامن,زیپ ساده,زیپ کیف,زیپ لباس,زیپ مخفی,زیپ مخفی 20 سانت,لوازم خرازی,لوازم خیاطی,مزون دوزی', 'زیپ ساده و مخفی ۵۰ سانتی‌متری از ملزومات پرکاربرد خیاطی هستند که برای دوخت انواع لباس، مانتو، پیراهن، دامن، شلوار، لباس مجلسی و سایر محصولات پارچه‌ای استفاده می‌شوند. زیپ ساده برای دوخت‌های عمومی و زیپ مخفی برای ایجاد ظاهری یکدست و حرفه‌ای، بدون دیده شدن دندانه‌های زیپ، انتخابی ایده‌آل است.\r\nاین زیپ‌ها با کیفیت بالا، حرکت روان، دوام مناسب و تنوع رنگی، نیاز خیاطان، مزون‌ها و تولیدی‌های پوشاک را برای انواع پروژه‌های دوخت برطرف می‌کنند.', 20000, 0, 1, '[4,5]', '[{\"attribute_id\":4,\"values\":[\"مشکی\",\"سفید\"]},{\"attribute_id\":5,\"values\":[\"ساده\",\"مخفی\"]}]', '[]', NULL, 0, 1, 0, 28, 'عدد', 0.00, 'percent', 0.00, 'amount', 'flat_rate', 0.00, 0, 'زیپ  50 سانت', '<strong>زیپ ساده و مخفی ۵۰ سانتی با کیفیت بالا و حرکت روان، مناسب دوخت انواع لباس، مانتو، پیراهن، دامن و پروژه‌های خیاطی.', 'uploads/products/wp/2026/07/IMG_20260717_172656_copy_816x816.jpg', NULL, 'zip-sadh-50-sant-wp-14012', 0.00, NULL, 0, NULL, NULL, '2026-07-19 08:19:08', '2026-07-19 08:25:37'),
-(3131, '9 عدد سنگ مارکیز پاستیلی اقتصادی', 'admin', 12, 61, 1138, NULL, NULL, '[\"uploads\\/products\\/wp\\/2026\\/10\\/IMG_20261012_112221_copy_770x770.jpg\"]', 'uploads/products/wp/2026/10/IMG_20261012_112221_copy_770x770.jpg', 'uploads/products/wp/2026/10/IMG_20261012_112221_copy_770x770.jpg', NULL, NULL, NULL, 'ساخت زیورآلات,سنگ AAA,سنگ اکسسوری,سنگ اوپال,سنگ اوپال AAA,سنگ اوپال پاستیلی,سنگ پاستیلی,سنگ جواهردوزی,سنگ زیورآلات,سنگ شیشه ای,سنگ لباس,سنگ مانتو,سنگ مجلسی,لوازم خرازی,متریال جواهردوزی', 'سنگ‌های پاستیلی اوپال برند AAA با جنس شیشه، انتخابی جذاب برای ساخت زیورآلات و تزئین انواع لباس و اکسسوری هستند. رنگ‌های پاستیلی و جلوه خاص اوپالی این سنگ‌ها، ظاهری لطیف، شی<del datetime=\"2026-10-12T09:36:31+00:00\"><code>ک و چشم‌نواز به کار می‌بخشد و برای طراحی‌های خاص و ترند بسیار مناسب است.\r\n.', 72000, 0, 0, '[]', '[]', '[]', NULL, 0, 1, 0, 5, 'عدد', 33.33, 'percent', 0.00, 'amount', 'flat_rate', 0.00, 0, '9 عدد سنگ مارکیز پاستیلی اقتصادی', '<strong>سنگ پاستیلی اوپال برند AAA با جنس شیشه، با رنگ‌های لطیف و جلوه‌ای زیبا؛ مناسب جواهردوزی، ساخت زیورآلات و تزئین لباس و اکسسوری.', 'uploads/products/wp/2026/10/IMG_20261012_112221_copy_770x770.jpg', NULL, '9-aadd-sng-markiz-pastili-aktsadi-wp-16241', 0.00, NULL, 0, NULL, NULL, '2026-10-12 09:36:07', '2026-10-12 09:39:24'),
+(3131, '9 عدد سنگ مارکیز پاستیلی اقتصادی', 'admin', 12, 61, 1138, NULL, NULL, '[\"uploads\\/products\\/wp\\/2026\\/10\\/IMG_20261012_112221_copy_770x770.jpg\"]', 'uploads/products/wp/2026/10/IMG_20261012_112221_copy_770x770.jpg', 'uploads/products/wp/2026/10/IMG_20261012_112221_copy_770x770.jpg', NULL, NULL, NULL, 'ساخت زیورآلات,سنگ AAA,سنگ اکسسوری,سنگ اوپال,سنگ اوپال AAA,سنگ اوپال پاستیلی,سنگ پاستیلی,سنگ جواهردوزی,سنگ زیورآلات,سنگ شیشه ای,سنگ لباس,سنگ مانتو,سنگ مجلسی,لوازم خرازی,متریال جواهردوزی', 'سنگ‌های پاستیلی اوپال برند AAA با جنس شیشه، انتخابی جذاب برای ساخت زیورآلات و تزئین انواع لباس و اکسسوری هستند. رنگ‌های پاستیلی و جلوه خاص اوپالی این سنگ‌ها، ظاهری لطیف، شی<del datetime=\"2026-10-12T09:36:31+00:00\"><code>ک و چشم‌نواز به کار می‌بخشد و برای طراحی‌های خاص و ترند بسیار مناسب است.\r\n.', 72000, 0, 0, '[]', '[]', '[]', NULL, 0, 1, 0, 3, 'عدد', 33.33, 'percent', 0.00, 'amount', 'flat_rate', 0.00, 2, '9 عدد سنگ مارکیز پاستیلی اقتصادی', '<strong>سنگ پاستیلی اوپال برند AAA با جنس شیشه، با رنگ‌های لطیف و جلوه‌ای زیبا؛ مناسب جواهردوزی، ساخت زیورآلات و تزئین لباس و اکسسوری.', 'uploads/products/wp/2026/10/IMG_20261012_112221_copy_770x770.jpg', NULL, '9-aadd-sng-markiz-pastili-aktsadi-wp-16241', 0.00, NULL, 0, NULL, NULL, '2026-10-12 09:36:07', '2026-10-20 17:11:23'),
 (3132, 'مروارید طرح باروک ستاره بند 42 عددی', 'admin', 12, 86, 0, NULL, NULL, '[\"uploads\\/products\\/wp\\/2026\\/07\\/IMG_20260718_144249_copy_1149x1149.jpg\"]', 'uploads/products/wp/2026/07/IMG_20260718_144249_copy_1149x1149.jpg', 'uploads/products/wp/2026/07/IMG_20260718_144249_copy_1149x1149.jpg', NULL, NULL, NULL, 'مروارید طرح باروک,مروارید باروک,مروارید اقتصادی,مهره باروک,ساخت گردنبند,ساخت دستبند,ساخت گوشواره,اکسسوری سازی,متریال زیورآلات,لوازم خرازی', '<strong>مروارید طرح باروک با طراحی نامنظم و طبیعی، جلوه‌ای خاص، شیک و متفاوت به انواع زیورآلات و اکسسوری‌ها می‌بخشد. این مرواریدها علاوه بر زیبایی چشم‌نواز، از قیمت اقتصادی برخوردار هستند و انتخابی عالی برای ساخت انواع گردنبند، دستبند، گوشواره، پابند، آویز و سایر اکسسوری‌های دست‌ساز محسوب می‌شوند.\r\nتنوع در فرم و درخشش زیبای این مرواریدها، آن‌ها را به یکی از محبوب‌ترین متریال‌ها برای طراحان زیورآلات و هنرمندان اکسسوری‌ساز تبدیل کرده است.', 232616, 0, 0, '[]', '[]', '[]', NULL, 0, 1, 0, 0, 'عدد', 0.00, 'percent', 0.00, 'amount', 'flat_rate', 0.00, 11, 'مروارید طرح باروک ستاره بند 42 عددی', '<strong>مروارید طرح باروک زیبا و اقتصادی، مناسب ساخت گردنبند، دستبند، گوشواره و انواع اکسسوری‌های دست‌ساز.', 'uploads/products/wp/2026/07/IMG_20260718_144249_copy_1149x1149.jpg', NULL, 'mroarid-trh-barok-starh-bnd-42-aaddi-wp-14026', 0.00, NULL, 0, NULL, NULL, '2026-07-19 14:18:03', '2026-10-05 15:41:24');
 INSERT INTO `products` (`id`, `name`, `added_by`, `user_id`, `category_id`, `subcategory_id`, `subsubcategory_id`, `brand_id`, `photos`, `thumbnail_img`, `featured_img`, `flash_deal_img`, `video_provider`, `video_link`, `tags`, `description`, `unit_price`, `purchase_price`, `variant_product`, `attributes`, `choice_options`, `colors`, `variations`, `todays_deal`, `published`, `featured`, `current_stock`, `unit`, `discount`, `discount_type`, `tax`, `tax_type`, `shipping_type`, `shipping_cost`, `num_of_sale`, `meta_title`, `meta_description`, `meta_img`, `pdf`, `slug`, `rating`, `barcode`, `digital`, `file_name`, `file_path`, `created_at`, `updated_at`) VALUES
 (3133, 'مروارید طرح باروک قلب بند 50 عددی', 'admin', 12, 86, 0, NULL, NULL, '[\"uploads\\/products\\/wp\\/2026\\/07\\/IMG_20260718_144212_copy_1167x1167.jpg\"]', 'uploads/products/wp/2026/07/IMG_20260718_144212_copy_1167x1167.jpg', 'uploads/products/wp/2026/07/IMG_20260718_144212_copy_1167x1167.jpg', NULL, NULL, NULL, 'اکسسوری سازی,ساخت دستبند,ساخت گردنبند,ساخت گوشواره,لوازم خرازی,متریال زیورآلات,مروارید اقتصادی,مروارید باروک,مروارید طرح باروک,مهره باروک', '<strong>مروارید طرح باروک با طراحی نامنظم و طبیعی، جلوه‌ای خاص، شیک و متفاوت به انواع زیورآلات و اکسسوری‌ها می‌بخشد. این مرواریدها علاوه بر زیبایی چشم‌نواز، از قیمت اقتصادی برخوردار هستند و انتخابی عالی برای ساخت انواع گردنبند، دستبند، گوشواره، پابند، آویز و سایر اکسسوری‌های دست‌ساز محسوب می‌شوند.\r\nتنوع در فرم و درخشش زیبای این مرواریدها، آن‌ها را به یکی از محبوب‌ترین متریال‌ها برای طراحان زیورآلات و هنرمندان اکسسوری‌ساز تبدیل کرده است.', 296786, 0, 0, '[]', '[]', '[]', NULL, 0, 1, 0, 0, 'عدد', 0.00, 'percent', 0.00, 'amount', 'flat_rate', 0.00, 9, 'مروارید طرح باروک قلب بند 50 عددی', '<strong>مروارید طرح باروک زیبا و اقتصادی، مناسب ساخت گردنبند، دستبند، گوشواره و انواع اکسسوری‌های دست‌ساز.', 'uploads/products/wp/2026/07/IMG_20260718_144212_copy_1167x1167.jpg', NULL, 'mroarid-trh-barok-klb-bnd-50-aaddi-wp-14041', 0.00, NULL, 0, NULL, NULL, '2026-07-19 14:22:47', '2026-10-08 14:43:35'),
@@ -4268,11 +4311,11 @@ INSERT INTO `products` (`id`, `name`, `added_by`, `user_id`, `category_id`, `sub
 CREATE TABLE `product_stocks` (
   `id` int(10) UNSIGNED NOT NULL,
   `product_id` int(10) UNSIGNED NOT NULL,
-  `variant` varchar(255) DEFAULT NULL,
-  `sku` varchar(255) DEFAULT NULL,
+  `variant` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sku` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price` double(20,2) NOT NULL DEFAULT 0.00,
   `qty` int(11) NOT NULL DEFAULT 0,
-  `image` varchar(255) DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -5951,21 +5994,21 @@ INSERT INTO `product_stocks` (`id`, `product_id`, `variant`, `sku`, `price`, `qt
 
 CREATE TABLE `repair_orders` (
   `id` int(10) UNSIGNED NOT NULL,
-  `order_number` varchar(50) DEFAULT NULL,
+  `order_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `jewelry_certificate_id` int(10) UNSIGNED DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `repair_type` enum('cleaning','restoration','resizing','other') DEFAULT NULL,
-  `location` enum('workshop','customer') DEFAULT 'workshop',
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `repair_type` enum('cleaning','restoration','resizing','other') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` enum('workshop','customer') COLLATE utf8mb4_unicode_ci DEFAULT 'workshop',
   `scheduled_date` date DEFAULT NULL,
   `estimated_delivery_date` date DEFAULT NULL,
   `estimated_cost` decimal(15,2) DEFAULT NULL,
   `final_cost` decimal(15,2) DEFAULT NULL,
   `assigned_to` int(10) UNSIGNED DEFAULT NULL,
-  `priority` enum('normal','urgent') DEFAULT 'normal',
-  `photo` text DEFAULT NULL,
-  `notes` text DEFAULT NULL,
-  `status` enum('pending','in_progress','completed','delivered','cancelled') DEFAULT 'pending',
+  `priority` enum('normal','urgent') COLLATE utf8mb4_unicode_ci DEFAULT 'normal',
+  `photo` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('pending','in_progress','completed','delivered','cancelled') COLLATE utf8mb4_unicode_ci DEFAULT 'pending',
   `completion_date` date DEFAULT NULL,
   `delivery_date` date DEFAULT NULL,
   `cancelled_at` timestamp NULL DEFAULT NULL,
@@ -5983,9 +6026,9 @@ CREATE TABLE `repair_orders` (
 CREATE TABLE `repair_status_histories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `repair_order_id` bigint(20) UNSIGNED NOT NULL,
-  `status` enum('pending','in_progress','completed','delivered','cancelled') NOT NULL DEFAULT 'pending',
+  `status` enum('pending','in_progress','completed','delivered','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `updated_by` bigint(20) UNSIGNED DEFAULT NULL,
-  `notes` text DEFAULT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -5999,9 +6042,9 @@ CREATE TABLE `repair_status_histories` (
 CREATE TABLE `repair_technicians` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `specialty` varchar(255) DEFAULT NULL,
+  `specialty` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `experience_years` int(11) DEFAULT NULL,
-  `certificate` varchar(255) DEFAULT NULL,
+  `certificate` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -6025,7 +6068,7 @@ CREATE TABLE `reviews` (
   `product_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `rating` int(11) NOT NULL DEFAULT 0,
-  `comment` text DEFAULT NULL,
+  `comment` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1,
   `viewed` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -6040,10 +6083,10 @@ CREATE TABLE `reviews` (
 
 CREATE TABLE `roles` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `slug` varchar(100) DEFAULT NULL,
-  `permissions` text DEFAULT NULL,
-  `description` varchar(500) DEFAULT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permissions` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `level` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
   `is_system` tinyint(1) NOT NULL DEFAULT 0,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
@@ -6138,7 +6181,7 @@ INSERT INTO `role_user` (`user_id`, `role_id`, `assigned_by`, `assigned_at`, `cr
 
 CREATE TABLE `searches` (
   `id` int(10) UNSIGNED NOT NULL,
-  `query` text NOT NULL,
+  `query` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `count` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -6170,7 +6213,7 @@ INSERT INTO `searches` (`id`, `query`, `count`, `created_at`, `updated_at`) VALU
 (19, 'کف چین', 1, '2026-10-18 09:22:46', '2026-10-18 09:22:46'),
 (20, 'ابزار', 5, '2026-10-18 09:22:53', '2026-10-18 14:53:15'),
 (21, 'سایز12', 1, '2026-10-18 09:27:14', '2026-10-18 09:27:14'),
-(22, 'نخ', 23, '2026-10-18 09:32:18', '2026-10-19 12:28:54'),
+(22, 'نخ', 27, '2026-10-18 09:32:18', '2026-10-20 16:05:09'),
 (23, 'پر', 9, '2026-10-18 09:33:31', '2026-10-19 14:04:48'),
 (24, 'پر سوزنی', 1, '2026-10-18 09:33:38', '2026-10-18 09:33:38'),
 (25, 'حرارتی', 1, '2026-10-18 09:34:00', '2026-10-18 09:34:00'),
@@ -6336,7 +6379,8 @@ INSERT INTO `searches` (`id`, `query`, `count`, `created_at`, `updated_at`) VALU
 (185, 'گره مخفی کن', 1, '2026-10-20 03:43:55', '2026-10-20 03:43:55'),
 (186, 'زنجیر سایزر', 1, '2026-10-20 03:50:50', '2026-10-20 03:50:50'),
 (187, 'تاج', 7, '2026-10-20 04:01:09', '2026-10-20 04:04:19'),
-(188, 'تل', 3, '2026-10-20 04:06:17', '2026-10-20 04:06:42');
+(188, 'تل', 3, '2026-10-20 04:06:17', '2026-10-20 04:06:42'),
+(189, 'نخ نامرئی', 1, '2026-10-20 20:27:54', '2026-10-20 20:27:54');
 
 -- --------------------------------------------------------
 
@@ -6348,22 +6392,22 @@ CREATE TABLE `sellers` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `verification_status` tinyint(1) NOT NULL DEFAULT 0,
-  `verification_info` text DEFAULT NULL,
+  `verification_info` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cash_on_delivery_status` tinyint(1) NOT NULL DEFAULT 0,
   `sslcommerz_status` tinyint(1) NOT NULL DEFAULT 0,
   `stripe_status` tinyint(1) NOT NULL DEFAULT 0,
-  `paypal_client_id` varchar(255) DEFAULT NULL,
-  `paypal_client_secret` varchar(255) DEFAULT NULL,
-  `ssl_store_id` varchar(255) DEFAULT NULL,
-  `ssl_password` varchar(255) DEFAULT NULL,
-  `stripe_key` varchar(255) DEFAULT NULL,
-  `stripe_secret` varchar(255) DEFAULT NULL,
+  `paypal_client_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paypal_client_secret` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ssl_store_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ssl_password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `stripe_key` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `stripe_secret` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `instamojo_status` tinyint(1) NOT NULL DEFAULT 0,
-  `instamojo_api_key` varchar(255) DEFAULT NULL,
-  `instamojo_token` varchar(255) DEFAULT NULL,
+  `instamojo_api_key` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `instamojo_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `razorpay_status` tinyint(1) NOT NULL DEFAULT 0,
-  `razorpay_api_key` varchar(255) DEFAULT NULL,
-  `razorpay_secret` varchar(255) DEFAULT NULL,
+  `razorpay_api_key` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `razorpay_secret` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `paypal_status` tinyint(1) NOT NULL DEFAULT 0,
   `admin_to_pay` double(20,2) NOT NULL DEFAULT 0.00,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -6388,9 +6432,9 @@ CREATE TABLE `seller_payments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `seller_id` int(10) UNSIGNED DEFAULT NULL,
   `amount` double(8,2) NOT NULL DEFAULT 0.00,
-  `payment_details` text DEFAULT NULL,
-  `payment_method` varchar(191) DEFAULT NULL,
-  `txn_code` varchar(191) DEFAULT NULL,
+  `payment_details` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_method` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `txn_code` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -6405,7 +6449,7 @@ CREATE TABLE `seller_withdraw_requests` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED DEFAULT NULL,
   `amount` double(8,2) DEFAULT NULL,
-  `message` text DEFAULT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
   `viewed` tinyint(4) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -6420,22 +6464,22 @@ CREATE TABLE `seller_withdraw_requests` (
 
 CREATE TABLE `seo_settings` (
   `id` int(10) UNSIGNED NOT NULL,
-  `meta_title` text DEFAULT NULL,
-  `meta_description` text DEFAULT NULL,
-  `meta_keywords` text DEFAULT NULL,
-  `og_title` text DEFAULT NULL,
-  `og_description` text DEFAULT NULL,
-  `og_image` varchar(255) DEFAULT NULL,
-  `twitter_title` text DEFAULT NULL,
-  `twitter_description` text DEFAULT NULL,
-  `twitter_image` varchar(255) DEFAULT NULL,
+  `meta_title` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_keywords` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `og_title` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `og_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `og_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `twitter_title` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `twitter_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `twitter_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `keyword` text DEFAULT NULL,
-  `author` varchar(191) DEFAULT NULL,
+  `keyword` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `author` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `revisit` int(10) UNSIGNED NOT NULL DEFAULT 7,
-  `sitemap_link` varchar(191) DEFAULT NULL,
-  `description` text DEFAULT NULL
+  `sitemap_link` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
@@ -6454,20 +6498,20 @@ INSERT INTO `seo_settings` (`id`, `meta_title`, `meta_description`, `meta_keywor
 CREATE TABLE `shops` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `logo` varchar(255) DEFAULT NULL,
-  `sliders` text DEFAULT NULL,
-  `address` text DEFAULT NULL,
-  `facebook` varchar(255) DEFAULT NULL,
-  `google` varchar(255) DEFAULT NULL,
-  `twitter` varchar(255) DEFAULT NULL,
-  `youtube` varchar(255) DEFAULT NULL,
-  `instagram` varchar(255) DEFAULT NULL,
-  `slug` varchar(255) DEFAULT NULL,
-  `meta_title` text DEFAULT NULL,
-  `meta_description` text DEFAULT NULL,
-  `delivery_pickup_latitude` text DEFAULT NULL,
-  `delivery_pickup_longitude` text DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sliders` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `facebook` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `google` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `twitter` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `youtube` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `instagram` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_title` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `delivery_pickup_latitude` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `delivery_pickup_longitude` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -6487,12 +6531,12 @@ INSERT INTO `shops` (`id`, `user_id`, `name`, `logo`, `sliders`, `address`, `fac
 
 CREATE TABLE `sliders` (
   `id` int(11) NOT NULL,
-  `photo` varchar(255) DEFAULT NULL,
+  `photo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `published` int(11) NOT NULL DEFAULT 1,
-  `link` varchar(255) DEFAULT NULL,
+  `link` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `sliders`
@@ -6527,7 +6571,7 @@ CREATE TABLE `staff` (
 
 CREATE TABLE `subscribers` (
   `id` int(10) UNSIGNED NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -6540,14 +6584,14 @@ CREATE TABLE `subscribers` (
 
 CREATE TABLE `sub_categories` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
+  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `category_id` int(11) NOT NULL,
-  `slug` varchar(255) DEFAULT NULL,
-  `meta_title` varchar(255) DEFAULT NULL,
-  `meta_description` text DEFAULT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_description` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `sub_categories`
@@ -6664,13 +6708,13 @@ INSERT INTO `sub_categories` (`id`, `name`, `category_id`, `slug`, `meta_title`,
 CREATE TABLE `sub_sub_categories` (
   `id` int(11) NOT NULL,
   `sub_category_id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `slug` varchar(255) DEFAULT NULL,
-  `meta_title` varchar(255) DEFAULT NULL,
-  `meta_description` text DEFAULT NULL,
+  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_description` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `sub_sub_categories`
@@ -6840,12 +6884,12 @@ INSERT INTO `sub_sub_categories` (`id`, `sub_category_id`, `name`, `slug`, `meta
 
 CREATE TABLE `tickets` (
   `id` int(10) UNSIGNED NOT NULL,
-  `code` varchar(50) DEFAULT NULL,
+  `code` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `order_id` int(11) DEFAULT NULL,
-  `subject` varchar(255) NOT NULL,
-  `details` text NOT NULL,
-  `files` varchar(1000) DEFAULT NULL,
+  `subject` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `details` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `files` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `viewed` tinyint(4) NOT NULL DEFAULT 0,
   `status` tinyint(4) NOT NULL DEFAULT 0,
   `client_viewed` tinyint(4) NOT NULL DEFAULT 0,
@@ -6863,8 +6907,8 @@ CREATE TABLE `ticket_replies` (
   `id` int(10) UNSIGNED NOT NULL,
   `ticket_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
-  `reply` text NOT NULL,
-  `files` varchar(1000) DEFAULT NULL,
+  `reply` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `files` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `viewed` tinyint(4) NOT NULL DEFAULT 0,
   `client_viewed` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -6880,30 +6924,30 @@ CREATE TABLE `ticket_replies` (
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
   `referred_by` int(11) DEFAULT NULL,
-  `provider_id` varchar(50) DEFAULT NULL,
-  `user_type` varchar(10) NOT NULL DEFAULT 'customer',
-  `name` varchar(191) NOT NULL,
-  `email` varchar(191) DEFAULT NULL,
-  `role` enum('admin','technician','customer') DEFAULT 'customer',
+  `provider_id` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `user_type` varchar(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'customer',
+  `name` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `role` enum('admin','technician','customer') COLLATE utf8_unicode_ci DEFAULT 'customer',
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(191) DEFAULT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
-  `avatar` varchar(256) DEFAULT NULL,
-  `avatar_original` varchar(256) DEFAULT NULL,
-  `address` varchar(300) DEFAULT NULL,
-  `country` varchar(30) DEFAULT NULL,
-  `city` varchar(30) DEFAULT NULL,
-  `postal_code` varchar(20) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
+  `password` varchar(191) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `avatar` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `avatar_original` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address` varchar(300) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `country` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `city` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `postal_code` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `phone_verified_at` timestamp NULL DEFAULT NULL,
-  `verification_code` varchar(255) DEFAULT NULL,
+  `verification_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `balance` double(8,2) NOT NULL DEFAULT 0.00,
-  `referral_code` varchar(255) DEFAULT NULL,
+  `referral_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `customer_package_id` int(11) DEFAULT NULL,
   `remaining_uploads` int(11) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `users`
@@ -6971,8 +7015,8 @@ CREATE TABLE `wallets` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `amount` double(20,2) NOT NULL DEFAULT 0.00,
-  `payment_method` varchar(50) DEFAULT NULL,
-  `payment_details` varchar(500) DEFAULT NULL,
+  `payment_method` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_details` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -7160,6 +7204,19 @@ ALTER TABLE `flash_deals`
 --
 ALTER TABLE `flash_deal_products`
   ADD PRIMARY KEY (`id`) USING BTREE;
+
+--
+-- Indexes for table `gateway_transactions`
+--
+ALTER TABLE `gateway_transactions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `gateway_transactions_logs`
+--
+ALTER TABLE `gateway_transactions_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `gateway_transactions_logs_transaction_id_foreign` (`transaction_id`);
 
 --
 -- Indexes for table `general_settings`
@@ -7644,6 +7701,18 @@ ALTER TABLE `flash_deal_products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
+-- AUTO_INCREMENT for table `gateway_transactions`
+--
+ALTER TABLE `gateway_transactions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `gateway_transactions_logs`
+--
+ALTER TABLE `gateway_transactions_logs`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `general_settings`
 --
 ALTER TABLE `general_settings`
@@ -7695,7 +7764,7 @@ ALTER TABLE `login_attempts`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `missing_reports`
@@ -7719,13 +7788,13 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=434;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=436;
 
 --
 -- AUTO_INCREMENT for table `otp_configurations`
@@ -7809,7 +7878,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `searches`
 --
 ALTER TABLE `searches`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
 
 --
 -- AUTO_INCREMENT for table `sellers`
@@ -7916,6 +7985,12 @@ ALTER TABLE `articles`
 --
 ALTER TABLE `article_images`
   ADD CONSTRAINT `article_images_article_id_foreign` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `gateway_transactions_logs`
+--
+ALTER TABLE `gateway_transactions_logs`
+  ADD CONSTRAINT `gateway_transactions_logs_transaction_id_foreign` FOREIGN KEY (`transaction_id`) REFERENCES `gateway_transactions` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `seller_payments`
