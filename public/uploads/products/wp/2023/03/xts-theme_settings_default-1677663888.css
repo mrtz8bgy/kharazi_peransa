@@ -1,0 +1,528 @@
+@font-face {
+	font-weight: normal;
+	font-style: normal;
+	font-family: "woodmart-font";
+	src: url("//pre-websites.ir/elementor/clothing/wp-content/themes/woodmart/fonts/woodmart-font-1-400.woff2?v=7.1.2") format("woff2");
+}
+
+.wd-popup.wd-promo-popup{
+	background-color:#111111;
+	background-image: none;
+	background-repeat:no-repeat;
+	background-size:contain;
+	background-position:left center;
+}
+
+.page-title-default{
+	background-color:#0a0a0a;
+	background-image: none;
+	background-size:cover;
+	background-position:center center;
+}
+
+.footer-container{
+	background-color:#ffffff;
+	background-image: none;
+}
+
+:root{
+--wd-text-font:"iranyekanwebregular_FaNum", Arial, Helvetica, sans-serif;
+--wd-text-font-weight:400;
+--wd-text-color:rgb(51,51,51);
+--wd-text-font-size:14px;
+}
+:root{
+--wd-title-font:"iranyekanwebregular_FaNum", Arial, Helvetica, sans-serif;
+--wd-title-font-weight:400;
+--wd-title-color:rgb(51,51,51);
+}
+:root{
+--wd-entities-title-font:"iranyekanwebregular_FaNum", Arial, Helvetica, sans-serif;
+--wd-entities-title-font-weight:400;
+--wd-entities-title-color:rgb(51,51,51);
+--wd-entities-title-color-hover:rgb(51 51 51 / 65%);
+}
+:root{
+--wd-alternative-font:"iranyekanwebregular_FaNum", Arial, Helvetica, sans-serif;
+}
+:root{
+--wd-widget-title-font:"iranyekanwebbold_FaNum", Arial, Helvetica, sans-serif;
+--wd-widget-title-font-weight:400;
+--wd-widget-title-transform:none;
+--wd-widget-title-color:rgb(51,51,51);
+--wd-widget-title-font-size:16px;
+}
+:root{
+--wd-header-el-font:"iranyekanwebregular_FaNum", Arial, Helvetica, sans-serif;
+--wd-header-el-font-weight:400;
+--wd-header-el-transform:none;
+--wd-header-el-font-size:14px;
+}
+html .wd-nav.wd-nav-main > li > a{
+	font-family: "iranyekanwebregular_FaNum", Arial, Helvetica, sans-serif;font-size: 14px;color: rgb(153,153,153);
+}
+
+html .wd-nav.wd-nav-main > li:hover > a, html .wd-nav.wd-nav-main > li.current-menu-item > a{
+	color: rgb(252,153,55);
+}
+
+html .wd-dropdown-my-account .wd-sub-menu li a{
+	font-weight: 400;font-size: 13px;color: rgb(153,153,153);
+}
+
+html .wd-dropdown-my-account .wd-sub-menu li a:hover{
+	color: rgb(51,51,51);
+}
+
+html .wd-dropdown-cats .wd-nav.wd-nav-vertical > li > a{
+	font-weight: 400;
+}
+
+html .wd-dropdown-cats .wd-nav.wd-nav-vertical > li:hover > a{
+	color: rgb(51,51,51);
+}
+
+:root{
+--wd-primary-color:rgb(252,153,55);
+}
+:root{
+--wd-alternative-color:rgb(57,62,70);
+}
+:root{
+--wd-link-color:#333333;
+--wd-link-color-hover:#242424;
+}
+body{
+	background-color:rgb(255,255,255);
+	background-image: none;
+}
+
+.page .main-page-wrapper{
+	background-color:rgb(255,255,255);
+	background-image: none;
+}
+
+:root{
+--btn-default-bgcolor:rgb(252,153,55);
+}
+:root{
+--btn-default-bgcolor-hover:rgb(57,62,70);
+}
+:root{
+--btn-accented-bgcolor:rgb(252,153,55);
+}
+:root{
+--btn-accented-bgcolor-hover:rgb(57,62,70);
+}
+:root{
+--notices-success-bg:#459647;
+}
+:root{
+--notices-success-color:#fff;
+}
+:root{
+--notices-warning-bg:rgb(252,153,55);
+}
+:root{
+--notices-warning-color:#fff;
+}
+	:root{
+									--wd-form-brd-radius: 35px;
+			
+			
+					
+					--wd-form-brd-width: 1px;
+		
+					--btn-default-color: #fff;
+		
+					--btn-default-color-hover: #fff;
+		
+					--btn-accented-color: #fff;
+		
+					--btn-accented-color-hover: #fff;
+		
+					
+			
+			
+							--btn-default-brd-radius: 5px;
+				--btn-default-box-shadow: none;
+				--btn-default-box-shadow-hover: none;
+					
+					
+			
+			
+							--btn-accented-brd-radius: 5px;
+				--btn-accented-box-shadow: none;
+				--btn-accented-box-shadow-hover: none;
+					
+									--wd-sticky-btn-height: 95px;
+					
+					--wd-brd-radius: 0px;
+			}
+
+			@media (max-width: 1024px) {
+			:root {
+				--wd-sticky-btn-height: 95px;
+			}
+		}
+	
+	
+			@media (min-width: 1025px) {
+			.whb-boxed:not(.whb-sticked):not(.whb-full-width) .whb-main-header {
+				max-width: 1270px;
+			}
+		}
+
+		.container {
+			max-width: 1300px;
+		}
+
+		:root{
+			--wd-container-width: 1300px;
+		}
+	
+			.elementor-section.wd-section-stretch > .elementor-column-gap-no {
+			max-width: 1270px;
+		}
+		.elementor-section.wd-section-stretch > .elementor-column-gap-narrow {
+			max-width: 1280px;
+		}
+		.elementor-section.wd-section-stretch > .elementor-column-gap-default {
+			max-width: 1290px;
+		}
+		.elementor-section.wd-section-stretch > .elementor-column-gap-extended {
+			max-width: 1300px;
+		}
+		.elementor-section.wd-section-stretch > .elementor-column-gap-wide {
+			max-width: 1310px;
+		}
+		.elementor-section.wd-section-stretch > .elementor-column-gap-wider {
+			max-width: 1330px;
+		}
+		@media (min-width: 1317px) {
+			.platform-Windows .wd-section-stretch > .elementor-container {
+				margin-left: auto;
+				margin-right: auto;
+			}
+		}
+		@media (min-width: 1300px) {
+			html:not(.platform-Windows) .wd-section-stretch > .elementor-container {
+				margin-left: auto;
+				margin-right: auto;
+			}
+		}
+	
+			div.wd-popup.popup-quick-view {
+			max-width: 920px;
+		}
+	
+	
+	
+	
+			.woodmart-woocommerce-layered-nav .wd-scroll-content {
+			max-height: 223px;
+		}
+	
+	
+	body, [class*=color-scheme-light], [class*=color-scheme-dark], .wd-search-form[class*="wd-header-search-form"] form.searchform, .wd-el-search .searchform {
+
+							
+							
+									--wd-form-brd-color: rgb(235,235,235);
+					
+							
+								}
+/* استایل لوگو هدر */
+.wd-logo {
+    max-height: max-content;
+}
+
+/* استایل حساب کاربری هدر */
+.wd-header-my-account.wd-tools-element.wd-event-hover.wd-with-username.wd-design-1 {
+    background: linear-gradient(270deg, #FC9937 0%, #FFA954 100%) !important;
+    border-radius: 10px !important;
+}
+.wd-dropdown.wd-dropdown-register {
+    margin-top: 0 !important;
+    border: 1px solid #ebebeb !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+}
+.wd-dropdown.wd-dropdown-menu.wd-dropdown-my-account {
+    margin-top: 0 !important;
+    border: 1px solid #ebebeb !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    width: 135px !important;
+}
+
+/* استایل سبدخرید هدر */
+.wd-header-cart.wd-tools-element.wd-design-2 {
+    background: #393E46 !important;
+    border-radius: 10px !important;
+}
+
+/* استایل متن حساب کاربری و سبد خرید هدر */
+span.wd-tools-text {
+    color: #FFFFFF !important;
+}
+
+/* استایل تعداد محصول سبد خرید هدر */
+.whb-top-bar .wd-header-cart.wd-design-2 .wd-cart-number {
+		width: 10px !important;
+    height: 10px !important;
+    line-height: 10px !important;
+}
+
+.wd-header-cart.wd-design-2 .wd-cart-number {
+	    top: -2px !important;
+    	left: -7px !important;
+}
+
+/* استایل عرض بخش پشتیبانی هدر */
+.elementor.elementor-3819 {
+    max-width: 160px !important;
+}
+
+/* استایل عرض دراپ داون حساب کاربری هدر */
+.wd-dropdown.wd-dropdown-menu.menu-item-my-account.wd-dropdown-my-account.wd-design-default.menu-item-register.sub-menu-dropdown {
+    width: 120px !important;
+    box-shadow: none !important;
+    border: 1px solid #ebebeb !important;
+    border-radius: 10px !important;
+		padding: 5px 15px 5px; !important;
+    margin: 0 !important;
+}
+
+/* استایل بخش میانی هدر */
+.whb-flex-row.whb-general-header-inner {
+    background: #F5F4F4 !important;
+    padding: 0 0 0 15px !important;
+    border-radius: 10px !important;
+}
+
+/* استایل دکمه های اجتماعی هدر */
+a.wd-social-icon {
+    background: #F9F9F9 !important;
+    border-radius: 6px !important;
+    box-shadow: -2px 1px 10px rgb(42 39 39 / 2%);
+		font-size: 12px !important;
+}
+
+.wd-social-icon:hover .wd-icon:before {
+    color: var( --e-global-color-primary ) !important;
+		transition: 0.2s !important;
+}
+
+.wd-social-icon:not(:hover) .wd-icon:before {
+		transition: 0.2s !important;
+}
+
+.wd-social-icon {
+    width: 27px !important;
+    height: 27px !important;
+}
+/* انتهای استایل دکمه های اجتماعی هدر */
+
+
+/* استایل ایکن منو هدر */
+.wd-nav-img {
+		max-height: 20px;
+    width: 14px !important;
+}
+
+/* استایل زیرخط منو هدر */
+.wd-nav[class*="wd-style-underline"] .nav-link-text:after {
+    top: 33px !important;
+    height: 3px !important;
+    border-radius: 100px 100px 0 0 !important;
+}
+
+/* استایل جداکننده هدر */
+.whb-color-dark .wd-header-divider:before {
+    border-color: #e2e2e2 !important;
+}
+.wd-header-divider:before {
+    height: 28px !important;
+}
+
+/* استایل منو دسته بندی محصولات هدر */
+span.menu-opener.color-scheme-dark.has-bg.header-categories-nav-wrap::after {
+		display: none !important;
+}
+.menu-opener {
+		justify-content: flex-start !important;
+		min-width: 180px !important;
+		max-width: 180px !important;
+		padding: 10px 15px 10px 0 !important;
+}
+.wd-dropdown-cats .wd-nav.wd-nav-vertical > li:hover > a {
+    background: #f9f9f9 !important;
+}
+.wd-nav-vertical {
+    border-radius: 10px !important;
+}
+.wd-dropdown.wd-dropdown-cats.categories-menu-dropdown {
+    border-radius: 10px !important;
+}
+html .wd-dropdown-cats .wd-nav.wd-nav-vertical > li > a {
+    border-radius: 10px !important;
+}
+.wd-header-cats.wd-style-1 .menu-opener:after {
+		display: none !important;
+}
+.wd-dropdown-cats {
+    min-width: 180px !important;
+}
+.wd-dropdown.wd-dropdown-cats {
+    border-radius: 10px !important;
+}
+
+/* استایل جستجو هدر */
+.searchform .searchsubmit {
+    position: relative !important;
+    width: 50px !important;
+    background-color: transparent !important;
+    font-size: 0 !important;
+    top: -2.3rem !important;
+}
+.searchform .searchsubmit img {
+    min-width: 20px !important;
+}
+input.s {
+    padding: 0 43px 0 0 !important;
+	  border-radius: 10px !important;
+}
+.wd-search-cat>a {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+    width: 140px !important;
+    height: 34px !important;
+    background: #FFFFFF !important;
+    border-radius: 7px !important;
+    box-shadow: -2px 1px 10px rgb(42 39 39 / 2%) !important;
+		font-size: 11px !important;
+}
+form.searchform.wd-with-cat.has-categories-dropdown.wd-style-default.search-style-default.woodmart-ajax-search {
+    height: 46px !important;
+}
+.searchform input[type="text"] {
+    font-size: 14px !important;
+}
+.wd-search-cat.wd-scroll.search-by-category {
+    left: 5px !important;
+}
+form.searchform.wd-with-cat.wd-style-default.wd-cat-style-bordered.woodmart-ajax-search {
+    height: 46px !important;
+}
+.wd-search-cat.wd-scroll {
+    height: 44px !important;
+		left: 5px !important;
+}
+
+
+/* استایل کانتینر سایت */
+.container {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+}
+
+/* استایل اسکرول به بالا */
+.scrollToTop {
+    position: fixed !important;
+    right: 120px !important;
+    bottom: 0 !important;
+    z-index: 350 !important;
+    width: 55px !important;
+    height: 90px !important;
+    border-radius: 60px 60px 0 0 !important;
+    background: linear-gradient(180deg, #F5F4F4 0%, rgba(245, 244, 244, 0) 100%) !important;
+    box-shadow: none !important;
+    color: #484848 !important;
+    text-align: center !important;
+    font-size: 16px !important;
+    line-height: 60px !important;
+    -webkit-backface-visibility: hidden;
+}
+
+
+/* استایل رنگ ایکن هدر */
+.wd-nav>li:hover img.wd-nav-img {
+    filter: invert(0) sepia(1) saturate(17) hue-rotate(1deg);
+}
+.wd-header-main-nav .current-menu-item img.wd-nav-img {
+    filter: invert(0) sepia(1) saturate(17) hue-rotate(1deg);
+}
+
+/* استایل دسته بندی جستجو هدر */
+.wd-dropdown.wd-dropdown-search-cat {
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    border: 1px solid #ebebeb !important;
+		width: 140px !important;
+	
+}
+
+/* استایل نتایج ایجکس جستجو هدر */
+.wd-dropdown-results.wd-scroll.wd-dropdown.woodmart-search-results.wd-opened {
+    border-radius: 10px;
+    box-shadow: none;
+    border: 1px solid #ebebeb;
+}
+
+/* استایل مشاهده همه نتایج جستجو ایجکس هدر */
+.view-all-results {
+    font-weight: normal;
+}
+
+/* استایل قیمت نتایج جستجو ایجکس هدر */
+.autocomplete-suggestions .amount.woocommerce-Price-amount {
+    font-weight: normal;
+}
+
+/* استایل کلمه کلیدی نتایج جستجو ایجکس هدر */
+.autocomplete-suggestion .wd-entities-title strong {
+    text-decoration: none;
+}
+
+/* استایل زیر مگامنو هدر */
+.wd-dropdown-menu.wd-design-sized {
+    padding: 0 !important;
+}
+.wd-dropdown-menu.wd-dropdown.wd-design-sized.color-scheme-dark.sub-menu-dropdown {
+    border-radius: 10px;
+    box-shadow: none;
+    border: 1px solid #ebebeb;
+}
+
+/* استایل ستون ورود، صفحه ورود عضویت */
+.col-12.col-md-6.col-login {
+    text-align: right;
+}
+.col-12.col-md-6.col-register {
+    text-align: right;
+}
+
+@media (min-width: 1025px) {
+	/* بوردر بالای بخش اول هدر در دسکتاپ */
+.whb-flex-row.whb-top-bar-inner {
+    border: solid var( --e-global-color-primary );
+    border-width: 4px 0 0 0;
+		padding-left: 10px;
+}
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+	.whb-flex-row.whb-general-header-inner {
+    padding: 0 15px;
+    border-radius: 0;
+}
+}
+
+@media (max-width: 576px) {
+	.whb-flex-row.whb-general-header-inner {
+    padding: 0 15px;
+    border-radius: 0;
+}
+}
+

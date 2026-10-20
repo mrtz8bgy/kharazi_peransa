@@ -4430,7 +4430,7 @@ a:focus { color: var(--kp-green-dark); }
 .body-wrap textarea,
 .body-wrap select {
     border-color: #dfe9df !important;
-    border-radius: 8px !important;
+    border-radius: 30px !important;
     background: #fff !important;
     color: #283d33 !important;
 }
