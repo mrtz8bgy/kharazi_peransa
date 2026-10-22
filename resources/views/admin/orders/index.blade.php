@@ -99,7 +99,7 @@
                             </td>
                             <td>
                             @if($order->payment_type == 'cash_on_delivery')
-								پرداخت در محل
+							پرداخت کارت به کارت
 							@else	
     							{{ ucfirst(str_replace('_', ' ', $order->payment_type)) }}
 							@endif

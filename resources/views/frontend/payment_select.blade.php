@@ -101,9 +101,15 @@
                                                                     <img loading="lazy"  src="{{ asset('frontend/images/icons/cards/cod.png')}}" class="img-fluid">
                                                                 </span>
                                                             </label>
-                                                            <p>پرداخت در محل</p>
+                                                            <pre> پرداخت کارت به کارت  </pre>
+                                                            <pre>شماره کارت:5047061074397718
+​به نام: حمید رضاتات
+​بانک: شهر
+​توضیحات: لطفاً بعد از واریز، تصویر فیش را همراه با شماره سفارش به این شماره پیامک کنید.
+(٠۹۳۶۵۹۲۷۴۸۲) </pre>
+                                            
                                                         </div>
-                                                        <div class="col-6">
+                                                        <!-- <div class="col-6">
                                                             <label class="payment_option mb-4" data-toggle="tooltip">
                                                                 <input type="radio" id="" name="payment_option" value="zarinpal">
                                                                 <span>
@@ -111,7 +117,7 @@
                                                                 </span>
                                                             </label>
                                                             <p>پرداخت اینترنتی</p>
-                                                        </div>
+                                                        </div> -->
                                                     @endif
                                                 @endif
                                                 @if(\App\BusinessSetting::where('type', 'sadad_payment')->value('value') == 1)

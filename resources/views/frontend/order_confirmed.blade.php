@@ -137,7 +137,7 @@
                                                     <td class="w-50 strong-600">{{__('Payment method')}}:</td>
                                                     <td>
                                                     @if($order->payment_type == 'cash_on_delivery')
-								                        پرداخت در محل
+								                        پرداخت از طریق کارت به کارت
                                                     @elseif($order->payment_type == 'zarinpal')
                                                         اینترنتی
                                                     @else
